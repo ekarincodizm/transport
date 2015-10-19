@@ -56,10 +56,7 @@ $this->title = "ตงตงทรานสปอร์ต";
                                 <li><a href="#"><i class="fa fa-car"></i> ข้อมูลรถ</a></li>
                                 <li><a href="#"><i class="fa fa-users"></i> ข้อมูลคนขับ</a></li>
                                 <li><a href="#"><i class="fa fa-building"></i> ข้อมูลบริษัท</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">One more separated link</a></li>
+                                <li><a href="#"><i class="fa fa-bus"></i> ประเภทรถ</a></li>
                             </ul>
                         </li>
                     </ul>
