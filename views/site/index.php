@@ -1,53 +1,57 @@
 <?php
-
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+use yii\helpers\Url;
+
+$this->title = 'ตงตงทรานสปอร์ต';
 ?>
-<div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 style="margin: 5px 0px;"><?php echo $this->title; ?></h1>
     </div>
+</div>
 
-    <div class="body-content">
+<br/>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button type="button" class="btn btn-default" style=" width: 100%;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <img src="<?php echo Url::to('@web/web/images/data-transport-icon.png') ?>"/>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" style=" text-align: left;">
+                    <h1>ขนส่งโดยใช้รถภายใน</h1>
+                    <h4>(ใบงานการขนส่งโดยใช้รถของบริษัท)</h4>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+        </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button type="button" class="btn btn-default" style=" width: 100%;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <img src="<?php echo Url::to('@web/web/images/company-building-icon.png') ?>"/>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" style="text-align: left;">
+                    <h1>ขนส่งโดยใช้รถบริษัทข้างนอก</h1>
+                    <h4>(ใบงานการขนส่งโดยใช้รถของบริษัทภายนอก)</h4>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+        </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button type="button" class="btn btn-default" style=" width: 100%;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                    <img src="<?php echo Url::to('@web/web/images/Car-Repair-icon.png') ?>"/>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" style="text-align: left;">
+                    <h1>ซ่อมบำรุง</h1>
+                    <h4>(บันทึกรายการซ่อมบำรุงรถ)</h4>
+                </div>
             </div>
-        </div>
-
+        </button>
     </div>
 </div>
