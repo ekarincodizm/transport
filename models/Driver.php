@@ -36,7 +36,7 @@ class Driver extends \yii\db\ActiveRecord
     {
         return [
             [['driver_license_expire','name','lname','card_id','address','tel1','driver_license_id'],'required'],
-            [['driver_license_expire', 'create_date'], 'safe'],
+            [['driver_license_expire', 'create_date','d_update'], 'string'],
             [['name', 'lname', 'images'], 'string', 'max' => 100],
             [['card_id'], 'string', 'max' => 13],
             [['address'], 'string', 'max' => 255],

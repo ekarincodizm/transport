@@ -20,11 +20,15 @@ class TransportAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         'web/themes/transport/css/bootstrap.css',
-         'web/themes/transport/css/bootstrap-theme.css',
+        'web/themes/transport/css/bootstrap-theme.css',
         'web/themes/transport/font-awesome/css/font-awesome.css',
+        'web/croppic-master/assets/css/main.css',
+        'web/croppic-master/assets/css/croppic.css',
     ];
     public $js = [
         'web/themes/transport/js/bootstrap.js',
+        'web/croppic-master/assets/js/jquery.mousewheel.min.js',
+        'web/croppic-master/croppic.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

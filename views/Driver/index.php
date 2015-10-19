@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\DriverSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Drivers';
+$this->title = 'พนักงานขับรถ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="driver-index">
