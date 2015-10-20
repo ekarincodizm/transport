@@ -5,7 +5,7 @@
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\assets\TransportAsset;
-
+use yii\helpers\Url;
 TransportAsset::register($this);
 $this->title = "ตงตงทรานสปอร์ต";
 ?>
@@ -54,7 +54,7 @@ $this->title = "ตงตงทรานสปอร์ต";
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="fa fa-car"></i> ข้อมูลรถ</a></li>
-                                <li><a href="#"><i class="fa fa-users"></i> ข้อมูลคนขับ</a></li>
+                                <li><a href="<?php echo Url::to(['driver/index']);?>"><i class="fa fa-users"></i> ข้อมูลคนขับ</a></li>
                                 <li><a href="#"><i class="fa fa-building"></i> ข้อมูลบริษัท</a></li>
                                 <li><a href="#"><i class="fa fa-bus"></i> ประเภทรถ</a></li>
                             </ul>
