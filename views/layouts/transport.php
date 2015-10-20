@@ -56,7 +56,7 @@ $this->title = "ตงตงทรานสปอร์ต";
                                 <li><a href="#"><i class="fa fa-car"></i> ข้อมูลรถ</a></li>
                                 <li><a href="<?php echo Url::to(['driver/index']);?>"><i class="fa fa-users"></i> ข้อมูลคนขับ</a></li>
                                 <li><a href="#"><i class="fa fa-building"></i> ข้อมูลบริษัท</a></li>
-                                <li><a href="#"><i class="fa fa-bus"></i> ประเภทรถ</a></li>
+                                <li><a href="<?php echo Url::to(['typecar/index']);?>"><i class="fa fa-bus"></i> ประเภทรถ</a></li>
                             </ul>
                         </li>
                     </ul>
