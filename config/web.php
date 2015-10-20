@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'language' => 'th_TH', //ภาษาไทย
+    'timeZone' => 'Asia/Bangkok', // ทวีป Asia/Bangkok (+7.00)
     'bootstrap' => ['log'],
     'modules' => [
         'gridview' => [
