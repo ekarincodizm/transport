@@ -19,36 +19,33 @@ use Yii;
  * @property string $create_date
  * @property string $images
  */
-class Driver extends \yii\db\ActiveRecord
-{
+class Driver extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'driver';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['driver_license_expire','name','lname','card_id','address','tel1','driver_license_id'],'required'],
-            [['driver_license_expire', 'create_date','d_update'], 'string'],
+            [['driver_license_expire', 'name', 'lname', 'card_id', 'address', 'tel1', 'driver_license_id'], 'required'],
+            [['driver_license_expire', 'create_date', 'd_update'], 'string'],
             [['name', 'lname', 'images'], 'string', 'max' => 100],
-            [['card_id'], 'string', 'max' => 13],
-            [['address'], 'string', 'max' => 255],
-            [['tel1', 'tel2', 'driver_license_id'], 'string', 'max' => 20]
+            [['card_id', 'tel1', 'tel2', 'driver_license_id'], 'number'],
+            [['card_id'], 'string', 'length' => [13, 13]],
+            [['address'], 'string', 'max' => 255]
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'name' => 'ชื่อ',
@@ -63,4 +60,5 @@ class Driver extends \yii\db\ActiveRecord
             'images' => 'รูปภาพ',
         ];
     }
+
 }
