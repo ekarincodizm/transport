@@ -8,7 +8,6 @@ use app\models\DriverSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 /**
  * DriverController implements the CRUD actions for Driver model.
  */
@@ -34,10 +33,9 @@ class DriverController extends Controller {
     public function actionIndex() {
         $searchModel = new DriverSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
                     'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProvider
         ]);
     }
 
@@ -263,11 +261,12 @@ class DriverController extends Controller {
         //Check To File
         if (!empty($check['images'])) {
             unlink("./web/uploads/profile/" . $check['images']);
-            $columns = array("images" => $New_filename . $type);
-            Yii::$app->db->createCommand()
-                    ->update("driver", $columns, "id = '$id' ")
-                    ->execute();
         }
+
+        $columns = array("images" => $New_filename . $type);
+        Yii::$app->db->createCommand()
+                ->update("driver", $columns, "id = '$id' ")
+                ->execute();
         print json_encode($response);
     }
 
