@@ -23,7 +23,9 @@
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-detail-view": "*",
         "kartik-v/yii2-widget-activeform": "@dev",
-        "raoul2000/yii2-twbsmaxlength-widget": "*"
+        "raoul2000/yii2-twbsmaxlength-widget": "*",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "kartik-v/yii2-widgets": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
