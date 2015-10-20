@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "304b54069865f36186e21f8cf84b6393",
-    "content-hash": "6092d14034ac097022badcbc3d395250",
+    "hash": "600b1f19ba2bc798e229d5bdf3254a8e",
+    "content-hash": "4e58761dcd99df8406e90af7eae1ec62",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -55,6 +55,35 @@
                 "responsive",
                 "web"
             ]
+        },
+        {
+            "name": "bower-asset/bootstrap-maxlength",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mimo84/bootstrap-maxlength.git",
+                "reference": "c94159120b7b117f485648d9e3a1f3866fadbe2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mimo84/bootstrap-maxlength/zipball/c94159120b7b117f485648d9e3a1f3866fadbe2d",
+                "reference": "c94159120b7b117f485648d9e3a1f3866fadbe2d",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.9.0"
+            },
+            "require-dev": {
+                "bower-asset/bootstrap": "~3.2.0",
+                "bower-asset/qunit": "~1.19.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "bootstrap-maxlength.js",
+                "bower-asset-ignore": [
+                    "**/.*"
+                ]
+            }
         },
         {
             "name": "bower-asset/jquery",
@@ -592,6 +621,53 @@
             "time": "2015-04-21 15:19:01"
         },
         {
+            "name": "kartik-v/yii2-widget-activeform",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-activeform.git",
+                "reference": "c62c8b92e8ee38892cc4e2b29851864a7a20ee01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/c62c8b92e8ee38892cc4e2b29851864a7a20ee01",
+                "reference": "c62c8b92e8ee38892cc4e2b29851864a7a20ee01",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\form\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Enhanced Yii2 active-form and active-field with full bootstrap styling support (sub repo split from yii2-widgets).",
+            "homepage": "https://github.com/kartik-v/yii2-widget-activeform",
+            "keywords": [
+                "activefield",
+                "activeform",
+                "extension",
+                "field",
+                "form",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-07-08 11:36:38"
+        },
+        {
             "name": "kartik-v/yii2-widget-datepicker",
             "version": "dev-master",
             "source": {
@@ -639,6 +715,51 @@
                 "yii2"
             ],
             "time": "2015-08-14 13:47:10"
+        },
+        {
+            "name": "raoul2000/yii2-twbsmaxlength-widget",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raoul2000/yii2-twbsmaxlength-widget.git",
+                "reference": "9f34328babafb66645d6dc294cd71f79b929a35f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raoul2000/yii2-twbsmaxlength-widget/zipball/9f34328babafb66645d6dc294cd71f79b929a35f",
+                "reference": "9f34328babafb66645d6dc294cd71f79b929a35f",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap-maxlength": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "raoul2000\\widget\\twbsmaxlength\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Raoul",
+                    "email": "raoul.boulard@gmail.com"
+                }
+            ],
+            "description": "The TwbsMaxlength widget is a wrapper for the Bootstrap Maxlength plugin, a visual feedback indicator for the maxlength attribute.",
+            "keywords": [
+                "bootstrap",
+                "extension",
+                "length",
+                "validation",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-07-14 15:53:17"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1241,7 +1362,8 @@
     "stability-flags": {
         "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-mpdf": 20,
-        "kartik-v/yii2-widget-datepicker": 20
+        "kartik-v/yii2-widget-datepicker": 20,
+        "kartik-v/yii2-widget-activeform": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
