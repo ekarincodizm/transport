@@ -56,9 +56,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                 <center>
                                     <div id="cropContaineroutput" class="croppic">
-                                        <img src="<?php echo Url::to('@web/web/uploads/profile/' . $model->images) ?>" class="img-responsive"/>
+                                        <?php if (!empty($model->images)) { ?>
+                                            <img src="<?php echo Url::to('@web/web/uploads/profile/' . $model->images) ?>" class="img-responsive"/>
+                                        <?php } else { ?>
+                                            <img src="<?php echo Url::to('@web/web/images/No_image.jpg') ?>" class="img-responsive"/>
+                                        <?php } ?>
                                     </div>
-
                                 </center>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" >
