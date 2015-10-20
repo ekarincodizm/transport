@@ -6,32 +6,39 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Typecar */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Typecars', 'url' => ['index']];
+$this->title = $model->type_name;
+$this->params['breadcrumbs'][] = ['label' => 'ประเภทรถ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="typecar-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('<i class="fa fa-pencil"></i> แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?=
+        Html::a('<i class="fa fa-trash"></i> ลบ', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ])
+        ?>
     </p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><i class="fa fa-car"></i> <?= Html::encode($this->title) ?></h4>
+        </div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'type_id',
-            'type_name',
-        ],
-    ]) ?>
+            <?=
+            DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    'id',
+                    'type_name',
+                    'detail:ntext',
+                ],
+            ])
+            ?>
 
+    </div>
 </div>
