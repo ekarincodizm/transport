@@ -18,8 +18,8 @@ class TypecarSearch extends Typecar
     public function rules()
     {
         return [
-            [['id', 'type_id'], 'integer'],
-            [['type_name'], 'safe'],
+            [['id'], 'integer'],
+            [['type_name', 'detail'], 'safe'],
         ];
     }
 
@@ -57,10 +57,10 @@ class TypecarSearch extends Typecar
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'type_id' => $this->type_id,
         ]);
 
-        $query->andFilterWhere(['like', 'type_name', $this->type_name]);
+        $query->andFilterWhere(['like', 'type_name', $this->type_name])
+            ->andFilterWhere(['like', 'detail', $this->detail]);
 
         return $dataProvider;
     }

@@ -10,13 +10,12 @@ use app\models\Driver;
 /**
  * DriverSearch represents the model behind the search form about `app\models\Driver`.
  */
-class DriverSearch extends Driver
-{
+class DriverSearch extends Driver {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id'], 'integer'],
             [['name', 'lname', 'card_id', 'address', 'tel1', 'tel2', 'driver_license_id', 'driver_license_expire', 'create_date', 'images'], 'safe'],
@@ -26,8 +25,7 @@ class DriverSearch extends Driver
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,12 +37,14 @@ class DriverSearch extends Driver
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Driver::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pagesize' => 10 // in case you want a default pagesize
+            ]
         ]);
 
         $this->load($params);
@@ -62,14 +62,15 @@ class DriverSearch extends Driver
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'lname', $this->lname])
-            ->andFilterWhere(['like', 'card_id', $this->card_id])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'tel1', $this->tel1])
-            ->andFilterWhere(['like', 'tel2', $this->tel2])
-            ->andFilterWhere(['like', 'driver_license_id', $this->driver_license_id])
-            ->andFilterWhere(['like', 'images', $this->images]);
+                ->andFilterWhere(['like', 'lname', $this->lname])
+                ->andFilterWhere(['like', 'card_id', $this->card_id])
+                ->andFilterWhere(['like', 'address', $this->address])
+                ->andFilterWhere(['like', 'tel1', $this->tel1])
+                ->andFilterWhere(['like', 'tel2', $this->tel2])
+                ->andFilterWhere(['like', 'driver_license_id', $this->driver_license_id])
+                ->andFilterWhere(['like', 'images', $this->images]);
 
         return $dataProvider;
     }
+
 }
