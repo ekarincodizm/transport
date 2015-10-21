@@ -1,0 +1,24 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 20, 2015, 4:15:17 PM
+    Author     : apple
+*/
+body{
+  
+    background: rgba(100,100,112,0.99);
+    background: -moz-linear-gradient(top, rgba(100,100,112,0.99) 0%, rgba(100,100,112,1) 0%, rgba(71,70,84,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(100,100,112,0.99)), color-stop(0%, rgba(100,100,112,1)), color-stop(100%, rgba(71,70,84,1)));
+    background: -webkit-linear-gradient(top, rgba(100,100,112,0.99) 0%, rgba(100,100,112,1) 0%, rgba(71,70,84,1) 100%);
+    background: -o-linear-gradient(top, rgba(100,100,112,0.99) 0%, rgba(100,100,112,1) 0%, rgba(71,70,84,1) 100%);
+    background: -ms-linear-gradient(top, rgba(100,100,112,0.99) 0%, rgba(100,100,112,1) 0%, rgba(71,70,84,1) 100%);
+    background: linear-gradient(to bottom, rgba(100,100,112,0.99) 0%, rgba(100,100,112,1) 0%, rgba(71,70,84,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#646470', endColorstr='#474654', GradientType=0 );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+

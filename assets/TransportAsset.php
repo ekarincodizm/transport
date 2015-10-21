@@ -19,6 +19,7 @@ class TransportAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        //'web/themes/transport/css/system.css',
         'web/themes/transport/css/bootstrap.css',
         'web/themes/transport/css/bootstrap-theme.css',
         'web/themes/transport/font-awesome/css/font-awesome.css',

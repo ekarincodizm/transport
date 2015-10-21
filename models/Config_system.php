@@ -10,7 +10,7 @@ use yii\base\Model;
 class Config_system {
 
     function autoId($table, $value, $number) {
-        $rs = Yii::app()->db->createCommand("Select Max($value)+1 as MaxID from  $table")->queryRow(); //เลือกเอาค่า id ที่มากที่สุดในฐานข้อมูลและบวก 1 เข้าไปด้วยเลย
+        $rs = Yii::$app->db->createCommand("Select Max($value)+1 as MaxID from  $table")->queryOne(); //เลือกเอาค่า id ที่มากที่สุดในฐานข้อมูลและบวก 1 เข้าไปด้วยเลย
         $new_id = $rs['MaxID'];
         if ($new_id == '') { // ถ้าได้เป็นค่าว่าง หรือ null ก็แสดงว่ายังไม่มีข้อมูลในฐานข้อมูล
             $std_id = sprintf("%0" . $number . "d", 1); //ถ้าไม่ใช่ค่าว่าง
