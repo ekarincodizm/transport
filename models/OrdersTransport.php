@@ -45,7 +45,7 @@ class OrdersTransport extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'order_id' => 'รหัสสั่งงาน',
+            'order_id' => 'รหัสใบปฏิบัติงาน',
             'order_date_start' => 'วันที่ไป',
             'order_date_end' => 'วันที่กลับ',
             'truck1' => 'รหัสรถ1(หัวลาก,หรือรถไม่มีพ่วง)',

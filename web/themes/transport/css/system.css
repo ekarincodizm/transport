@@ -8,7 +8,8 @@ and open the template in the editor.
     Author     : apple
 */
 body{
-  
+    background: url('../images/bg_ap2.png');
+  /*
     background: rgba(100,100,112,0.99);
     background: -moz-linear-gradient(top, rgba(100,100,112,0.99) 0%, rgba(100,100,112,1) 0%, rgba(71,70,84,1) 100%);
     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(100,100,112,0.99)), color-stop(0%, rgba(100,100,112,1)), color-stop(100%, rgba(71,70,84,1)));
@@ -19,6 +20,6 @@ body{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#646470', endColorstr='#474654', GradientType=0 );
     background-repeat: no-repeat;
     background-attachment: fixed;
-
+*/
 }
 

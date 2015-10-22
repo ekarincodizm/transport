@@ -10,13 +10,12 @@ use app\models\OrdersTransport;
 /**
  * OrderTransportSearch represents the model behind the search form about `app\models\OrdersTransport`.
  */
-class OrderTransportSearch extends OrdersTransport
-{
+class OrderTransportSearch extends OrdersTransport {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'truck1', 'truck2', 'driver1', 'driver2'], 'integer'],
             [['order_id', 'order_date_start', 'order_date_end', 'create_date'], 'safe'],
@@ -26,8 +25,7 @@ class OrderTransportSearch extends OrdersTransport
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,12 +37,14 @@ class OrderTransportSearch extends OrdersTransport
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = OrdersTransport::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => ['order_id'],
+            ]
         ]);
 
         $this->load($params);
@@ -70,4 +70,5 @@ class OrderTransportSearch extends OrdersTransport
 
         return $dataProvider;
     }
+
 }
