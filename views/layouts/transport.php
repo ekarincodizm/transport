@@ -24,7 +24,7 @@ $this->title = "ตงตงทรานสปอร์ต";
         <?php $this->beginBody() ?>
         <nav class="navbar navbar-default"></nav>
         <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
+            <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -56,8 +56,9 @@ $this->title = "ตงตงทรานสปอร์ต";
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car"></i> ข้อมูลรถ</a></li>
                                 <li><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users"></i> ข้อมูลคนขับ</a></li>
-                                <li><a href="#"><i class="fa fa-building"></i> ข้อมูลบริษัท</a></li>
+                                <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building"></i> ข้อมูลลูกค้า</a></li>
                                 <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus"></i> ประเภทรถ</a></li>
+                                <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-bus"></i> ประเภทสินค้า</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -78,7 +79,7 @@ $this->title = "ตงตงทรานสปอร์ต";
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container">
+        <div class="container-fluid">
             <?=
             Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -87,7 +88,7 @@ $this->title = "ตงตงทรานสปอร์ต";
             <?= $content ?>
         </div>
         <footer class="footer">
-            <div class="container">
+            <div class="container-fluid">
                 <p class="pull-left">&copy; The Assembler</p>
 
                 <p class="pull-right"><?= Yii::powered() ?></p>
