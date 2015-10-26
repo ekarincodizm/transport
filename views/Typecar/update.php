@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = 'แก้ไข';
 <div class="typecar-update">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4><i class="fa fa-car"></i> <?= Html::encode($this->title) ?></h4>
+            <i class="fa fa-car"></i> <?= Html::encode($this->title) ?>
         </div>
         <div class="panel-body">
             <?=

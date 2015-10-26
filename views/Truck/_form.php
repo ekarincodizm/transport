@@ -80,6 +80,7 @@ use kartik\date\DatePicker;
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
             <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-save"></i> บันทึกข้อมูล' : '<i class="fa fa-pencil"></i> แก้ไข', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::resetButton('<i class="fa fa-remove"></i> ยกเลิก', ['class' => 'btn btn-danger']) ?>
         </div>
     </div>
 
