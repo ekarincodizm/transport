@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\OrdersTransport;
-use app\models\OrderTransportSearch;
+use app\models\Customer;
+use app\models\CustomerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * OrderTransportController implements the CRUD actions for OrdersTransport model.
+ * CustomerController implements the CRUD actions for Customer model.
  */
-class OrderTransportController extends Controller {
+class CustomerController extends Controller {
 
     public $layout = "transport";
 
@@ -28,11 +28,11 @@ class OrderTransportController extends Controller {
     }
 
     /**
-     * Lists all OrdersTransport models.
+     * Lists all Customer models.
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new OrderTransportSearch();
+        $searchModel = new CustomerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,51 +42,40 @@ class OrderTransportController extends Controller {
     }
 
     /**
-     * Displays a single OrdersTransport model.
+     * Displays a single Customer model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id) {
-        $config = new \app\models\Config_system();
-        $assign_id = $config->autoId("assign", "assign_id", 5);
         return $this->render('view', [
                     'model' => $this->findModel($id),
-                    'assign_id' => $assign_id,
         ]);
     }
 
     /**
-     * Creates a new OrdersTransport model.
+     * Creates a new Customer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new OrdersTransport();
-        $confix = new \app\models\Config_system();
-        $id = $confix->autoId_order("orders_transport", "order_id", 5);
-        $newId = substr(date("Y"), -2) . "-" . $id;
+        $model = new Customer();
 
         if ($model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-
-            if (Yii::$app->request->post('orders-transport', null)) {
-                $model->scenario = 'orders-transport';
-                return ActiveForm::validate($model);
-            }
-
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+            $model->create_date = date("Y-m-d H:i:s");
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $config = new \app\models\Config_system();
+            $cusId = $config->autoId("customer", "cus_id", 7);
             return $this->render('create', [
                         'model' => $model,
-                        'order_id' => $newId,
+                        'cus_id' => $cusId,
             ]);
         }
     }
 
     /**
-     * Updates an existing OrdersTransport model.
+     * Updates an existing Customer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,13 +88,13 @@ class OrderTransportController extends Controller {
         } else {
             return $this->render('update', [
                         'model' => $model,
-                        'order_id' => $model->order_id,
+                        'cus_id' => $model->cus_id,
             ]);
         }
     }
 
     /**
-     * Deletes an existing OrdersTransport model.
+     * Deletes an existing Customer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -117,14 +106,14 @@ class OrderTransportController extends Controller {
     }
 
     /**
-     * Finds the OrdersTransport model based on its primary key value.
+     * Finds the Customer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return OrdersTransport the loaded model
+     * @return Customer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = OrdersTransport::findOne($id)) !== null) {
+        if (($model = Customer::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
