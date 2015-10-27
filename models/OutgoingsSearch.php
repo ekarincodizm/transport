@@ -5,27 +5,29 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\OrdersTransport;
+use app\models\Outgoings;
 
 /**
- * OrderTransportSearch represents the model behind the search form about `app\models\OrdersTransport`.
+ * OutgoingsSearch represents the model behind the search form about `app\models\Outgoings`.
  */
-class OrderTransportSearch extends OrdersTransport {
-
+class OutgoingsSearch extends Outgoings
+{
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['id', 'truck1', 'truck2', 'driver1', 'driver2', 'oil_set'], 'integer'],
-            [['order_id', 'order_date_start', 'order_date_end', 'create_date'], 'safe'],
+            [['id', 'price'], 'integer'],
+            [['order_id', 'detail', 'create_date'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,14 +39,12 @@ class OrderTransportSearch extends OrdersTransport {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
-        $query = OrdersTransport::find();
+    public function search($params)
+    {
+        $query = Outgoings::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'attributes' => ['order_id'],
-            ]
         ]);
 
         $this->load($params);
@@ -57,18 +57,13 @@ class OrderTransportSearch extends OrdersTransport {
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'order_date_start' => $this->order_date_start,
-            'order_date_end' => $this->order_date_end,
-            'truck1' => $this->truck1,
-            'truck2' => $this->truck2,
-            'driver1' => $this->driver1,
-            'driver2' => $this->driver2,
+            'price' => $this->price,
             'create_date' => $this->create_date,
         ]);
 
-        $query->andFilterWhere(['like', 'order_id', $this->order_id]);
+        $query->andFilterWhere(['like', 'order_id', $this->order_id])
+            ->andFilterWhere(['like', 'detail', $this->detail]);
 
         return $dataProvider;
     }
-
 }

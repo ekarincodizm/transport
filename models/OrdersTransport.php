@@ -33,7 +33,7 @@ class OrdersTransport extends \yii\db\ActiveRecord {
         return [
             [['order_date_start', 'order_date_end', 'truck1', 'driver1'], 'required'],
             [['order_date_start', 'order_date_end', 'create_date'], 'safe'],
-            [['truck1', 'truck2', 'driver1', 'driver2'], 'integer'],
+            [['truck1', 'truck2', 'driver1', 'driver2', 'oil_set'], 'integer'],
             [['order_id'], 'string', 'max' => 10],
             [['order_id'], 'unique']
         ];

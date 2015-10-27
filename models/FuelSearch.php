@@ -5,27 +5,30 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\OrdersTransport;
+use app\models\Fuel;
 
 /**
- * OrderTransportSearch represents the model behind the search form about `app\models\OrdersTransport`.
+ * FuelSearch represents the model behind the search form about `app\models\Fuel`.
  */
-class OrderTransportSearch extends OrdersTransport {
-
+class FuelSearch extends Fuel
+{
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['id', 'truck1', 'truck2', 'driver1', 'driver2', 'oil_set'], 'integer'],
-            [['order_id', 'order_date_start', 'order_date_end', 'create_date'], 'safe'],
+            [['id', 'oil', 'gas'], 'integer'],
+            [['order_id', 'create_date'], 'safe'],
+            [['oil_unit', 'oil_price', 'gas_unit', 'gas_price'], 'number'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,14 +40,12 @@ class OrderTransportSearch extends OrdersTransport {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
-        $query = OrdersTransport::find();
+    public function search($params)
+    {
+        $query = Fuel::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'attributes' => ['order_id'],
-            ]
         ]);
 
         $this->load($params);
@@ -57,12 +58,12 @@ class OrderTransportSearch extends OrdersTransport {
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'order_date_start' => $this->order_date_start,
-            'order_date_end' => $this->order_date_end,
-            'truck1' => $this->truck1,
-            'truck2' => $this->truck2,
-            'driver1' => $this->driver1,
-            'driver2' => $this->driver2,
+            'oil' => $this->oil,
+            'oil_unit' => $this->oil_unit,
+            'oil_price' => $this->oil_price,
+            'gas' => $this->gas,
+            'gas_unit' => $this->gas_unit,
+            'gas_price' => $this->gas_price,
             'create_date' => $this->create_date,
         ]);
 
@@ -70,5 +71,4 @@ class OrderTransportSearch extends OrdersTransport {
 
         return $dataProvider;
     }
-
 }

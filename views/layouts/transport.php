@@ -5,9 +5,11 @@
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\assets\TransportAsset;
+use app\assets\JsAsset;
 use yii\helpers\Url;
 
 TransportAsset::register($this);
+JsAsset::register($this);
 $this->title = "ตงตงทรานสปอร์ต";
 ?>
 <?php $this->beginPage() ?>

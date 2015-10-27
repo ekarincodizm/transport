@@ -25,7 +25,8 @@
         "kartik-v/yii2-widget-activeform": "@dev",
         "raoul2000/yii2-twbsmaxlength-widget": "*",
         "kartik-v/yii2-widget-select2": "@dev",
-        "kartik-v/yii2-widgets": "*"
+        "kartik-v/yii2-widgets": "*",
+        "robregonm/yii2-pdf": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
