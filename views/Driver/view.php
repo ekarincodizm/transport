@@ -70,6 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'model' => $model,
                                     'attributes' => [
                                         'id',
+                                        'driver_id',
                                         'name',
                                         'lname',
                                         'card_id',

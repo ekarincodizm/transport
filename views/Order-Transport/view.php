@@ -86,6 +86,7 @@ $changwat_model = new app\models\Changwat();
                                 $d1 = $driver->find()->where(['id' => $model->driver1])->one();
                                 echo $d1['name'] . ' ' . $d1['lname'];
                                 ?></label>
+                            <input type="hidden" id="driver1" value="<?php echo $d1['driver_id'] ?>"/>
                         </div>
                         <div class="col-sm-6 col-md-2 col-lg-3">
                             <label>คนขับ 2</label> 
@@ -99,12 +100,30 @@ $changwat_model = new app\models\Changwat();
                                 }
                                 ?>
                             </label>
+                            <input type="hidden" id="driver2" value="<?php echo $d2['driver_id'] ?>"/>
                         </div>
                     </div>
                 </div>
                 <!--
                     ###################### END #########################
                 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">รายละเอียดก่อนปล่อยรถ</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-tint"></i> น้ำมันที่กำหนด</div>
+                                        <input type="text" id="oil_set" name="oil_set" class="form-control" value="<?php echo $model->oil_set ?>" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
+                                        <div class="input-group-addon">ลิตร</div>
+                                        <div class="input-group-addon btn btn-default" onclick="Save_before_release()"><i class="fa fa-save"></i> บันทึก</div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!--
                     ######################### #ใบสั่งงาน ######################
@@ -210,31 +229,24 @@ $changwat_model = new app\models\Changwat();
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                        <div class="col-sm-4 col-md-4 col-lg-4">
-                                            น้ำหนัก
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" id="weigh" name="weigh" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
-                                                    <div class="input-group-addon">ตัน</div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                        <div class="col-sm-4 col-md-4 col-lg-4">
-                                            จำนวนน้ำมันที่กำหนด
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" id="oil_set" name="oil_set" class="form-control" value="<?php echo $model->oil_set ?>" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
-                                                    <div class="input-group-addon">ลิตร</div>
-                                                    <div class="input-group-addon btn btn-default" onclick="Save_set_oil()"><i class="fa fa-save"></i> SAVE</div>
-                                                </div>
-                                            </div> 
-                                        </div>
+
                                     </div>
 
                                     <div class="jumbotron" style="padding: 5px; margin-top: 10px; margin-bottom: 5px;">
-                                        <label>คิดตาม</label>
+
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-balance-scale"></i> น้ำหนัก</div>
+                                                <input type="text" id="weigh" name="weigh" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
+                                                <div class="input-group-addon">ตัน</div>
+                                            </div>
+                                        </div> 
+
                                         <input type="hidden" id="type_calculus"/>
                                         <div class="row">
+                                            <div class="col-sm-12 col-md-1 col-lg-1">
+                                                <label>คิดตาม</label>
+                                            </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <div class="input-group">
@@ -244,7 +256,7 @@ $changwat_model = new app\models\Changwat();
                                                     </div>
                                                 </div>    
                                             </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6"> 
+                                            <div class="col-sm-6 col-md-5 col-lg-5"> 
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><input type="radio" name="r1" id="r2" onclick="Pertimes_Calculator()"/> ต่อเที่ยว เที่ยวละ</div>
                                                     <input type="text" id="per_times" name="per_times" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled" onkeyup="Income_Calculator(1);"/>
@@ -254,7 +266,7 @@ $changwat_model = new app\models\Changwat();
                                         </div>
                                     </div>
 
-                                    <div class="jumbotron" style="padding: 5px; margin-top: 0px;">
+                                    <div class="jumbotron" style="padding: 5px; margin-top: 0px; margin-bottom: 5px;">
                                         <label>เบี้ยเลี้ยง</label>
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -283,7 +295,7 @@ $changwat_model = new app\models\Changwat();
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                             <div class="input-group">
-                                                <div class="input-group-addon">รายได้</div>
+                                                <div class="input-group-addon"><i class="fa fa-money"></i> รายได้</div>
                                                 <input type="hidden" id="income"/>
                                                 <input type="text" id="income_txt" name="income_txt" class="form-control" style="font-size: 20px; text-align: center; color: #ff0033;" readonly="readonly" value="0"/>
                                                 <div class="input-group-addon">บาท</div>
@@ -291,63 +303,68 @@ $changwat_model = new app\models\Changwat();
                                         </div>
                                     </div>
                                     <br/>
+
                                     <!-- Table -->
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>วันที่ขน</th>
-                                                <th>ลูกค้า</th>
-                                                <th>เส้นทาง</th>
-                                                <th>ลูกค้าปลายทาง</th>
-                                                <th>เลขที่ใบขน</th>
-                                                <th>เบี้ยเลี้ยง</th>
-                                                <th>รายได้</th>
-                                                <th style="text-align: center;">ตัวเลือก</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $i = 0;
-                                            $sum = array(0, 0);
-                                            foreach ($assign as $rs): $i++;
-                                                $allowance = ($rs->allowance_driver1 + $rs->allowance_driver2);
-                                                $sum[0] = $sum[0] + $allowance;
-                                                $sum[1] = $sum[1] + $rs->income;
-                                                ?>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td><?php echo $i; ?></td>
-                                                    <td><?php echo $config->thaidate($rs->transport_date); ?></td>
-                                                    <td><?php echo $customer_model->find()->where(['cus_id' => $rs->cus_start])->one()->company; ?></td>
-                                                    <td>
-                                                        <?php echo $changwat_model->find()->where(['changwat_id' => $rs->changwat_start])->one()->changwat_name; ?>
-                                                        -
-                                                        <?php echo $changwat_model->find()->where(['changwat_id' => $rs->changwat_end])->one()->changwat_name; ?>
-                                                    </td>
-                                                    <td><?php echo $customer_model->find()->where(['cus_id' => $rs->cus_end])->one()->company; ?></td>
-                                                    <td><?php echo $rs->assign_id; ?></td>
-                                                    <td style="text-align: right;"><?php echo number_format($allowance, 2); ?></td>
-                                                    <td style="text-align: right;"><?php echo number_format($rs->income, 2); ?></td>
-                                                    <td style="text-align: center;">
-                                                        <a href="<?php echo Url::to(['report']) ?>" target="_blank">
-                                                            <button type="button" class="btn btn-info btn-sm"><i class="fa fa-print"></i></button></a>
-                                                        <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></button>
-                                                        <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                                    </td>
+                                                    <th>#</th>
+                                                    <th>วันที่ขน</th>
+                                                    <th>ลูกค้า</th>
+                                                    <th>เส้นทาง</th>
+                                                    <th>ลูกค้าปลายทาง</th>
+                                                    <th>เลขที่ใบขน</th>
+                                                    <th>เบี้ยเลี้ยง</th>
+                                                    <th>รายได้</th>
+                                                    <th style="text-align: center;">ตัวเลือก</th>
                                                 </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="6" style="text-align: center;">
-                                                    รวม
-                                                </td>
-                                                <td style="text-align: right; color: #ff0000; font-weight: bold;"><?php echo number_format($sum[0], 2); ?></td>
-                                                <td style="text-align: right; color: #ff0000; font-weight: bold;"><?php echo number_format($sum[1], 2); ?></td>
-                                                <td></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $i = 0;
+                                                $sum = array(0, 0);
+                                                foreach ($assign as $rs): $i++;
+                                                    $allowance_driver1 = substr($rs->allowance_driver1, 6, 8);
+                                                    $allowance_driver2 = substr($rs->allowance_driver2, 6, 8);
+                                                    $allowance = ((int) $allowance_driver1 + (int) $allowance_driver2);
+                                                    $sum[0] = $sum[0] + $allowance;
+                                                    $sum[1] = $sum[1] + $rs->income;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $i; ?></td>
+                                                        <td><?php echo $config->thaidate($rs->transport_date); ?></td>
+                                                        <td><?php echo $customer_model->find()->where(['cus_id' => $rs->cus_start])->one()->company; ?></td>
+                                                        <td>
+                                                            <?php echo $changwat_model->find()->where(['changwat_id' => $rs->changwat_start])->one()->changwat_name; ?>
+                                                            -
+                                                            <?php echo $changwat_model->find()->where(['changwat_id' => $rs->changwat_end])->one()->changwat_name; ?>
+                                                        </td>
+                                                        <td><?php echo $customer_model->find()->where(['cus_id' => $rs->cus_end])->one()->company; ?></td>
+                                                        <td><?php echo $rs->assign_id; ?></td>
+                                                        <td style="text-align: right;"><?php echo number_format($allowance, 2); ?></td>
+                                                        <td style="text-align: right;"><?php echo number_format($rs->income, 2); ?></td>
+                                                        <td style="text-align: center;">
+                                                            <a href="<?php echo Url::to(['report', "id" => $model->id, "assign_id" => $rs->assign_id]) ?>" target="_blank">
+                                                                <button type="button" class="btn btn-info btn-sm"><i class="fa fa-print"></i></button></a>
+                                                            <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></button>
+                                                            <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="6" style="text-align: center;">
+                                                        รวม
+                                                    </td>
+                                                    <td style="text-align: right; color: #ff0000; font-weight: bold;"><?php echo number_format($sum[0], 2); ?></td>
+                                                    <td style="text-align: right; color: #ff0000; font-weight: bold;"><?php echo number_format($sum[1], 2); ?></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div> <!-- END Well -->
                                 </div>
                                 <div class="panel-footer">
                                     <button type="button" class="btn btn-success btn-block btn-lg" onclick="save_assign()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
@@ -412,6 +429,94 @@ $changwat_model = new app\models\Changwat();
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        <br/>
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">เลขไมล์เดิม</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
+                                                        <div class="input-group-addon">บาท</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">เลขไมล์เที่ยวนี้</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <div class="input-group-addon">บาท</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">ระยะทางเที่ยวนี้</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
+                                                        <div class="input-group-addon">ก.ม.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">สะสมเที่ยวก่อน</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <div class="input-group-addon">ก.ม.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">สะสมเที่ยวนี้</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <div class="input-group-addon">ก.ม.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">น้ำมันที่กำหนด</div>
+                                                        <input type="text" id="oil_set_ofter" name="oil_set_ofter" class="form-control" value="<?php echo $model->oil_set ?>" readonly="readonly" style="text-align: center; color: #ff0033;"/>
+                                                        <div class="input-group-addon">ลิตร</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">เฉลี่ย</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <div class="input-group-addon">ก.ม./ลิตร</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">ชดเชยน้ำมัน</div>
+                                                        <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
+                                                        <div class="input-group-addon">ลิตร</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="panel-footer">
@@ -475,95 +580,7 @@ $changwat_model = new app\models\Changwat();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">ระยะทาง</div>
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">เลขไมล์เดิม</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                            <div class="input-group-addon">บาท</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">เลขไมล์เที่ยวนี้</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                            <div class="input-group-addon">บาท</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">ระยะทางเที่ยวนี้</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                            <div class="input-group-addon">ก.ม.</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">สะสมเที่ยวก่อน</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                            <div class="input-group-addon">ก.ม.</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">สะสมเที่ยวนี้</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                            <div class="input-group-addon">ก.ม.</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">น้ำมันที่กำหนด</div>
-                                                            <input type="text" id="oil_set_ofter" name="oil_set_ofter" class="form-control" value="<?php echo $model->oil_set ?>" readonly="readonly" style="text-align: center; color: #ff0033;"/>
-                                                            <div class="input-group-addon">ลิตร</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">เฉลี่ย</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                            <div class="input-group-addon">ก.ม./ลิตร</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">ชดเชยน้ำมัน</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
-                                                            <div class="input-group-addon">ลิตร</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <hr/>
                             <div class="panel panel-danger">
@@ -594,6 +611,6 @@ $changwat_model = new app\models\Changwat();
 
 <!-- SET TEXT BOX VALUE HIDDEN -->
 <input type="hidden" id="order_id" value="<?php echo $model->order_id; ?>"/>
-<input type="hidden" id="Url_save_set_oil" value="<?php echo Url::to(['save_set_oil']) ?>"/>
+<input type="hidden" id="Url_save_before_release" value="<?php echo Url::to(['save_before_release']) ?>"/>
 <input type="hidden" id="Url_save_assign" value="<?php echo Url::to(['save_assign']) ?>"/>
 <input type="hidden" id="Url_save_fuel" value="<?php echo Url::to(['save_fuel']) ?>"/>

@@ -19,6 +19,7 @@ use kartik\date\DatePicker;
     ]);
     ?>
 
+    <?= $form->field($model, 'driver_id')->textInput(['maxlength' => true, 'value' => $driver_id, 'readonly' => 'readonly']) ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'lname')->textInput(['maxlength' => true]) ?>
