@@ -8,6 +8,7 @@ use app\models\DriverSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 /**
  * DriverController implements the CRUD actions for Driver model.
  */
@@ -64,8 +65,11 @@ class DriverController extends Controller {
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $config = new \app\models\Config_system();
+            $driver_id = $config->autoId("driver", "driver_id", 5);
             return $this->render('create', [
                         'model' => $model,
+                        'driver_id' => $driver_id,
             ]);
         }
     }
@@ -86,6 +90,7 @@ class DriverController extends Controller {
         } else {
             return $this->render('update', [
                         'model' => $model,
+                        'driver_id' => $model->driver_id,
             ]);
         }
     }

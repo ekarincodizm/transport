@@ -136,7 +136,7 @@ class OrderTransportController extends Controller {
         }
     }
 
-    public function actionSave_set_oil() {
+    public function actionSave_before_release() {
         $oil_set = \Yii::$app->request->post('oil_set');
         $order_id = \Yii::$app->request->post('order_id');
 
@@ -147,13 +147,14 @@ class OrderTransportController extends Controller {
         \Yii::$app->db->createCommand()
                 ->update("orders_transport", $columns, "order_id = '$order_id' ")
                 ->execute();
-        $json = array("oil" => $oil_set);
+        $json = $columns;
         echo json_encode($json);
     }
 
     public function actionSave_assign() {
         $request = \Yii::$app->request;
-
+        $driver1 = $request->post('driver1');
+        $driver2 = $request->post('driver2');
         $columns = array(
             "assign_id" => $request->post('assign_id'),
             "order_id" => $request->post('order_id'),
@@ -169,8 +170,9 @@ class OrderTransportController extends Controller {
             "unit_price" => $request->post('unit_price'),
             "per_times" => $request->post('per_times'),
             "income" => $request->post('income'),
-            "allowance_driver1" => $request->post('allowance_driver1'),
-            "allowance_driver2" => $request->post('allowance_driver2')
+            "allowance_driver1" => $driver1 . "-" . $request->post('allowance_driver1'),
+            "allowance_driver2" => $driver2 . "-" . $request->post('allowance_driver2'),
+            "create_date" => date("Y-m-d H:i:s")
         );
 
         \Yii::$app->db->createCommand()
@@ -178,38 +180,22 @@ class OrderTransportController extends Controller {
                 ->execute();
     }
 
-    public function actionReport() {
-        // get your HTML raw content without any layouts or scripts
-        $content = $this->renderPartial('_reportView');
+    public function actionReport($id = null, $assign_id = null) {
 
-        // setup kartik\mpdf\Pdf component
-        $pdf = new Pdf([
-            // set to use core fonts only
-            'mode' => Pdf::MODE_UTF8,
-            // A4 paper format
-            'format' => Pdf::FORMAT_A4,
-            // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER,
-            // your html content input
-            'content' => $content,
-            // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-            // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
-            // call mPDF methods on the fly
-            'methods' => [
-                'SetHeader' => ['Krajee Report Header'],
-                'SetFooter' => ['{PAGENO}'],
-            ]
+        //$order_id = OrdersTransport::find()->where(['id' => $id])->one();
+        $assign_model = new \app\models\Assign();
+        $assign = $assign_model->find()->where(['assign_id' => $assign_id])->one();
+
+        $content = $this->renderPartial('_reportView', [
+            'model' => $this->findModel($id),
+            'assign_id' => $assign_id,
+            'assign' => $assign,
         ]);
 
-        // return the pdf output as per the destination setting
-        return $pdf->render();
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($content);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output("bill.pdf", "I");
     }
 
     public function actionSave_fuel() {
