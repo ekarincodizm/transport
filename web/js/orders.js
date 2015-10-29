@@ -34,7 +34,7 @@ function Unit_price_Calculator() {
         return false;
     }
     $("#income").val(0);
-     $("#income_txt").val(0);
+    $("#income_txt").val(0);
     $("#unit_price").prop("disabled", false);
     $("#per_times").prop("disabled", true);
 }
@@ -57,8 +57,8 @@ function Pertimes_Calculator() {
 }
 
 //บันทึกน้ำมันที่กำหนด
-function Save_set_oil() {
-    var url = $("#Url_save_set_oil").val();
+function Save_before_release() {
+    var url = $("#Url_save_before_release").val();
     var order_id = $("#order_id").val();
     var oil_set = $("#oil_set").val();
     var data = {order_id: order_id, oil_set: oil_set};
@@ -71,14 +71,17 @@ function Save_set_oil() {
 
     $.post(url, data, function (datas) {
         alert("บันทึกข้อมูลแล้ว");
-        $("#oil_set").val(datas.oil);
-        $("#oil_set_ofter").val(datas.oil);
+        $("#oil_set").val(datas.oil_set);
+        $("#oil_set_ofter").val(datas.oil_set);
     }, "json");
 }
 
 //##################### บันทึกใบสั่งงาน #################
 function save_assign() {
     var url = $("#Url_save_assign").val();
+    var driver1 = $("#driver1").val();
+    var driver2 = $("#driver2").val();
+
     var assign_id = $("#assign_id").val();
     var order_id = $("#order_id").val();
     var transport_date = $("#transport_date").val();
@@ -95,7 +98,7 @@ function save_assign() {
     var income = $("#income").val();
     var allowance_driver1 = $("#allowance_driver1").val();
     var allowance_driver2 = $("#allowance_driver2").val();
-    
+
     var data = {
         assign_id: assign_id,
         order_id: order_id,
@@ -112,7 +115,9 @@ function save_assign() {
         per_times: per_times,
         income: income,
         allowance_driver1: allowance_driver1,
-        allowance_driver2: allowance_driver2
+        allowance_driver2: allowance_driver2,
+        driver1: driver1,
+        driver2: driver2
     };
 
     //Validate 
