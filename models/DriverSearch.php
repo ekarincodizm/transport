@@ -18,7 +18,7 @@ class DriverSearch extends Driver {
     public function rules() {
         return [
             [['id'], 'integer'],
-            [['name', 'lname', 'card_id', 'address', 'tel1', 'tel2', 'driver_license_id', 'driver_license_expire', 'create_date', 'images'], 'safe'],
+            [['driver_id','name', 'lname', 'card_id', 'address', 'tel1', 'tel2', 'driver_license_id', 'driver_license_expire', 'create_date', 'images'], 'safe'],
         ];
     }
 
