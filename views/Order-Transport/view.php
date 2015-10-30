@@ -1,3 +1,8 @@
+<style type="text/css">
+    #set_page{ font-size: 12px; color: #0000ff;}
+    .form-control{font-size: 12px; color: #0000ff;}
+    .input-group-addon{font-size: 12px; color: #0000ff;}
+</style>
 <?php
 
 use yii\helpers\Html;
@@ -18,6 +23,7 @@ $config = new \app\models\Config_system();
 $driver = new app\models\Driver();
 $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
+$order_model = new \app\models\OrdersTransport();
 ?>
 
 <script type="text/javascript">
@@ -29,7 +35,7 @@ $changwat_model = new app\models\Changwat();
     }
 </script>
 
-<div class="row">
+<div class="row" id="set_page">
     <div class="col-sm-12 col-md-10 col-lg-10">
 
         <div class="panel panel-default">
@@ -377,7 +383,7 @@ $changwat_model = new app\models\Changwat();
                             -->
 
                             <div class="panel panel-primary">
-                                <div class="panel-heading">ค่าเชื้อเพลิง</div>
+                                <div class="panel-heading">ค่าเชื้อเพลิง/ระยะทาง</div>
                                 <div class="panel-body">
                                     <div class="well well-sm">
                                         <div class="row">
@@ -430,7 +436,6 @@ $changwat_model = new app\models\Changwat();
                                             </div>
                                         </div>
 
-
                                         <br/>
 
                                         <div class="row">
@@ -438,7 +443,8 @@ $changwat_model = new app\models\Changwat();
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">เลขไมล์เดิม</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
+                                                        <?php $old_mile = $order_model->get_old_mile($model->order_id); ?>
+                                                        <input type="text" id="old_mile" name="old_mile" class="form-control" readonly="readonly" value="<?php echo $old_mile; ?>"/>
                                                         <div class="input-group-addon">บาท</div>
                                                     </div>
                                                 </div>
@@ -447,7 +453,8 @@ $changwat_model = new app\models\Changwat();
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">เลขไมล์เที่ยวนี้</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <input type="text" id="now_mile" name="now_mile" class="form-control" value="<?php echo $model->now_mile; ?>" placeholder="... ตัวเลขเท่านั้น"
+                                                               onkeypress="return chkNumber()" onkeyup="distance_calculus()"/>
                                                         <div class="input-group-addon">บาท</div>
                                                     </div>
                                                 </div>
@@ -458,27 +465,7 @@ $changwat_model = new app\models\Changwat();
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">ระยะทางเที่ยวนี้</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
-                                                        <div class="input-group-addon">ก.ม.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-addon">สะสมเที่ยวก่อน</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
-                                                        <div class="input-group-addon">ก.ม.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-addon">สะสมเที่ยวนี้</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <input type="text" id="distance" name="distance" class="form-control" readonly="readonly" value="<?php echo $model->distance; ?>"/>
                                                         <div class="input-group-addon">ก.ม.</div>
                                                     </div>
                                                 </div>
@@ -499,7 +486,7 @@ $changwat_model = new app\models\Changwat();
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">เฉลี่ย</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                        <input type="text" id="avg_oil" name="avg_oil" class="form-control" readonly="readonly" value="<?php echo $model->avg_oil; ?>"/>
                                                         <div class="input-group-addon">ก.ม./ลิตร</div>
                                                     </div>
                                                 </div>
@@ -510,7 +497,7 @@ $changwat_model = new app\models\Changwat();
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">ชดเชยน้ำมัน</div>
-                                                        <input type="text" id="login_email" name="login_email" class="form-control" readonly="readonly"/>
+                                                        <input type="text" id="compensate" name="compensate" class="form-control" readonly="readonly" value="<?php echo $model->compensate; ?>"/>
                                                         <div class="input-group-addon">ลิตร</div>
                                                     </div>
                                                 </div>
@@ -520,7 +507,7 @@ $changwat_model = new app\models\Changwat();
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <button type="button" class="btn btn-success" onclick="save_fuel()">บันทึกเติมน้ำมัน</button>
+                                    <button type="button" class="btn btn-success btn-block" onclick="save_fuel()"><i class="fa fa-save"></i> บันทึกเติมน้ำมัน</button>
                                 </div>
                             </div>
                             <hr/>
