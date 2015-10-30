@@ -1,4 +1,9 @@
 //Create By Kimniyom
+
+$(document).ready(function () {
+    compensate_calculus();
+});
+
 //คำนวณรายได้
 function Income_Calculator(type) {
     var weigh = $("#weigh").val();
@@ -18,8 +23,6 @@ function Income_Calculator(type) {
         $("#income_txt").val(number);
         $("#income").val(per_times);
     }
-
-
 }
 
 //กรณีเลือกคิดตามน้ำหนัก
@@ -73,6 +76,7 @@ function Save_before_release() {
         alert("บันทึกข้อมูลแล้ว");
         $("#oil_set").val(datas.oil_set);
         $("#oil_set_ofter").val(datas.oil_set);
+        compensate_calculus();
     }, "json");
 }
 
@@ -182,6 +186,11 @@ function save_fuel() {
     var gas = $("#gas").val();
     var gas_unit = $("#gas_unit").val();
     var gas_price = $("#gas_price").val();
+    var old_mile = $("#old_mile").val();
+    var now_mile = $("#now_mile").val();
+    var distance = $("#distance").val();
+    var avg_oil = $("#avg_oil").val();
+    var compensate = $("#compensate").val();
 
     var data = {
         order_id: order_id,
@@ -190,7 +199,12 @@ function save_fuel() {
         oil_price: oil_price,
         gas: gas,
         gas_unit: gas_unit,
-        gas_price: gas_price
+        gas_price: gas_price,
+        old_mile: old_mile,
+        now_mile: now_mile,
+        distance: distance,
+        avg_oil: avg_oil,
+        compensate: compensate
     };
 
     $.post(url, data, function (datas) {
@@ -200,6 +214,11 @@ function save_fuel() {
         $("#gas").val(datas.gas);
         $("#gas_unit").val(datas.gas_unit);
         $("#gas_price").val(datas.gas_price);
+        $("#old_mile").val(datas.old_mile);
+        $("#now_mile").val(datas.now_mile);
+        $("#distance").val(datas.avg_oil);
+        $("#avg_oil").val(datas.avg_oil);
+        $("#compensate").val(datas.compensate);
     }, "json");
 }
 
@@ -210,6 +229,9 @@ function oil_calculus() {
     var number = accounting.formatNumber(total, 2);
     $("#oil_price_txt").val(number);
     $("#oil_price").val(total);
+
+    distance_calculus();
+    compensate_calculus();
 }
 
 function gas_calculus() {
@@ -219,5 +241,43 @@ function gas_calculus() {
     var number = accounting.formatNumber(total, 2)
     $("#gas_price_txt").val(number);
     $("#gas_price").val(total);
+}
+
+
+//คำนวณระยะทาง 
+function distance_calculus() {
+    var now_mile = $("#now_mile").val();
+    var old_mile = $("#old_mile").val();
+    var totla_mile = (now_mile - old_mile);
+    var avg;//ค่าเฉลี่ย
+    var oil = $("#oil").val();
+    if (totla_mile < 1) {
+        avg = 0;
+    } else {
+        avg = accounting.formatNumber(totla_mile / oil, 2);
+    }
+
+    if (now_mile < old_mile) {
+        $("#distance").val(0);
+    } else {
+        $("#distance").val(totla_mile);
+    }
+
+    $("#avg_oil").val(avg);
+}
+
+//ชดเชยน้ำมัน
+function compensate_calculus() {
+    var oil = $("#oil").val();//น้ำมันที่เติม
+    var oil_set_ofter = $("#oil_set_ofter").val();
+    var total = (oil_set_ofter - oil);
+
+    if (oil > oil_set_ofter) {
+        $("#compensate").val(total);
+    } else {
+        $("#compensate").val(0);
+    }
+
+
 }
 
