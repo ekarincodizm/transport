@@ -56,4 +56,17 @@ class OrdersTransport extends \yii\db\ActiveRecord {
         ];
     }
 
+    function get_old_mile($order_id = null) {
+        $query = "SELECT o.now_mile
+                        FROM orders_transport o 
+                        WHERE o.order_id != '$order_id'
+                        ORDER BY o.order_id DESC LIMIT 1";
+        $rs = Yii::$app->db->createCommand($query)->queryOne();
+        if (!empty($rs)) {
+            return $rs['now_mile'];
+        } else {
+            return 0;
+        }
+    }
+
 }
