@@ -15,7 +15,7 @@ use kartik\mpdf\Pdf;
  */
 class OrderTransportController extends Controller {
 
-    public $layout = "transport";
+    public $layout = "admin-lte";
 
     public function behaviors() {
         return [
@@ -72,7 +72,7 @@ class OrderTransportController extends Controller {
         $newId = substr(date("Y"), -2) . "-" . $id;
 
         if ($model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
+            // Yii::$app->response->format = Response::FORMAT_JSON;
 
             if (Yii::$app->request->post('orders-transport', null)) {
                 $model->scenario = 'orders-transport';
@@ -207,7 +207,12 @@ class OrderTransportController extends Controller {
             "oil_price" => $request->post('oil_price'),
             "gas" => $request->post('gas'),
             "gas_unit" => $request->post('gas_unit'),
-            "gas_price" => $request->post('gas_price')
+            "gas_price" => $request->post('gas_price'),
+            "old_mile" => $request->post('old_mile'),
+            "now_mile" => $request->post('now_mile'),
+            "distance" => $request->post('distance'),
+            "avg_oil" => $request->post('avg_oil'),
+            "compensate" => $request->post('compensate'),
         );
 
         \Yii::$app->db->createCommand()

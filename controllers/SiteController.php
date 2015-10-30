@@ -11,7 +11,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller {
 
-    public $layout = "transport";
+    public $layout = "admin-lte";
 
     public function behaviors() {
         return [
