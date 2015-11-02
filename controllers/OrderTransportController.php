@@ -79,7 +79,9 @@ class OrderTransportController extends Controller {
                 return ActiveForm::validate($model);
             }
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->load(Yii::$app->request->post())) {
+                $model->create_date = date("Y-m-d H:i:s");
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -195,7 +197,25 @@ class OrderTransportController extends Controller {
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
         $mpdf->WriteHTML($content);
         $mpdf->SetDisplayMode('fullpage');
-        $mpdf->Output("bill.pdf", "I");
+        $mpdf->Output($assign_id . ".pdf", "I");
+    }
+    
+    
+    public function actionReportall($id = null) {
+
+        $order_id = OrdersTransport::find()->where(['id' => $id])->one()->order_id;
+        $assign_model = new \app\models\Assign();
+        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
+
+        $content = $this->renderPartial('_reportViewAll', [
+            'model' => $this->findModel($id),
+            'assigns' => $assign,
+        ]);
+
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($content);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output($order_id . ".pdf", "I");
     }
 
     public function actionSave_fuel() {
@@ -216,6 +236,20 @@ class OrderTransportController extends Controller {
         );
 
         \Yii::$app->db->createCommand()
+                ->update("orders_transport", $columns, "order_id = '$order_id' ")
+                ->execute();
+    }
+
+    public function actionSave_message() {
+        $request = \Yii::$app->request;
+        $order_id = $request->post('order_id');
+        $message = $request->post('message');
+
+        $columns = array(
+            "message" => $message
+        );
+
+        Yii::$app->db->createCommand()
                 ->update("orders_transport", $columns, "order_id = '$order_id' ")
                 ->execute();
     }

@@ -3,18 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Outgoings;
-use app\models\OutgoingsSearch;
+use app\models\ExpensesTruck;
+use app\models\ExpensesTruckSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * OutgoingsController implements the CRUD actions for Outgoings model.
+ * ExpensesTruckController implements the CRUD actions for ExpensesTruck model.
  */
-class OutgoingsController extends Controller {
-
-    public $layout = "transport";
+class ExpensesTruckController extends Controller {
 
     public function behaviors() {
         return [
@@ -28,11 +26,11 @@ class OutgoingsController extends Controller {
     }
 
     /**
-     * Lists all Outgoings models.
+     * Lists all ExpensesTruck models.
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new OutgoingsSearch();
+        $searchModel = new ExpensesTruckSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +40,7 @@ class OutgoingsController extends Controller {
     }
 
     /**
-     * Displays a single Outgoings model.
+     * Displays a single ExpensesTruck model.
      * @param integer $id
      * @return mixed
      */
@@ -53,12 +51,12 @@ class OutgoingsController extends Controller {
     }
 
     /**
-     * Creates a new Outgoings model.
+     * Creates a new ExpensesTruck model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new Outgoings();
+        $model = new ExpensesTruck();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -70,7 +68,7 @@ class OutgoingsController extends Controller {
     }
 
     /**
-     * Updates an existing Outgoings model.
+     * Updates an existing ExpensesTruck model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -88,29 +86,27 @@ class OutgoingsController extends Controller {
     }
 
     /**
-     * Deletes an existing Outgoings model.
+     * Deletes an existing ExpensesTruck model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    /*
-      public function actionDelete($id) {
-      $this->findModel($id)->delete();
+    public function actionDelete() {
+        $id = Yii::$app->request->post('id');
+        $this->findModel($id)->delete();
 
-      return $this->redirect(['index']);
-      }
-     * 
-     */
+        //return $this->redirect(['index']);
+    }
 
     /**
-     * Finds the Outgoings model based on its primary key value.
+     * Finds the ExpensesTruck model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Outgoings the loaded model
+     * @return ExpensesTruck the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = Outgoings::findOne($id)) !== null) {
+        if (($model = ExpensesTruck::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -121,29 +117,25 @@ class OutgoingsController extends Controller {
         $order_id = \Yii::$app->request->post('order_id');
         $detail = \Yii::$app->request->post('detail');
         $price = \Yii::$app->request->post('price');
-
+        $truck_license = Yii::$app->request->post('truck_license');
         $columns = array(
             "order_id" => $order_id,
+            "truck_license" => $truck_license,
             "detail" => $detail,
             "price" => $price
         );
 
         \Yii::$app->db->createCommand()
-                ->insert("outgoings", $columns)
+                ->insert("expenses_truck", $columns)
                 ->execute();
     }
 
     public function actionLoad_data() {
         $order_id = \Yii::$app->request->post('order_id');
-        $Model = new Outgoings();
+        $Model = new ExpensesTruck();
         $result = $Model->find()->where(["order_id" => $order_id])->all();
 
         return $this->renderPartial('load', ["result" => $result]);
-    }
-
-    public function actionDelete() {
-        $id = \Yii::$app->request->post('id');
-        $this->findModel($id)->delete();
     }
 
 }
