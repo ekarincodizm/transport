@@ -2,6 +2,8 @@
 
 $(document).ready(function () {
     compensate_calculus();
+    load_outgoings();
+    load_expenses();
 });
 
 //คำนวณรายได้
@@ -191,7 +193,11 @@ function save_fuel() {
     var distance = $("#distance").val();
     var avg_oil = $("#avg_oil").val();
     var compensate = $("#compensate").val();
-
+    
+    if(oil == "" || oil_unit == "" || now_mile == ""){
+        alert("กรอกข้อมูลในเครื่อง * ไม่ครบ");
+        return false;
+    }
     var data = {
         order_id: order_id,
         oil: oil,
@@ -220,6 +226,8 @@ function save_fuel() {
         $("#avg_oil").val(datas.avg_oil);
         $("#compensate").val(datas.compensate);
     }, "json");
+    
+    $("#process_fuel_success").fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
 }
 
 function oil_calculus() {
@@ -277,7 +285,88 @@ function compensate_calculus() {
     } else {
         $("#compensate").val(0);
     }
-
-
 }
 
+
+/**#######ค่าใช้จ่ายอื่น ๆ #######**/
+function load_outgoings() {
+    var url = $("#Url_outgoings").val();
+    var order_id = $("#order_id").val();
+    var data = {order_id: order_id};
+    $.post(url, data, function (datas) {
+        $("#tb_outgoings").html(datas);
+    });
+}
+
+function save_outgoings() {
+    $("#l-ding").show();
+    var url = $("#Url_save_outgoings").val();
+    var order_id = $("#order_id").val();
+    var detail = $("#detail").val();
+    var price = $("#price").val();
+    if (detail == '' || price == '') {
+        $("#l-ding").hide();
+        alert("กรอกข้อมูลไม่ครบ ...");
+        return false;
+    }
+    var data = {
+        order_id: order_id,
+        detail: detail,
+        price: price
+    };
+    $.post(url, data, function (datas) {
+        load_outgoings();
+        $("#detail").val("");
+        $("#price").val("");
+        $("#l-ding").hide();
+    });
+}
+
+/*########### ค่าใช้จ่ายเกี่ยวกับตัวรถ #############*/
+function load_expenses() {
+    var url = $("#Url_expenses").val();
+    var order_id = $("#order_id").val();
+    var data = {order_id: order_id};
+    $.post(url, data, function (datas) {
+        $("#tb_expenses").html(datas);
+    });
+}
+
+function save_expenses() {
+    $("#e-ding").show();
+    var url = $("#Url_save_expenses").val();
+    var order_id = $("#order_id").val();
+    var truck_license = $("#truck_license").val();
+    var detail = $("#truck_detail").val();
+    var price = $("#truck_price").val();
+    if (detail == '' || price == '' || truck_license == '') {
+        $("#e-ding").hide();
+        alert("กรอกข้อมูลไม่ครบ ...");
+        return false;
+    }
+    var data = {
+        order_id: order_id,
+        truck_license: truck_license,
+        detail: detail,
+        price: price
+    };
+    $.post(url, data, function (datas) {
+        load_expenses();
+        $("#truck_detail").val("");
+        $("#truck_price").val("");
+        $("#e-ding").hide();
+    });
+}
+
+
+//บันทึกหมายเหตุ
+function save_message(){
+    var url = $("#Url_save_message").val();
+    var order_id = $("#order_id").val();
+    var message = $("#message").val();
+    var data = {message: message,order_id: order_id};
+    
+    $.post(url,data,function(success){
+        $("#process_success").fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+    });
+}
