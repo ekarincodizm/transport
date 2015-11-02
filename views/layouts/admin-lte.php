@@ -22,7 +22,7 @@ $this->title = "ตงตงทรานสปอร์ต";
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="skin-black-light fixed">
+    <body class="skin-blue-light fixed">
         <?php $this->beginBody() ?>
 
         <div class="wrapper">
@@ -268,7 +268,6 @@ $this->title = "ตงตงทรานสปอร์ต";
                                     </li>
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
                 </nav>
@@ -318,23 +317,21 @@ $this->title = "ตงตงทรานสปอร์ต";
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
+                <section class="content-header" style="margin: 0px;padding: 0px; border-radius: 0px;">
+                    <h4 style="margin: 0px;">
                         <?php
-                        echo Yii::$app->request->baseUrl;
+                        //echo Yii::$app->request->baseUrl;
                         ?>
-                        Dashboard
-                        <small>Control panel</small>
-                    </h1>
-                    <?=
-                    Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    ])
-                    ?>
+                        <?=
+                        Breadcrumbs::widget([
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        ])
+                        ?>
+                    </h4>
                 </section>
 
                 <!-- Main content -->
-                <section class="content">
+                <section class="content" style=" margin-top: 0px; padding-top: 0px;">
                     <?= $content ?>
                 </section><!-- /.content -->
 

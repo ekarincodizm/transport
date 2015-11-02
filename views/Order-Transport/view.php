@@ -1,6 +1,6 @@
 <style type="text/css">
     #set_page{ font-size: 12px; color: #0000ff;}
-    .form-control{font-size: 12px; color: #0000ff;}
+    .form-control{font-size: 12px; /*color: #0000ff;*/}
     .input-group-addon{font-size: 12px; color: #0000ff;}
 </style>
 <?php
@@ -36,9 +36,9 @@ $order_model = new \app\models\OrdersTransport();
 </script>
 
 <div class="row" id="set_page">
-    <div class="col-sm-12 col-md-10 col-lg-10">
+    <div class="col-sm-12 col-md-12 col-lg-12">
 
-        <div class="panel panel-default">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <i class="fa fa-book"></i> ใบปฏิบัติงาน(รถภายใน)
             </div>
@@ -47,7 +47,7 @@ $order_model = new \app\models\OrdersTransport();
                     #ข้อมูลใบปฏิบัติงาน
                     Comment By Kimniyom
                 -->
-                <div class="alert alert-warning" style="padding: 5px;">
+                <div class="well" style="padding: 5px;">
                     <p>
                         <?= Html::a('<i class="fa fa-pencil"></i> แก้ไขใบปฏิบัติงาน', ['update', 'id' => $model->id], ['class' => 'btn btn-default btn-xs']) ?>
                     </p>
@@ -68,15 +68,15 @@ $order_model = new \app\models\OrdersTransport();
                         <div class="col-sm-6 col-md-3 col-lg-3">
                             <?php
                             echo "<label>ทะเบียนรถ </label>";
-                            $rs = $truck_model->find()->where(['id' => $model->truck1])->one();
-                            echo '<label class="label label-success">' . $rs['license_plate'] . '</label>';
+                            $rs_truck = $truck_model->find()->where(['id' => $model->truck1])->one();
+                            echo '<label class="label label-success">' . $rs_truck['license_plate'] . '</label>';
                             ?>
 
                             <?php
                             echo " <label>ทะเบียนพ่วง </label>";
-                            $rs2 = $truck_model->find()->where(['id' => $model->truck2])->one();
-                            if (!empty($rs2)) {
-                                echo '<label class="label label-success">' . $rs2['license_plate'] . '</label>';
+                            $rs_truck2 = $truck_model->find()->where(['id' => $model->truck2])->one();
+                            if (!empty($rs_truck2)) {
+                                echo '<label class="label label-success">' . $rs_truck2['license_plate'] . '</label>';
                             } else {
                                 echo " -";
                             }
@@ -113,7 +113,7 @@ $order_model = new \app\models\OrdersTransport();
                 <!--
                     ###################### END #########################
                 -->
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">รายละเอียดก่อนปล่อยรถ</div>
                     <div class="panel-body">
                         <div class="row">
@@ -146,7 +146,7 @@ $order_model = new \app\models\OrdersTransport();
                     <div class="tab-content" style="background: #FFF; border: #dedcdc solid 1px; border-top: 0px; padding: 5px;">
                         <!-- ฟอร์มกรอกขาไป -->
                         <div role="tabpanel" class="tab-pane active" id="home">
-                            <div class="panel panel-success">
+                            <div class="panel panel-info">
                                 <div class="panel-heading">รายการใบสั่งงาน</div>
                                 <div class="panel-body">
                                     <div class="row">
@@ -312,6 +312,8 @@ $order_model = new \app\models\OrdersTransport();
 
                                     <!-- Table -->
                                     <div class="table-responsive">
+                                        <a href="<?php echo Url::to(['reportall', "id" => $model->id]) ?>" target="_blank">
+                                            <button type="button" class="btn btn-default" style=" border-radius: 0px;"><i class="fa fa-print"></i> พิมพ์ใบสั่งงานทั้งหมด</button></a>
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -388,14 +390,14 @@ $order_model = new \app\models\OrdersTransport();
                                     <div class="well well-sm">
                                         <div class="row">
                                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                                น้ำมันเติม
+                                                น้ำมันเติม *
                                                 <div class="input-group">
                                                     <input type="text" id="oil" name="oil" class="form-control" onkeyup="oil_calculus()" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" value="<?php echo $model->oil; ?>"/>
                                                     <div class="input-group-addon">ลิตร</div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                                ลิตรละ
+                                                ลิตรละ *
                                                 <div class="input-group">
                                                     <input type="text" id="oil_unit" name="oil_unit" class="form-control" onkeyup="oil_calculus()" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" value="<?php echo $model->oil_unit; ?>"/>
                                                     <div class="input-group-addon">บาท</div>
@@ -452,7 +454,7 @@ $order_model = new \app\models\OrdersTransport();
                                             <div class="col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                        <div class="input-group-addon">เลขไมล์เที่ยวนี้</div>
+                                                        <div class="input-group-addon">เลขไมล์เที่ยวนี้ *</div>
                                                         <input type="text" id="now_mile" name="now_mile" class="form-control" value="<?php echo $model->now_mile; ?>" placeholder="... ตัวเลขเท่านั้น"
                                                                onkeypress="return chkNumber()" onkeyup="distance_calculus()"/>
                                                         <div class="input-group-addon">บาท</div>
@@ -507,21 +509,27 @@ $order_model = new \app\models\OrdersTransport();
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <button type="button" class="btn btn-success btn-block" onclick="save_fuel()"><i class="fa fa-save"></i> บันทึกเติมน้ำมัน</button>
+                                    <button type="button" class="btn btn-success" onclick="save_fuel()"><i class="fa fa-save"></i> บันทึกเติมน้ำมัน</button>
+                                    <span id="process_fuel_success" style="display: none;"><i class="fa fa-check text-green"></i> บันทึกข้อมูลแล้ว ...</span>
                                 </div>
                             </div>
                             <hr/>
                             <div class="row">
-                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="panel panel-primary">
-                                        <div class="panel-heading">ค่าใช้จ่ายอื่น ๆ</div>
+                                        <div class="panel-heading">
+                                            ค่าใช้จ่ายอื่น ๆ
+                                            <div class="pull-right">
+                                                <i class="fa fa-refresh fa-spin" id="l-ding" style="display:none;"></i>
+                                            </div>
+                                        </div>
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="input-group-addon">รายการ</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                            <input type="text" id="detail" name="detail" class="form-control"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -531,41 +539,91 @@ $order_model = new \app\models\OrdersTransport();
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="input-group-addon">จำนวนเงิน</div>
-                                                            <input type="text" id="login_email" name="login_email" class="form-control"/>
+                                                            <input type="text" id="price" name="price" class="form-control" onkeypress="return chkNumber()"/>
                                                             <div class="input-group-addon">บาท</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 col-md-3 col-lg-3" style="text-align: center;">
-                                                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-save"></i> บันทึก</button>
+                                                    <button type="button" class="btn btn-success btn-block"
+                                                            onclick="save_outgoings()"><i class="fa fa-save"></i> บันทึก</button>
                                                 </div>
                                             </div>
 
                                             <br/>
 
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>รายการ</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td style="text-align: center;">รวม</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                            <!-- แสดงข้อมูลรายจ่าย อื่น ๆ -->
+                                            <div id="tb_outgoings">
+                                                <!-- Loading (remove the following to stop the loading)-->
+
+                                            </div>
 
                                         </div>
                                     </div>
+
+                                </div>
+
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <i class="fa fa-cogs"></i> ค่าใช้จ่ายเกี่ยวกับรถ
+                                            <div class="pull-right">
+                                                <i class="fa fa-refresh fa-spin" id="e-ding" style="display:none;"></i>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">ทะเบียนรถ</div>
+                                                            <select id="truck_license" class="form-control" style="border-radius: 0px;">
+                                                                <option value="<?php echo $rs_truck['license_plate']; ?>"><?php echo $rs_truck['license_plate']; ?></option>
+                                                                <?php if (!empty($rs_truck2)) { ?>
+                                                                    <option value="<?php echo $rs_truck2['license_plate']; ?>"><?php echo $rs_truck2['license_plate']; ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">รายการ</div>
+                                                            <input type="text" id="truck_detail" name="truck_detail" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-9 col-lg-9">  
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">จำนวนเงิน</div>
+                                                            <input type="text" id="truck_price" name="truck_price" class="form-control" onkeypress="return chkNumber()"/>
+                                                            <div class="input-group-addon">บาท</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3 col-lg-3" style="text-align: center;">
+                                                    <button type="button" class="btn btn-success btn-block"
+                                                            onclick="save_expenses()"><i class="fa fa-save"></i> บันทึก</button>
+                                                </div>
+                                            </div>
+
+                                            <br/>
+
+                                            <!-- แสดงข้อมูลรายจ่าย เกี่ยวกับตัวรถ -->
+                                            <div id="tb_expenses">
+                                                <!-- Loading (remove the following to stop the loading)-->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -573,11 +631,13 @@ $order_model = new \app\models\OrdersTransport();
                             <div class="panel panel-danger">
                                 <div class="panel-heading">ข้อความ</div>
                                 <div class="panel-body">
-                                    <textarea class="form-control" rows="5"></textarea>
+                                    <textarea class="form-control" rows="5" id="message"><?php echo $model->message; ?></textarea>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary">บันทึกข้อมูล</button>
-                            <button type="button" class="btn btn-danger">ออกจากหน้านี้</button>
+                            <div id="process_success" style=" display: none;"><i class="fa fa-check fa-2x text-green"></i> บันทึกข้อมูลแล้ว ...</div>
+                            <button type="button" class="btn btn-primary" onclick="save_message();"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+                            <a href="<?php echo Yii::$app->getHomeUrl(); ?>">
+                                <button type="button" class="btn btn-danger"><i class="fa fa-sign-out"></i> ออกจากหน้านี้</button></a>
                         </div>
                         <!-- ฟอร์มกรอกขากลับ -->
                         <div role="tabpanel" class="tab-pane" id="profile">2</div>
@@ -588,12 +648,6 @@ $order_model = new \app\models\OrdersTransport();
         </div>
     </div> <!--- END CONTENT -->
 
-    <div class="col-sm-12 col-md-2 col-lg-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">ใบสั่งงาน</div>
-        </div>
-    </div> <!-- End Panel Right -->
-
 </div><!-- End Row -->
 
 <!-- SET TEXT BOX VALUE HIDDEN -->
@@ -601,3 +655,9 @@ $order_model = new \app\models\OrdersTransport();
 <input type="hidden" id="Url_save_before_release" value="<?php echo Url::to(['save_before_release']) ?>"/>
 <input type="hidden" id="Url_save_assign" value="<?php echo Url::to(['save_assign']) ?>"/>
 <input type="hidden" id="Url_save_fuel" value="<?php echo Url::to(['save_fuel']) ?>"/>
+<input type="hidden" id="Url_outgoings" value="<?php echo Url::to(['outgoings/load_data']) ?>"/>
+<input type="hidden" id="Url_save_outgoings" value="<?php echo Url::to(['outgoings/save']) ?>"/>
+<input type="hidden" id="Url_expenses" value="<?php echo Url::to(['expenses-truck/load_data']) ?>"/>
+<input type="hidden" id="Url_save_expenses" value="<?php echo Url::to(['expenses-truck/save']) ?>"/>
+<input type="hidden" id="Url_save_message" value="<?php echo Url::to(['save_message']) ?>"/>
+

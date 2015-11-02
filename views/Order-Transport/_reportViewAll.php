@@ -84,68 +84,72 @@ $producttype_model = new app\models\ProductType();
     </div>
 </div>
 
-<div style="float: right; text-align: right;">
-    เลทที่ใบสั่งงาน <?php echo $assign->assign_id; ?>
-</div>
+<?php foreach ($assigns as $assign): ?>
+    <div style="float: right; text-align: right;">
+        เลทที่ใบสั่งงาน <?php echo $assign->assign_id; ?>
+    </div>
 
-<div class="well" style=" border: #cccccc solid 1px; padding: 5px; border-bottom: none;">
-    <b>วันที่ขน :</b>  <?php echo $config->thaidate($assign->transport_date); ?> <br/>
-    <b>เส้นทาง : </b>
-    <?php echo $changwat_model->find()->where(['changwat_id' => $assign->changwat_start])->one()->changwat_name; ?>
-    -
-    <?php echo $changwat_model->find()->where(['changwat_id' => $assign->changwat_end])->one()->changwat_name; ?><br/>
-    <b>ลูกค้าต้นทาง : </b>
-    <?php
-    $cus_s = $customer_model->find()->where(['cus_id' => $assign->cus_start])->one();
-    echo $cus_s->company;
-    ?>
-    <b>ที่อยู่ :</b> <?php echo $cus_s->address; ?><br/>
-    <b>ลูกค้าปลายทาง : </b>
-    <?php
-    $cus_e = $customer_model->find()->where(['cus_id' => $assign->cus_end])->one();
-    echo $cus_e->company;
-    ?> 
-    <b>ที่อยู่ : </b><?php echo $cus_e->address; ?>
-</div>
+    <div class="well" style=" border: #cccccc solid 1px; padding: 5px; border-bottom: none;">
+        <b>วันที่ขน :</b>  <?php echo $config->thaidate($assign->transport_date); ?> <br/>
+        <b>เส้นทาง : </b>
+        <?php echo $changwat_model->find()->where(['changwat_id' => $assign->changwat_start])->one()->changwat_name; ?>
+        -
+        <?php echo $changwat_model->find()->where(['changwat_id' => $assign->changwat_end])->one()->changwat_name; ?><br/>
+        <b>ลูกค้าต้นทาง : </b>
+        <?php
+        $cus_s = $customer_model->find()->where(['cus_id' => $assign->cus_start])->one();
+        echo $cus_s->company;
+        ?>
+        <b>ที่อยู่ :</b> <?php echo $cus_s->address; ?><br/>
+        <b>ลูกค้าปลายทาง : </b>
+        <?php
+        $cus_e = $customer_model->find()->where(['cus_id' => $assign->cus_end])->one();
+        echo $cus_e->company;
+        ?> 
+        <b>ที่อยู่ : </b><?php echo $cus_e->address; ?>
+    </div>
 
-<table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
-    <tr>
-        <th>#</th>
-        <th style="text-align:center;">รายการ</th>
-        <th style="text-align:center;">น้ำหนัก(ตัน)</th>
-        <th style="text-align:center;">ราคา</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign->product_type])->one()->product_type; ?></td>
-        <td style="text-align: center;"><?php echo $assign->weigh; ?></td>
-        <td style="text-align: right;"> <?php echo number_format($assign->income, 2); ?></td>
-    </tr>
-    <tr style="font-weight: bold;">
-        <td colspan="3" style="text-align:center;"><b>รวม</b></td>
-        <td style="text-align: right;"><b><?php echo number_format($assign->income, 2); ?></b></td>
-    </tr>
+    <table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
+        <tr>
+            <th>#</th>
+            <th style="text-align:center;">รายการ</th>
+            <th style="text-align:center;">น้ำหนัก(ตัน)</th>
+            <th style="text-align:center;">ราคา</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign->product_type])->one()->product_type; ?></td>
+            <td style="text-align: center;"><?php echo $assign->weigh; ?></td>
+            <td style="text-align: right;"> <?php echo number_format($assign->income, 2); ?></td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td colspan="3" style="text-align:center;"><b>รวม</b></td>
+            <td style="text-align: right;"><b><?php echo number_format($assign->income, 2); ?></b></td>
+        </tr>
 
-</table>
-
+    </table>
+    <br/>
+<?php endforeach; ?>
 <!--
     ###################### END #########################
 -->
 
-<!-- ผู้รับเงิน -->
-<div style="position: absolute; bottom: 100px; left: 50px; width: 40%; border-bottom: #666666 dotted 1px;">
+<div style="position:relative; width: 100%; margin-top: 80px;">
+    <!-- ผู้รับเงิน -->
+    <div style="position: absolute; bottom: 100px; left: 0px; width: 40%; border-bottom: #666666 dotted 1px; float: left;">
 
-</div>
+    </div>
+    
+    <!-- ผู้อนุมัติ -->
+    <div style="position: absolute; bottom: 100px; right: 0px; width: 40%; border-bottom: #666666 dotted 1px; float: right;"></div>
 
-<div style="position: absolute; bottom: 50px; left: 50px; width: 40%; text-align: center;">
-    <b>ผู้รับเงิน</b>
-</div>
+    <div style="position: absolute; bottom: 50px; right: 0px; width: 40%; text-align: center; float: right; margin-top: 10px;">
+        <b>ผู้อนุมัติ</b>
+    </div>
+    
+    <div style="position: absolute; bottom: 50px; left: 0px; width: 40%; text-align: center; float: left; margin-top: 10px;">
+        <b>ผู้รับเงิน</b>
+    </div
 
-<!-- ผู้อนุมัติ -->
-<div style="position: absolute; bottom: 100px; right: 50px; width: 40%; border-bottom: #666666 dotted 1px;">
-
-</div>
-
-<div style="position: absolute; bottom: 50px; right: 50px; width: 40%; text-align: center;">
-    <b>ผู้อนุมัติ</b>
+    
 </div>

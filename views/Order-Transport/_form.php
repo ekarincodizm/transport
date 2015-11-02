@@ -113,12 +113,12 @@ use kartik\date\DatePicker;
     ]);
     ?>
 
-    <?= $form->field($model, 'create_date')->textInput() ?>
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="col-sm-_3 col-md-3 col-lg-3"></div>
+        <div class="col-sm-9 col-md-9 col-lg-9">
+            <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-save"></i> บันทึกข้อมูล' : '<i class="fa fa-pencil"></i>แก้ไข', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
