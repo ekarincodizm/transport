@@ -38,11 +38,15 @@ $order_model = new \app\models\OrdersTransport();
 <div class="row" id="set_page">
     <div class="col-sm-12 col-md-12 col-lg-12">
 
-        <div class="panel panel-info">
-            <div class="panel-heading">
+        <div class="box box-info">
+            <div class="box-header with-border">
                 <i class="fa fa-book"></i> ใบปฏิบัติงาน(รถภายใน)
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-default btn-box-tool" onclick="conclude()">สรุป(รับ - จ่าย)</i>
+                    </button>
+                </div>
             </div>
-            <div class="panel-body">
+            <div class="box-body">
                 <!--
                     #ข้อมูลใบปฏิบัติงาน
                     Comment By Kimniyom
@@ -355,7 +359,6 @@ $order_model = new \app\models\OrdersTransport();
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo Url::to(['report', "id" => $model->id, "assign_id" => $rs->assign_id]) ?>" target="_blank">
                                                                 <button type="button" class="btn btn-info btn-sm"><i class="fa fa-print"></i></button></a>
-                                                            <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></button>
                                                             <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                                         </td>
                                                     </tr>
@@ -650,6 +653,81 @@ $order_model = new \app\models\OrdersTransport();
 
 </div><!-- End Row -->
 
+
+
+<div class="modal fade" id="conclude">
+    <div class="modal-dialog">
+        <div class="modal-content" style=" background: #e6eff2;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <!--- สรุป รับ - จ่าย -->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Messages</span>
+                                <span class="info-box-number">1,410</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Bookmarks</span>
+                                <span class="info-box-number">410</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Uploads</span>
+                                <span class="info-box-number">13,648</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Likes</span>
+                                <span class="info-box-number">93,139</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- SET TEXT BOX VALUE HIDDEN -->
 <input type="hidden" id="order_id" value="<?php echo $model->order_id; ?>"/>
 <input type="hidden" id="Url_save_before_release" value="<?php echo Url::to(['save_before_release']) ?>"/>
@@ -660,4 +738,11 @@ $order_model = new \app\models\OrdersTransport();
 <input type="hidden" id="Url_expenses" value="<?php echo Url::to(['expenses-truck/load_data']) ?>"/>
 <input type="hidden" id="Url_save_expenses" value="<?php echo Url::to(['expenses-truck/save']) ?>"/>
 <input type="hidden" id="Url_save_message" value="<?php echo Url::to(['save_message']) ?>"/>
+
+
+<script type="text/javascript">
+    function conclude() {
+        $("#conclude").modal();
+    }
+</script>
 
