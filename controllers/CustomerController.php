@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
  */
 class CustomerController extends Controller {
 
-    public $layout = "transport";
+    public $layout = "admin-lte";
 
     public function behaviors() {
         return [
