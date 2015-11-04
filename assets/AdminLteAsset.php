@@ -19,6 +19,7 @@ class AdminLteAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'web/themes/AdminLTE/css/system.css',
         'web/themes/AdminLTE/bootstrap/css/bootstrap.min.css',
         'web/themes/transport/font-awesome/css/font-awesome.css',
         'web/themes/AdminLTE/dist/css/AdminLTE.min.css',
@@ -26,6 +27,8 @@ class AdminLteAsset extends AssetBundle {
         'web/themes/AdminLTE/plugins/daterangepicker/daterangepicker-bs3.css',
         'web/themes/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css',
         'web/themes/AdminLTE/plugins/datatables/dataTables.bootstrap.css',
+        'web/croppic-master/assets/css/main.css',
+        'web/croppic-master/assets/css/croppic.css',
     ];
     public $js = [
 
@@ -42,6 +45,8 @@ class AdminLteAsset extends AssetBundle {
         'web/themes/AdminLTE/plugins/iCheck/icheck.min.js',
         'web/themes/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js',
         'web/themes/AdminLTE/plugins/chartjs/Chart.min.js',
+        'web/croppic-master/assets/js/jquery.mousewheel.min.js',
+        'web/croppic-master/croppic.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
