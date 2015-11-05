@@ -275,4 +275,12 @@ class DriverController extends Controller {
         print json_encode($response);
     }
 
+    public function actionHistory() {
+        $driver = new Driver();
+        $driver_id = Yii::$app->request->post('driver_id');
+        $data['result'] = $driver->history($driver_id);
+
+        return $this->renderPartial('history', $data);
+    }
+
 }

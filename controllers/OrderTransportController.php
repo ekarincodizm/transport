@@ -199,8 +199,7 @@ class OrderTransportController extends Controller {
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($assign_id . ".pdf", "I");
     }
-    
-    
+
     public function actionReportall($id = null) {
 
         $order_id = OrdersTransport::find()->where(['id' => $id])->one()->order_id;
@@ -251,6 +250,13 @@ class OrderTransportController extends Controller {
 
         Yii::$app->db->createCommand()
                 ->update("orders_transport", $columns, "order_id = '$order_id' ")
+                ->execute();
+    }
+
+    public function actionDelete_assign() {
+        $id = Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+                ->delete("assign", "id = '$id'")
                 ->execute();
     }
 
