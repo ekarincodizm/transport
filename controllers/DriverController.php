@@ -124,7 +124,7 @@ class DriverController extends Controller {
 
     public function actionImg_save_to_file() {
         //$imagePath = "temp/";
-        $imagePath = 'web/uploads/temp/'; // Relative to the root
+        $imagePath = './web/uploads/temp/'; // Relative to the root
         $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
         $temp = explode(".", $_FILES["img"]["name"]);
         $extension = end($temp);

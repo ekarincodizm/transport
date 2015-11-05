@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+use yii\helpers\Url;
 
 /**
  * OrderTransportController implements the CRUD actions for OrdersTransport model.
@@ -183,23 +184,26 @@ class OrderTransportController extends Controller {
     }
 
     public function actionReport($id = null, $assign_id = null) {
-
+        //$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
+        //require $url;
         //$order_id = OrdersTransport::find()->where(['id' => $id])->one();
         $assign_model = new \app\models\Assign();
         $assign = $assign_model->find()->where(['assign_id' => $assign_id])->one();
+        $model = $this->findModel($id);
 
-        $content = $this->renderPartial('_reportView', [
-            'model' => $this->findModel($id),
-            'assign_id' => $assign_id,
+        $page = $this->renderPartial('_reportView', [
+            'model' => $model,
             'assign' => $assign,
+            'assign_id' => $assign_id,
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
-        $mpdf->WriteHTML($content);
+        $mpdf->WriteHTML($page);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($assign_id . ".pdf", "I");
     }
 
+   
     public function actionReportall($id = null) {
 
         $order_id = OrdersTransport::find()->where(['id' => $id])->one()->order_id;

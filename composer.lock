@@ -811,12 +811,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-activeform.git",
-                "reference": "076f49747309f30658085eb008276ecd3370b151"
+                "reference": "1ccb21990894bf99cac2ab58605055b40ed18a7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/076f49747309f30658085eb008276ecd3370b151",
-                "reference": "076f49747309f30658085eb008276ecd3370b151",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/1ccb21990894bf99cac2ab58605055b40ed18a7b",
+                "reference": "1ccb21990894bf99cac2ab58605055b40ed18a7b",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-10-22 14:36:24"
+            "time": "2015-11-01 10:14:48"
         },
         {
             "name": "kartik-v/yii2-widget-affix",
@@ -1051,16 +1051,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datetimepicker.git",
-                "reference": "3e59cc0f074df3b883c045395c6814506e4db7c6"
+                "reference": "2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/3e59cc0f074df3b883c045395c6814506e4db7c6",
-                "reference": "3e59cc0f074df3b883c045395c6814506e4db7c6",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe",
+                "reference": "2ad71f7a8f4fdd03b999c4f50257f42b2c1b74fe",
                 "shasum": ""
             },
             "require": {
@@ -1074,7 +1074,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD 3-Clause"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -1096,7 +1096,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-01-25 16:36:55"
+            "time": "2015-11-04 18:46:05"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
