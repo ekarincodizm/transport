@@ -60,7 +60,7 @@ $this->title = "ตงตงทรานสปอร์ต";
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo Url::to('@web/web/images/A_LOGO_w.png'); ?>" class="user-image" alt="User Image" />
+                                    <img src="<?php echo Url::to('@web/web/images/A_LOGO.png'); ?>" class="user-image" alt="User Image" />
                                     <span class="hidden-xs">The Assembler</span>
                                 </a>
                                 <ul class="dropdown-menu">
