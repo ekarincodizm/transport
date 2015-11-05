@@ -34,7 +34,7 @@ class Driver extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['driver_license_expire', 'name', 'lname', 'card_id', 'address', 'tel1', 'driver_license_id'], 'required'],
-            [['driver_license_expire', 'create_date', 'd_update','driver_id'], 'string'],
+            [['driver_license_expire', 'create_date', 'd_update', 'driver_id'], 'string'],
             [['name', 'lname', 'images'], 'string', 'max' => 100],
             [['card_id', 'tel1', 'tel2', 'driver_license_id'], 'number'],
             [['card_id'], 'string', 'length' => [13, 13]],
@@ -60,6 +60,16 @@ class Driver extends \yii\db\ActiveRecord {
             'create_date' => 'วันที่บันทึก',
             'images' => 'รูปภาพ',
         ];
+    }
+
+    function history($driver_id = null) {
+        $query = "SELECT transport_date,a.assign_id,a.cus_start,a.cus_end,a.changwat_start,a.changwat_end,
+                    IF(LEFT(a.allowance_driver1,5) = '$driver_id',TRIM(SUBSTR(a.allowance_driver1,7,10)),TRIM(SUBSTR(a.allowance_driver2,7,10))) AS allowance_driver
+                    FROM assign a
+                    WHERE LEFT(a.allowance_driver1,5) = '$driver_id' OR LEFT(a.allowance_driver2,5) = '$driver_id' ";
+
+        $result = Yii::$app->db->createCommand($query)->queryAll();
+        return $result;
     }
 
 }
