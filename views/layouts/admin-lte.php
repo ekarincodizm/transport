@@ -60,38 +60,22 @@ $this->title = "ตงตงทรานสปอร์ต";
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo Url::to('@web/web/themes/AdminLTE/dist/img/user2-160x160.jpg'); ?>" class="user-image" alt="User Image" />
-                                    <span class="hidden-xs">Alexander Pierce</span>
+                                    <img src="<?php echo Url::to('@web/web/images/A_LOGO_w.png'); ?>" class="user-image" alt="User Image" />
+                                    <span class="hidden-xs">The Assembler</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="<?php echo Url::to('@web/web/themes/AdminLTE/dist/img/user2-160x160.jpg'); ?>" class="img-circle" alt="User Image" />
+                                        <img src="<?php echo Url::to('@web/web/images/A_LOGO.png'); ?>" class="img-circle" alt="User Image" />
                                         <p>
-                                            Alexander Pierce - Web Developer
-                                            <small>Member since Nov. 2012</small>
+                                            Developer
+                                            <small>The Assembler Theme</small>
                                         </p>
                                     </li>
-                                    <!-- Menu Body -->
-                                    <li class="user-body">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </li>
+
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                        </div>
-                                        <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                        </div>
+                                        <a href="http://www.theassembler.net" target="_black" class="btn btn-default btn-flat btn-block">Developer</a>                                        
                                     </li>
                                 </ul>
                             </li>
@@ -103,28 +87,7 @@ $this->title = "ตงตงทรานสปอร์ต";
             <aside class="main-sidebar" id="bg-sidebar">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
-                    <!-- Sidebar user panel -->
-                    <div class="user-panel">
-                        <div class="pull-left image">
-                            <img src="<?php echo Url::to('@web/web/themes/AdminLTE/dist/img/user2-160x160.jpg'); ?>" class="img-circle" alt="User Image" />
-                        </div>
-                        <div class="pull-left info">
-                            <p>Alexander Pierce</p>
-                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                        </div>
-                    </div>
-                    <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search..." />
-                            <span class="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
-
 
                     <ul class="sidebar-menu">
                         <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
@@ -134,6 +97,9 @@ $this->title = "ตงตงทรานสปอร์ต";
                         <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> ข้อมูลลูกค้า</a></li>
                         <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> ประเภทรถ</a></li>
                         <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> ประเภทสินค้า</a></li>
+                        <li class="header"><i class="fa fa-book"></i> รายงาน</li>
+                        <li><a href="#"><i class="fa fa-bar-chart text-danger"></i> รับ - จ่าย(รายปี)</a></li>
+                        <li><a href="#"><i class="fa fa-bar-chart text-success"></i> รับ - จ่าย(รายเดือน)</a></li>
                     </ul>
 
 

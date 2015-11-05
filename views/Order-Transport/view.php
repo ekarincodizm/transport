@@ -359,7 +359,7 @@ $order_model = new \app\models\OrdersTransport();
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo Url::to(['report', "id" => $model->id, "assign_id" => $rs->assign_id]) ?>" target="_blank">
                                                                 <button type="button" class="btn btn-info btn-sm"><i class="fa fa-print"></i></button></a>
-                                                            <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                            <button type="button" class="btn btn-danger btn-sm" onclick="delete_assign('<?php echo $rs->id ?>')"><i class="fa fa-trash"></i></button>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -660,18 +660,18 @@ $order_model = new \app\models\OrdersTransport();
         <div class="modal-content" style=" background: #e6eff2;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title">สรุป (รับ - จ่าย)</h4>
             </div>
             <div class="modal-body">
                 <!--- สรุป รับ - จ่าย -->
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+                            <span class="info-box-icon bg-green"><i class="fa fa-plus-circle"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Messages</span>
-                                <span class="info-box-number">1,410</span>
+                                <span class="info-box-text">รายได้</span>
+                                <span class="info-box-number" id="income_all"></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -680,11 +680,11 @@ $order_model = new \app\models\OrdersTransport();
                     <!-- /.col -->
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
+                            <span class="info-box-icon bg-yellow"><i class="fa fa-minus-circle"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Bookmarks</span>
-                                <span class="info-box-number">410</span>
+                                <span class="info-box-text">รายจ่าย</span>
+                                <span class="info-box-number" id="expenses_all"></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -693,24 +693,14 @@ $order_model = new \app\models\OrdersTransport();
                     <!-- /.col -->
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
+                            <span class="info-box-icon bg-red">
+                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-minus"></i>
+                            </span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Uploads</span>
-                                <span class="info-box-number">13,648</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Likes</span>
-                                <span class="info-box-number">93,139</span>
+                                <span class="info-box-text">คงเหลือ</span>
+                                <span class="info-box-number" id="total"></span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -722,7 +712,6 @@ $order_model = new \app\models\OrdersTransport();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -740,9 +729,38 @@ $order_model = new \app\models\OrdersTransport();
 <input type="hidden" id="Url_save_message" value="<?php echo Url::to(['save_message']) ?>"/>
 
 
+<!-- รายรับ - รายจ่าย เที่ยวนี้ -->
 <script type="text/javascript">
     function conclude() {
+        var income = parseInt(<?php echo $sum[1] ?>);//รายรับ
+
+        var allowance = parseInt(<?php echo $sum[0] ?>);//เบี้ยเลี้ยง
+        var oil = parseInt($("#oil_price").val());//ค่าน้ำมัน
+        var gas = parseInt($("#gas_price").val());//ค่าก๊าซ
+
+        var expenses = parseInt($("#expenese_total").val());
+        var expenses_truck = parseInt($("#expenese_truck_total").val());
+
+        var expenses_total = (allowance + oil + gas + expenses + expenses_truck);
+        var profit = (parseInt(income) - parseInt(expenses_total));
+        $("#income_all").text(accounting.formatNumber(income, 2));
+        $("#expenses_all").text(accounting.formatNumber(expenses_total, 2));
+        $("#total").text(accounting.formatNumber(profit, 2));
+
         $("#conclude").modal();
+    }
+
+    function delete_assign(id) {
+        var r = confirm("คุณแน่ใจหรือไม่ ...?");
+        if (r == true) {
+            var url = "<?php echo Url::to(['order-transport/delete_assign']) ?>";
+            var data = {id: id};
+
+            $.post(url, data, function (success) {
+                window.location.reload();
+                return false;
+            });
+        }
     }
 </script>
 

@@ -36,7 +36,10 @@ use yii\helpers\Url;
     <tfoot>
         <tr style=" color: #ff3300; font-weight: bold;">
             <td colspan="3" style="text-align: center;">รวม</td>
-            <td style="text-align: right;"><?php echo number_format($sum); ?></td>
+            <td style="text-align: right;">
+                <input type="hidden" id="expenese_truck_total" value="<?php echo $sum; ?>"/>
+                <?php echo number_format($sum); ?>
+            </td>
             <td></td>
         </tr>
     </tfoot>

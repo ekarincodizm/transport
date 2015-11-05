@@ -25,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">ข้อมูลทั่วไป</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">ประวัติการวิ่งรถ</a></li>
-            <li role="presentation"><a href="#chart" aria-controls="chart" role="tab" data-toggle="tab">ภาพรวม</a></li>
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-user"></i> ข้อมูลทั่วไป</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
+            <li role="presentation"><a href="#chart" aria-controls="chart" role="tab" data-toggle="tab"><i class="fa fa-bar-chart"></i> ภาพรวม</a></li>
 
         </ul>
 
@@ -90,8 +90,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="profile">2</div>
-            <div role="tabpanel" class="tab-pane" id="chart">3</div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+                <div id="history"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="chart">
+                <div class="box box-danger"></div>
+            </div>
         </div>
 
     </div>
@@ -141,3 +145,16 @@ $this->registerJs(
 "
 );
 ?>
+
+
+<script type="text/javascript">
+    function get_history(driver_id){
+        $("#history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['history'])?>";
+        var data = {driver_id: driver_id};
+        
+        $.post(url,data,function(result){
+            $("#history").html(result);
+        });
+    }
+    </script>

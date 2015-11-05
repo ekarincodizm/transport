@@ -22,7 +22,9 @@ use yii\helpers\Url;
             <tr>
                 <td><?php echo $i; ?></td>
                 <td><?php echo $rs->detail; ?></td>
-                <td style="text-align: right;"><?php echo number_format($rs->price); ?></td>
+                <td style="text-align: right;">
+                    <?php echo number_format($rs->price); ?>
+                </td>
                 <td>
         <center>
             <a href="javascript:delete_outgoings('<?php echo $id ?>')" title="ลบ">
@@ -36,7 +38,10 @@ use yii\helpers\Url;
 <tfoot>
     <tr style=" color: #ff3300; font-weight: bold;">
         <td colspan="2" style="text-align: center;">รวม</td>
-        <td style="text-align: right;"><?php echo number_format($sum); ?></td>
+        <td style="text-align: right;">
+            <input type="hidden" id="expenese_total" value="<?php echo $sum;?>"/>
+            <?php echo number_format($sum); ?>
+        </td>
         <td></td>
     </tr>
 </tfoot>
