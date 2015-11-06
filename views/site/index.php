@@ -18,27 +18,37 @@ $this->title = 'ตงตงทรานสปอร์ต';
 <br/>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
         <a href="<?php echo Url::to(['order-transport/index']) ?>">
-            <button type="button" class="btn btn-default" style=" width: 100%;">
+            <div class="thumbnail" id="btn">
                 <img src="<?php echo Url::to('@web/web/images/data-transport-icon.png') ?>"/>
-                <h3>ขนส่งโดยใช้รถภายใน</h3>
-                <h4>(ใบงานการขนส่งโดยใช้รถของบริษัท)</h4>   
-            </button>
+                <div class="caption" style=" text-align: center;">
+                    <h3>ขนส่งโดยใช้รถภายใน</h3>
+                    <p>(ใบงานการขนส่งโดยใช้รถของบริษัท)</p>   
+                </div>
+            </div>
         </a>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <button type="button" class="btn btn-default" style=" width: 100%;">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="thumbnail" id="btn">
             <img src="<?php echo Url::to('@web/web/images/company-building-icon.png') ?>"/>
-            <h3>ขนส่งโดยใช้รถบริษัทข้างนอก</h3>
-            <h4>(ใบงานการขนส่งโดยใช้รถของบริษัทภายนอก)</h4>
-        </button>
+            <div class="caption" style=" text-align: center;">
+                <h3>ขนส่งโดยใช้รถบริษัทข้างนอก</h3>
+                <p>(ใบงานการขนส่งโดยใช้รถของบริษัทภายนอก)</p>
+            </div>
+        </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style=" margin-top: 30px;">
-        <button type="button" class="btn btn-default" style=" width: 100%;">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="thumbnail" id="btn">
             <img src="<?php echo Url::to('@web/web/images/Car-Repair-icon.png') ?>"/>
-            <h3>ซ่อมบำรุง</h3>
-            <h4>(บันทึกรายการซ่อมบำรุงรถ)</h4>
-        </button>
+            <div class="caption">
+                <h3>ซ่อมบำรุง</h3>
+                <p>(บันทึกรายการซ่อมบำรุงรถ)</p>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+

@@ -32,9 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'cus_id',
             'company',
+            'tax_number',
             'address',
             'tel',
             'agent',
+            'detail',
             'create_date',
         ],
     ])

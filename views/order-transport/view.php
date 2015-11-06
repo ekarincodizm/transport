@@ -42,8 +42,8 @@ $order_model = new \app\models\OrdersTransport();
             <div class="box-header with-border">
                 <i class="fa fa-book"></i> ใบปฏิบัติงาน(รถภายใน)
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-default btn-box-tool" onclick="conclude()">สรุป(รับ - จ่าย)</i>
-                    </button>
+                    <button type="button" class="btn btn-default btn-box-tool" onclick="conclude()"><i class="fa fa-newspaper-o"></i> ออกบิลใบแจ้งหนี้</button>
+                    <button type="button" class="btn btn-default btn-box-tool" onclick="conclude()"><i class="fa fa-list-alt"></i> สรุป(รับ - จ่าย)</button>
                 </div>
             </div>
             <div class="box-body">
@@ -51,75 +51,100 @@ $order_model = new \app\models\OrdersTransport();
                     #ข้อมูลใบปฏิบัติงาน
                     Comment By Kimniyom
                 -->
-                <div class="well" style="padding: 5px;">
+                <div class="box box-default" style="padding: 5px;">
                     <p>
                         <?= Html::a('<i class="fa fa-pencil"></i> แก้ไขใบปฏิบัติงาน', ['update', 'id' => $model->id], ['class' => 'btn btn-default btn-xs']) ?>
                     </p>
                     <div class="row">
-                        <div class="col-sm-6 col-md-3 col-lg-3"><label>ใบบฏิบัติงาน</label> <label class="label label-success"><?php echo $model->order_id; ?></label></div>
-                        <div class="col-sm-6 col-md-3 col-lg-3">
-                            <label>วันที่ไป</label> 
-                            <label class="label label-success">
-                                <?php echo $config->thaidate($model->order_date_start); ?>
-                            </label>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-book"></i> ใบบฏิบัติงาน</div>
+                                    <input type="text" class="form-control" value="<?php echo $model->order_id; ?>" readonly="readonly"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3">
-                            <label>วันที่กลับ</label> 
-                            <label class="label label-success">
-                                <?php echo $config->thaidate($model->order_date_end); ?>
-                            </label>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-calendar"></i> วันที่ไป</div>
+                                    <input type="text" class="form-control" value="<?php echo $config->thaidate($model->order_date_start); ?>" readonly="readonly"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-6 col-md-3 col-lg-3">
-                            <?php
-                            echo "<label>ทะเบียนรถ </label>";
-                            $rs_truck = $truck_model->find()->where(['id' => $model->truck1])->one();
-                            echo '<label class="label label-success">' . $rs_truck['license_plate'] . '</label>';
-                            ?>
-
-                            <?php
-                            echo " <label>ทะเบียนพ่วง </label>";
-                            $rs_truck2 = $truck_model->find()->where(['id' => $model->truck2])->one();
-                            if (!empty($rs_truck2)) {
-                                echo '<label class="label label-success">' . $rs_truck2['license_plate'] . '</label>';
-                            } else {
-                                echo " -";
-                            }
-                            ?>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-calendar"></i> วันที่กลับ</div>
+                                    <input type="text" class="form-control" value="<?php echo $config->thaidate($model->order_date_end); ?>" readonly="readonly"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <?php $rs_truck = $truck_model->find()->where(['id' => $model->truck1])->one(); ?>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-truck"></i> ทะเบียนรถ</div>
+                                    <input type="text" class="form-control" value="<?php echo $rs_truck['license_plate']; ?>" readonly="readonly"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6 col-md-2 col-lg-3">
-                            <label>คนขับ 1</label> 
-                            <label class="label label-success">
-                                <?php
-                                $d1 = $driver->find()->where(['id' => $model->driver1])->one();
-                                echo $d1['name'] . ' ' . $d1['lname'];
-                                ?></label>
-                            <input type="hidden" id="driver1" value="<?php echo $d1['driver_id'] ?>"/>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <?php
+                            $rs_truck2 = $truck_model->find()->where(['id' => $model->truck2])->one();
+                            if (!empty($rs_truck2)) {
+                                $car_truck2 = $rs_truck2['license_plate'];
+                            } else {
+                                $car_truck2 = " -";
+                            }
+                            ?>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-truck"></i> ทะเบียนพ่วง</div>
+                                    <input type="text" class="form-control" value="<?php echo $car_truck2; ?>" readonly="readonly"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-6 col-md-2 col-lg-3">
-                            <label>คนขับ 2</label> 
-                            <label class="label label-success">
-                                <?php
-                                $d2 = $driver->find()->where(['id' => $model->driver2])->one();
-                                if (!empty($d2)) {
-                                    echo $d2['name'] . ' ' . $d2['lname'];
-                                } else {
-                                    echo "-";
-                                }
-                                ?>
-                            </label>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3"> 
+                            <?php
+                            $d1 = $driver->find()->where(['id' => $model->driver1])->one();
+                            ?>
+                            <input type="hidden" id="driver1" value="<?php echo $d1['driver_id'] ?>"/>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-user"></i> คนขับ 1</div>
+                                    <input type="text"  class="form-control" value="<?php echo $d1['name'] . ' ' . $d1['lname']; ?>" readonly="readonly"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <?php
+                            $d2 = $driver->find()->where(['id' => $model->driver2])->one();
+                            if (!empty($d2)) {
+                                $drive2 = $d2['name'] . ' ' . $d2['lname'];
+                            } else {
+                                $drive2 = "-";
+                            }
+                            ?>
                             <input type="hidden" id="driver2" value="<?php echo $d2['driver_id'] ?>"/>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-user"></i> คนขับ 2</div>
+                                    <input type="text"  class="form-control" value="<?php echo $drive2; ?>" readonly="readonly"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!--
                     ###################### END #########################
                 -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">รายละเอียดก่อนปล่อยรถ</div>
-                    <div class="panel-body">
+                <div class="box box-default">
+                    <div class="box-header with-border">รายละเอียดก่อนปล่อยรถ</div>
+                    <div class="box-body">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
@@ -139,17 +164,16 @@ $order_model = new \app\models\OrdersTransport();
                     ######################### #ใบสั่งงาน ######################
                 -->
 
-                <div>
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
                         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-truck"></i> <i class="fa fa-angle-up"></i> รายละเอียดขาไป</a></li>
                         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-truck"></i> <i class="fa fa-angle-down"></i> รายละเอียดขากลับ</a></li>
                     </ul>
 
                     <!-- Tab panes -->
-                    <div class="tab-content" style="background: #FFF; border: #dedcdc solid 1px; border-top: 0px; padding: 5px;">
+                    <div class="tab-content">
                         <!-- ฟอร์มกรอกขาไป -->
-                        <div role="tabpanel" class="tab-pane active" id="home">
+                        <div class="active tab-pane" id="home">
                             <div class="panel panel-info">
                                 <div class="panel-heading">รายการใบสั่งงาน</div>
                                 <div class="panel-body">
@@ -327,7 +351,7 @@ $order_model = new \app\models\OrdersTransport();
                                                     <th>เส้นทาง</th>
                                                     <th>ลูกค้าปลายทาง</th>
                                                     <th>เลขที่ใบขน</th>
-                                                    <th>เบี้ยเลี้ยง</th>
+                                                    <th>เบี้ยเลี้ยง(รวม)</th>
                                                     <th>รายได้</th>
                                                     <th style="text-align: center;">ตัวเลือก</th>
                                                 </tr>

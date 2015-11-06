@@ -14,44 +14,46 @@ use Yii;
  * @property string $agent
  * @property string $create_date
  */
-class Customer extends \yii\db\ActiveRecord
-{
+class Customer extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'customer';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['company','address','tel','agent'],'required'],
-            [['cus_id'],'string','max' => 7],
+            [['company', 'address', 'tel', 'agent', 'tax_number'], 'required'],
+            [['cus_id'], 'string', 'max' => 7],
             [['create_date'], 'safe'],
             [['company', 'address'], 'string', 'max' => 255],
             [['tel'], 'string', 'max' => 20],
-            [['agent'], 'string', 'max' => 100]
+            [['tax_number'], 'string', 'max' => 50],
+            [['agent'], 'string', 'max' => 100],
+            [['detail'], 'string']
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'cus_id' => 'รหัส',
+            'tax_number' => 'เลขที่ผู้เสียภาษี',
             'company' => 'บริษัท',
             'address' => 'ที่อยู่บริษัท',
-            'tel' => 'เบอร์โทรศัทพ์บริษัท',
-            'agent' => 'ชื่อผู้ติดต่อ',
+            'tel' => 'โทรศัทพ์',
+            'agent' => 'ผู้ติดต่อ',
+            'detail' => 'รายละเอียด',
             'create_date' => 'วันที่บันทึก',
         ];
     }
+
 }

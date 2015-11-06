@@ -9,7 +9,7 @@ return [
     'charset' => 'utf8',
 ];
 
-/* Server ข้างใน 
+/* Server ข้างใน
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=192.0.1.18;dbname=transport_db',
@@ -17,7 +17,7 @@ return [
     'password' => 'assembler',
     'charset' => 'utf8',
 ];
-*/
+
 /*
 return [
     'class' => 'yii\db\Connection',

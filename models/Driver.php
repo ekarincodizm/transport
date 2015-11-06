@@ -33,8 +33,8 @@ class Driver extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['driver_license_expire', 'name', 'lname', 'card_id', 'address', 'tel1', 'driver_license_id'], 'required'],
-            [['driver_license_expire', 'create_date', 'd_update', 'driver_id'], 'string'],
+            [['driver_license_expire', 'name', 'lname', 'card_id', 'address', 'tel1', 'driver_license_id', 'birth'], 'required'],
+            [['driver_license_expire', 'create_date', 'd_update', 'driver_id', 'birth'], 'string'],
             [['name', 'lname', 'images'], 'string', 'max' => 100],
             [['card_id', 'tel1', 'tel2', 'driver_license_id'], 'number'],
             [['card_id'], 'string', 'length' => [13, 13]],
@@ -52,6 +52,7 @@ class Driver extends \yii\db\ActiveRecord {
             'name' => 'ชื่อ',
             'lname' => 'นามสกุล',
             'card_id' => 'บัตรประชาชน',
+            'birth' => 'วันเกิด',
             'address' => 'ที่อยู่',
             'tel1' => 'เบอร์โทร',
             'tel2' => 'เบอร์โทรสำรอง',

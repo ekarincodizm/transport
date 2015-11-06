@@ -19,13 +19,13 @@ use kartik\form\ActiveForm;
     ?>
     <?= $form->field($model, 'cus_id')->textInput(['maxlength' => true, 'value' => $cus_id, 'readonly' => 'readonly']) ?>
     <?= $form->field($model, 'company')->textInput(['maxlength' => true]) ?>
-
+    <?= $form->field($model, 'tax_number')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'address')->textarea(['maxlength' => true, 'rows' => 5]) ?>
 
     <?= $form->field($model, 'tel')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'agent')->textInput(['maxlength' => true]) ?>
-
+    <?= $form->field($model, 'detail')->textarea(['rows' => 5]) ?>
     <div class="form-group">
         <div class="col-md-3 col-lg-3"></div>
         <div class="col-sm-9 col-lg-9">

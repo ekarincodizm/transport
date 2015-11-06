@@ -194,7 +194,7 @@ class DriverController extends Controller {
         $jpeg_quality = 100;
 
         $New_filename = "croppedImg_" . rand();
-        $output_filename = "web/uploads/profile/" . $New_filename;
+        $output_filename = "./web/uploads/profile/" . $New_filename;
 
 // uncomment line below to save the cropped image in the same location as the original image.
 //$output_filename = dirname($imgUrl). "/croppedImg_".rand();
