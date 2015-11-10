@@ -12,11 +12,11 @@ use yii\filters\VerbFilter;
 /**
  * SalaryController implements the CRUD actions for Salary model.
  */
-class SalaryController extends Controller
-{
+class SalaryController extends Controller {
+
     public $layout = "admin-lte";
-    public function behaviors()
-    {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -31,14 +31,13 @@ class SalaryController extends Controller
      * Lists all Salary models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new SalarySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -47,10 +46,9 @@ class SalaryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -59,15 +57,14 @@ class SalaryController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Salary();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -78,15 +75,14 @@ class SalaryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -97,8 +93,7 @@ class SalaryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -111,23 +106,38 @@ class SalaryController extends Controller
      * @return Salary the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Salary::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
-    public function actionLoad_salary(){
+
+    public function actionLoad_salary() {
         $employee = \Yii::$app->request->post('employee');
         $salary = Salary::find()->where(['employee' => $employee])
-                ->orderBy(['year' => 'DESC','month' => 'DESC'])
+                ->orderBy(['year' => 'DESC', 'month' => 'DESC'])
                 ->all();
-        
-        return $this->renderPartial('load_salary',[
-            'salary' => $salary
+
+        return $this->renderPartial('load_salary', [
+                    'salary' => $salary
         ]);
     }
+
+    public function actionSave() {
+        $request = Yii::$app->request;
+        $columns = array(
+            "employee" => $request->post('employee'),
+            "salary" => $request->post('salary'),
+            "month" => $request->post('month'),
+            "year" => $request->post('year'),
+            "date_salary" => date("Y-m-d")
+        );
+
+        Yii::$app->db->createCommand()
+                ->insert("salary", $columns)
+                ->execute();
+    }
+
 }

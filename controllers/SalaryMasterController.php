@@ -138,15 +138,20 @@ class SalaryMasterController extends Controller {
 
     public function actionSet_salary() {
         $id = Yii::$app->request->post('id');
+        $employee = Yii::$app->request->post('employee');
         $columns = array("active" => '0');
         Yii::$app->db->createCommand()
-                ->update("salary_master", $columns, "1=1")
+                ->update("salary_master", $columns, "employee = '$employee' ")
                 ->execute();
 
         $columns_active = array("active" => '1');
         Yii::$app->db->createCommand()
-                ->update("salary_master", $columns_active, "id = '$id' ")
+                ->update("salary_master", $columns_active, "id = '$id' AND employee = '$employee' ")
                 ->execute();
+        
+        $rs = SalaryMaster::find()->where(['employee' => $employee,'active' => 1])->one();
+        $json = array("salary" => $rs['salary']);
+        echo json_encode($json);
     }
 
 }

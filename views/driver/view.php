@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = ['label' => 'พนักงานขับร�
 $this->params['breadcrumbs'][] = $this->title;
 
 $config = new app\models\Config_system();
+$SalaryMasterModel = new \app\models\SalaryMaster();
 ?>
 
 <script type="text/javascript">
@@ -158,9 +159,69 @@ $config = new app\models\Config_system();
 
                     <div class="tab-pane" id="salary">
                         <div class="box box-success">
-                            <div class=" box-header">
-                                เงินเดือนปัจจุบัน 8,500 บาท
-                                <button class="btn btn-default pull-right" onclick="dialog_salary_master()"> กำหนดเงินเดือน</button>
+                            <div class=" box-header with-border">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">เงินเดือนปัจจุบัน</div>
+                                                <?php $salary_active = $SalaryMasterModel->find()->where(['employee' => $model->driver_id, 'active' => 1])->one()['salary']; ?>
+                                                <input type="text" id="salary_price" name="salary_price" value="<?php echo $salary_active; ?>" readonly="readonly" class="form-control"/>
+                                                <div class="input-group-addon">บาท</div>
+                                                <div class="input-group-addon btn btn-default" onclick="dialog_salary_master()">กำหนดเงินเดือน</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">ประจำเดือน</div>
+                                                <select id="month" name="month" class="form-control">
+                                                    <?php
+                                                    $monthnow = date("m");
+                                                    if (strlen($monthnow) > 1) {
+                                                        $month = $monthnow;
+                                                    } else {
+                                                        $month = "0" . $monthnow;
+                                                    }
+                                                    $month_val = $config->Monthval();
+                                                    $month_full = $config->MonthFull();
+                                                    for ($i = 0; $i <= 11; $i++):
+                                                        ?>
+                                                        <option value="<?php echo $month_val[$i]; ?>" <?php
+                                                        if ($month_val[$i] == $month) {
+                                                            echo "selected = 'selected' ";
+                                                        }
+                                                        ?>>
+                                                                    <?php echo $month_val[$i] . " - " . $month_full[$i]; ?>
+                                                        </option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">ประจำปี</div>
+                                                <select id="year" name="year" class="form-control">
+                                                    <?php
+                                                    $yearnow = date("Y");
+                                                    for ($i = $yearnow; $i >= ($yearnow - 2); $i--):
+                                                        ?>
+                                                        <option value="<?php echo $yearnow; ?>"><?php echo $yearnow + 543; ?></option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                        <button id="" class="btn btn-success btn-block" onclick="save_salary();"><i class="fa fa-money"></i> จ่าย้งินเดือน</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class=" box-body" id="result-salary">
 
@@ -185,7 +246,7 @@ $config = new app\models\Config_system();
 <!-- /.content -->
 
 <!--
-    #Dialog เพิ่มเงินเดือนพนักงาน
+    ########### Dialog เพิ่มเงินเดือนพนักงาน ##############
 -->
 <div class="modal modal-defalut" id="dialog_salary_master">
     <div class="modal-dialog">
@@ -276,10 +337,11 @@ $this->registerJs(
     }
 
     //ประวัติการรับเงินเดือน
-    function load_salary(driver_id) {
+    function load_salary() {
         $("#result-salary").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
         var url = "<?php echo Url::to(['salary/load_salary']) ?>";
-        var data = {employee: driver_id};
+        var employee = $("#employee").val();
+        var data = {employee: employee};
 
         $.post(url, data, function (result) {
             $("#result-salary").html(result);
@@ -291,7 +353,7 @@ $this->registerJs(
         $("#dialog_salary_master").modal();
         load_salary_master();
     }
-    
+
     //ข้อมูลการขึ้นเงินเดือน
     function load_salary_master() {
         var employee = $("#employee").val();
@@ -303,21 +365,42 @@ $this->registerJs(
             $("#result-salary-moaster").html(result);
         });
     }
-    
+
     //ฟังก์ชันบันทึกข้อมูลปรับเงินเดือนพนักงาน
-    function save_salary_master(){
+    function save_salary_master() {
         var salary = $("#salary_new").val();
         var employee = $("#employee").val();
 
-        if(salary == ''){
+        if (salary == '') {
             $("#salary_new").focus();
             return false;
         }
-        
-        var url = "<?php echo Url::to(['salary-master/save_salary_master'])?>";
-        var data = {salary: salary,employee: employee};
-        $.post(url,data,function(success){
+
+        var url = "<?php echo Url::to(['salary-master/save_salary_master']) ?>";
+        var data = {salary: salary, employee: employee};
+        $.post(url, data, function (success) {
             load_salary_master();
         });
+    }
+
+    //ฟังก์ชันบันทึกเงินเดือนพนักงานในแต่ละเดือน
+    function save_salary() {
+        var url = "<?php echo Url::to(['salary/save']) ?>";
+        var salary = $("#salary_price").val();
+        var employee = $("#employee").val();
+        var month = $("#month").val();
+        var year = $("#year").val();
+
+        var data = {
+            salary: salary,
+            employee: employee,
+            month: month,
+            year: year
+        };
+
+        $.post(url, data, function (result) {
+            load_salary();
+        });
+
     }
 </script>
