@@ -42,8 +42,12 @@ $order_model = new \app\models\OrdersTransport();
             <div class="box-header with-border">
                 <i class="fa fa-book"></i> ใบปฏิบัติงาน(รถภายใน)
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-default btn-box-tool" onclick="conclude()"><i class="fa fa-newspaper-o"></i> ออกบิลใบแจ้งหนี้</button>
-                    <button type="button" class="btn btn-default btn-box-tool" onclick="conclude()"><i class="fa fa-list-alt"></i> สรุป(รับ - จ่าย)</button>
+                    <a href="<?php echo Url::to(['bill', 'id' => $model->id]) ?>" target="_bank">
+                        <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-newspaper-o"></i> ออกบิลใบแจ้งหนี้</button></a>
+                    <a href="<?php echo Url::to(['incom_outcome', 'id' => $model->id]) ?>" target="_bank">
+                        <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-file-text-o"></i> รายละเอียด(รับ - จ่าย)</button></a>
+                    <a href="<?php echo Url::to(['receipt', 'id' => $model->id]) ?>" target="_bank">
+                        <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-file-text-o"></i> ออกใบเสร็จ</button></a>
                 </div>
             </div>
             <div class="box-body">
@@ -64,6 +68,16 @@ $order_model = new \app\models\OrdersTransport();
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-building-o"></i> ผู้ว่าจ้าง</div>
+                                    <input type="text" class="form-control" value="<?php echo $customer_model->find()->where(['cus_id' => $model->employer])->one()['company']; ?>" readonly="readonly"/>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
@@ -80,6 +94,9 @@ $order_model = new \app\models\OrdersTransport();
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                             <?php $rs_truck = $truck_model->find()->where(['id' => $model->truck1])->one(); ?>
                             <div class="form-group">
@@ -89,9 +106,7 @@ $order_model = new \app\models\OrdersTransport();
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                             <?php
                             $rs_truck2 = $truck_model->find()->where(['id' => $model->truck2])->one();
@@ -755,25 +770,6 @@ $order_model = new \app\models\OrdersTransport();
 
 <!-- รายรับ - รายจ่าย เที่ยวนี้ -->
 <script type="text/javascript">
-    function conclude() {
-        var income = parseInt(<?php echo $sum[1] ?>);//รายรับ
-
-        var allowance = parseInt(<?php echo $sum[0] ?>);//เบี้ยเลี้ยง
-        var oil = parseInt($("#oil_price").val());//ค่าน้ำมัน
-        var gas = parseInt($("#gas_price").val());//ค่าก๊าซ
-
-        var expenses = parseInt($("#expenese_total").val());
-        var expenses_truck = parseInt($("#expenese_truck_total").val());
-
-        var expenses_total = (allowance + oil + gas + expenses + expenses_truck);
-        var profit = (parseInt(income) - parseInt(expenses_total));
-        $("#income_all").text(accounting.formatNumber(income, 2));
-        $("#expenses_all").text(accounting.formatNumber(expenses_total, 2));
-        $("#total").text(accounting.formatNumber(profit, 2));
-
-        $("#conclude").modal();
-    }
-
     function delete_assign(id) {
         var r = confirm("คุณแน่ใจหรือไม่ ...?");
         if (r == true) {

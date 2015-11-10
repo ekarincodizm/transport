@@ -64,9 +64,9 @@ class Driver extends \yii\db\ActiveRecord {
     }
 
     function history($driver_id = null) {
-        $query = "SELECT transport_date,a.assign_id,a.cus_start,a.cus_end,a.changwat_start,a.changwat_end,
+        $query = "SELECT o.id,o.order_id,transport_date,a.order_id,a.assign_id,a.cus_start,a.cus_end,a.changwat_start,a.changwat_end,
                     IF(LEFT(a.allowance_driver1,5) = '$driver_id',TRIM(SUBSTR(a.allowance_driver1,7,10)),TRIM(SUBSTR(a.allowance_driver2,7,10))) AS allowance_driver
-                    FROM assign a
+                    FROM assign a INNER JOIN orders_transport o ON a.order_id = o.order_id
                     WHERE LEFT(a.allowance_driver1,5) = '$driver_id' OR LEFT(a.allowance_driver2,5) = '$driver_id' ";
 
         $result = Yii::$app->db->createCommand($query)->queryAll();

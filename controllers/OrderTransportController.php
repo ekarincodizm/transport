@@ -158,6 +158,11 @@ class OrderTransportController extends Controller {
         $request = \Yii::$app->request;
         $driver1 = $request->post('driver1');
         $driver2 = $request->post('driver2');
+        if($request->post('allowance_driver2') != ''){
+            $driver_2 = $driver2 . "-" . $request->post('allowance_driver2');
+        } else {
+            $driver_2 = "";
+        }
         $columns = array(
             "assign_id" => $request->post('assign_id'),
             "order_id" => $request->post('order_id'),
@@ -174,7 +179,7 @@ class OrderTransportController extends Controller {
             "per_times" => $request->post('per_times'),
             "income" => $request->post('income'),
             "allowance_driver1" => $driver1 . "-" . $request->post('allowance_driver1'),
-            "allowance_driver2" => $driver2 . "-" . $request->post('allowance_driver2'),
+            "allowance_driver2" => $driver_2,
             "create_date" => date("Y-m-d H:i:s")
         );
 
@@ -203,7 +208,6 @@ class OrderTransportController extends Controller {
         $mpdf->Output($assign_id . ".pdf", "I");
     }
 
-   
     public function actionReportall($id = null) {
 
         $order_id = OrdersTransport::find()->where(['id' => $id])->one()->order_id;
@@ -263,5 +267,74 @@ class OrderTransportController extends Controller {
                 ->delete("assign", "id = '$id'")
                 ->execute();
     }
+    
+    //ใบแจ้งหนี้
+    public function actionBill($id = null) {
+        //$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
+        //require $url;
+        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
+        $assign_model = new \app\models\Assign();
+        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
+        $model = $this->findModel($id);
 
+        $page = $this->renderPartial('bill', [
+            'model' => $model,
+            'assign' => $assign
+        ]);
+
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($page);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output($order_id . ".pdf", "I");
+    }
+    
+    //รับ - จ่าย
+    public function actionIncom_outcome($id = null) {
+        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
+        $assign_model = new \app\models\Assign();
+        $outgoings_model = new \app\models\Outgoings();
+        $expenses_model = new \app\models\ExpensesTruck();
+        $outgoings = $outgoings_model->find()->where(['order_id' => $order_id])->all();
+        $expenses = $expenses_model->find()->where(['order_id' => $order_id])->all();
+        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
+        $model = $this->findModel($id);
+
+        $page = $this->renderPartial('_income_outcome', [
+            'model' => $model,
+            'assigns' => $assign,
+            'outgoings' => $outgoings,
+            'expenses' => $expenses,
+            'order_id' => $order_id,
+        ]);
+
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($page);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output($order_id . ".pdf", "I");
+    }
+    
+    //ใบเสร็จ
+    public function actionReceipt($id = null){
+        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
+        $assign_model = new \app\models\Assign();
+        //$outgoings_model = new \app\models\Outgoings();
+        //$expenses_model = new \app\models\ExpensesTruck();
+        //$outgoings = $outgoings_model->find()->where(['order_id' => $order_id])->all();
+        //$expenses = $expenses_model->find()->where(['order_id' => $order_id])->all();
+        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
+        $model = $this->findModel($id);
+
+        $page = $this->renderPartial('_receipt', [
+            'model' => $model,
+            'assigns' => $assign,
+            //'outgoings' => $outgoings,
+            //'expenses' => $expenses,
+            //'order_id' => $order_id,
+        ]);
+
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($page);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output($order_id . ".pdf", "I");
+    }
 }

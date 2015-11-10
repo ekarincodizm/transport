@@ -1,8 +1,8 @@
 <style type="text/css">
-    body{color: #666666;}
-    table tr td{ border-left: #cccccc solid 1px; border-bottom: #cccccc solid 1px; padding: 5px;}
-    table tr th{ border-left: #cccccc solid 1px; border-bottom: #cccccc solid 1px; border-top: #cccccc solid 1px; padding: 5px; text-align: left; font-weight: normal;}
-    table{ border-right: #cccccc solid 1px;}
+    body{color: #666666; font-size: 12px;}
+    table tr td{ border-left: #000000 solid 1px; border-bottom: #000000 solid 1px; padding: 5px;}
+    table tr th{ border-left: #000000 solid 1px; border-bottom: #000000 solid 1px; border-top: #000000 solid 1px; padding: 5px; text-align: left; font-weight: normal;}
+    table{ border-right: #000000 solid 1px;}
     table tr th p{ margin-bottom: 10px;}
 </style>
 <?php
@@ -25,10 +25,11 @@ $producttype_model = new app\models\ProductType();
         <img src="<?php echo Url::to('@web/web/images/logo.jpg') ?>"/>
     </div>
     <div style="float: left; padding-top: 5px;">
-        <h3><?php echo "ห้างหุ้นส่วนจํากัด ตงตง ทรานสปอร์ต"; ?></h3>
+       
     </div>
 </div>
 <div class="row">
+    <h3><?php echo "ห้างหุ้นส่วนจํากัด ตงตง ทรานสปอร์ต"; ?></h3>
     <div class="col-sm-6 col-md-3 col-lg-3"><label>ใบบฏิบัติงาน</label> <label class="label label-success"><?php echo $model->order_id; ?></label></div>
     <div class="col-sm-6 col-md-3 col-lg-3">
         <label>วันที่ไป</label> 
@@ -89,7 +90,7 @@ $producttype_model = new app\models\ProductType();
         เลทที่ใบสั่งงาน <?php echo $assign->assign_id; ?>
     </div>
 
-    <div class="well" style=" border: #cccccc solid 1px; padding: 5px; border-bottom: none;">
+    <div class="well" style=" border: #000000 solid 1px; padding: 5px; border-bottom: none;">
         <b>วันที่ขน :</b>  <?php echo $config->thaidate($assign->transport_date); ?> <br/>
         <b>เส้นทาง : </b>
         <?php echo $changwat_model->find()->where(['changwat_id' => $assign->changwat_start])->one()->changwat_name; ?>
@@ -136,20 +137,15 @@ $producttype_model = new app\models\ProductType();
 
 <div style="position:relative; width: 100%; margin-top: 80px;">
     <!-- ผู้รับเงิน -->
-    <div style="position: absolute; bottom: 100px; left: 0px; width: 40%; border-bottom: #666666 dotted 1px; float: left;">
-
-    </div>
-    
+    <div style="position: absolute; bottom: 100px; left: 0px; width: 40%; border-bottom: #000000 dotted 1px; float: left;"></div>
     <!-- ผู้อนุมัติ -->
-    <div style="position: absolute; bottom: 100px; right: 0px; width: 40%; border-bottom: #666666 dotted 1px; float: right;"></div>
-
-    <div style="position: absolute; bottom: 50px; right: 0px; width: 40%; text-align: center; float: right; margin-top: 10px;">
-        <b>ผู้อนุมัติ</b>
-    </div>
+    <div style="position: absolute; bottom: 100px; right: 0px; width: 40%; border-bottom: #000000 dotted 1px; float: right;"></div>
     
     <div style="position: absolute; bottom: 50px; left: 0px; width: 40%; text-align: center; float: left; margin-top: 10px;">
         <b>ผู้รับเงิน</b>
-    </div
-
-    
+    </div>
+    <div style="position: absolute; bottom: 50px; right: 0px; width: 40%; text-align: center; float: right; margin-top: 0px;">
+        <b>ผู้อนุมัติ</b>
+    </div>
+ 
 </div>

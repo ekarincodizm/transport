@@ -17,7 +17,7 @@ class OrderTransportSearch extends OrdersTransport {
      */
     public function rules() {
         return [
-            [['id', 'truck1', 'truck2', 'driver1', 'driver2', 'oil_set'], 'integer'],
+            [['id', 'truck1', 'truck2', 'driver1', 'driver2', 'oil_set','employer'], 'integer'],
             [['order_id', 'order_date_start', 'order_date_end', 'create_date'], 'safe'],
         ];
     }
@@ -57,6 +57,7 @@ class OrderTransportSearch extends OrdersTransport {
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'employer' => $this->employer,
             'order_date_start' => $this->order_date_start,
             'order_date_end' => $this->order_date_end,
             'truck1' => $this->truck1,

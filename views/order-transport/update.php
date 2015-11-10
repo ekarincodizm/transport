@@ -10,13 +10,15 @@ $this->params['breadcrumbs'][] = ['label' => 'ใบปฏิบัติงา�
 $this->params['breadcrumbs'][] = ['label' => $model->order_id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
-<div class="orders-transport-update">
+<div class="box box-default">
+    <div class="box-header with-border"><i class="fa fa-pencil"></i> <?php echo $this->title; ?></div>
+    <div class="box-body">
 
-    <?=
-    $this->render('_form', [
-        'model' => $model,
-        'order_id' => $order_id,
-    ])
-    ?>
-
+        <?=
+        $this->render('_form', [
+            'model' => $model,
+            'order_id' => $order_id,
+        ])
+        ?>
+    </div>
 </div>

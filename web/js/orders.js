@@ -30,6 +30,7 @@ function Income_Calculator(type) {
 //กรณีเลือกคิดตามน้ำหนัก
 function Unit_price_Calculator() {
     $("#type_calculus").val(0);
+    $("#per_times").val("");
     var weigh = $("#weigh").val();
     if (weigh == "") {
         $("#unit_price").prop("disabled", true);
@@ -47,6 +48,7 @@ function Unit_price_Calculator() {
 //กรณีคิดตามเที่ยว
 function Pertimes_Calculator() {
     $("#type_calculus").val(1);
+    $("#unit_price").val("");
     var weigh = $("#weigh").val();
     if (weigh == "") {
         $("#per_times").prop("disabled", true);

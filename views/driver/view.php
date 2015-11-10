@@ -22,8 +22,16 @@ $this->params['breadcrumbs'][] = $this->title;
 $config = new app\models\Config_system();
 ?>
 
-
+<script type="text/javascript">
+    function chkNumber(ele) {
+        var vchar = String.fromCharCode(event.keyCode);
+        if ((vchar < '0' || vchar > '9') && (vchar != '.'))
+            return false;
+        //ele.onKeyPress = vchar;
+    }
+</script>
 <!-- Main content -->
+<input type="hidden" id="employee" name="employee" value="<?php echo $model->driver_id; ?>"/>
 <section class="content">
 
     <div class="row">
@@ -56,20 +64,18 @@ $config = new app\models\Config_system();
                             <b>วันหมดอายุ</b> <a class="pull-right"><?php echo $config->thaidate($model->driver_license_expire); ?></a>
                         </li>
                         <li class="list-group-item">
-                                <?php
-                                if ($config->Datediff(date("Y-m-d"), $model->driver_license_expire) < 0) {
-                                    echo "<font style='color:red;'>";
-                                    echo "<b>หมดอายุ </b><a class=\"pull-right\">" . (+-$config->Datediff(date("Y-m-d"), $model->driver_license_expire)) . ' วัน</a>';
-                                } else {
-                                    echo "<font style='color:green;'>";
-                                    echo "<b>เหลือ </b><a class=\"pull-right\">" . $config->Datediff(date("Y-m-d"), $model->driver_license_expire) . ' วัน</a>';
-                                }
-                                
-                                echo "</font>";
-                                ?>
+                            <?php
+                            if ($config->Datediff(date("Y-m-d"), $model->driver_license_expire) < 0) {
+                                echo "<font style='color:red;'>";
+                                echo "<b>หมดอายุ </b><a class=\"pull-right\">" . (+-$config->Datediff(date("Y-m-d"), $model->driver_license_expire)) . ' วัน</a>';
+                            } else {
+                                echo "<font style='color:green;'>";
+                                echo "<b>เหลือ </b><a class=\"pull-right\">" . $config->Datediff(date("Y-m-d"), $model->driver_license_expire) . ' วัน</a>';
+                            }
+
+                            echo "</font>";
+                            ?>
                         </li>
-
-
 
                     </ul>
                 </div>
@@ -84,6 +90,7 @@ $config = new app\models\Config_system();
                     <li class="active"><a href="#activity" data-toggle="tab"><i class="fa fa-user"></i> ข้อมูลทั่วไป</a></li>
                     <li><a href="#timeline" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
                     <li><a href="#settings" data-toggle="tab"><i class="fa fa-bar-chart"></i> ภาพรวม</a></a></li>
+                    <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> บัญชีเงินเดือน</a></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
@@ -148,6 +155,23 @@ $config = new app\models\Config_system();
 
                     </div>
                     <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="salary">
+                        <div class="box box-success">
+                            <div class=" box-header">
+                                เงินเดือนปัจจุบัน 8,500 บาท
+                                <button class="btn btn-default pull-right" onclick="dialog_salary_master()"> กำหนดเงินเดือน</button>
+                            </div>
+                            <div class=" box-body" id="result-salary">
+
+                            </div>
+                            <div class=" box-footer">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
             </div>
@@ -159,6 +183,44 @@ $config = new app\models\Config_system();
 
 </section>
 <!-- /.content -->
+
+<!--
+    #Dialog เพิ่มเงินเดือนพนักงาน
+-->
+<div class="modal modal-defalut" id="dialog_salary_master">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-dollar"></i> ปรับเงินเดือนพนักงาน</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">ปรับเงินเดือนใหม่</div>
+                        <input type="text" class="form-control" id="salary_new" placeholder="ตัวเลขเท่านั้น" onkeypress="return chkNumber()"/>
+                        <div class="input-group-addon">บาท</div>
+                        <div class="input-group-addon btn btn-default" onclick="save_salary_master();"><i class="fa fa-save"></i> บันทึก</div>
+                    </div>
+                </div>
+
+                <div class="box bax-info">
+                    <div class="box-body">
+                        <div id="result-salary-moaster"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <?php
 $url = Url::to(['driver/img_crop_to_file', 'id' => $model->id]);
@@ -201,8 +263,8 @@ $this->registerJs(
 );
 ?>
 
-
 <script type="text/javascript">
+    //ประวัติการวิ่งรถ
     function get_history(driver_id) {
         $("#history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
         var url = "<?php echo Url::to(['history']) ?>";
@@ -210,6 +272,52 @@ $this->registerJs(
 
         $.post(url, data, function (result) {
             $("#history").html(result);
+        });
+    }
+
+    //ประวัติการรับเงินเดือน
+    function load_salary(driver_id) {
+        $("#result-salary").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['salary/load_salary']) ?>";
+        var data = {employee: driver_id};
+
+        $.post(url, data, function (result) {
+            $("#result-salary").html(result);
+        });
+    }
+
+    //เปิด popup dialog master
+    function dialog_salary_master() {
+        $("#dialog_salary_master").modal();
+        load_salary_master();
+    }
+    
+    //ข้อมูลการขึ้นเงินเดือน
+    function load_salary_master() {
+        var employee = $("#employee").val();
+        $("#result-salary-moaster").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['salary-master/salary_master']) ?>";
+        var data = {employee: employee};
+
+        $.post(url, data, function (result) {
+            $("#result-salary-moaster").html(result);
+        });
+    }
+    
+    //ฟังก์ชันบันทึกข้อมูลปรับเงินเดือนพนักงาน
+    function save_salary_master(){
+        var salary = $("#salary_new").val();
+        var employee = $("#employee").val();
+
+        if(salary == ''){
+            $("#salary_new").focus();
+            return false;
+        }
+        
+        var url = "<?php echo Url::to(['salary-master/save_salary_master'])?>";
+        var data = {salary: salary,employee: employee};
+        $.post(url,data,function(success){
+            load_salary_master();
         });
     }
 </script>

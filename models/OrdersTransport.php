@@ -31,7 +31,7 @@ class OrdersTransport extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['order_date_start', 'order_date_end', 'truck1', 'driver1'], 'required'],
+            [['order_date_start', 'order_date_end', 'truck1', 'driver1','employer'], 'required'],
             [['order_date_start', 'order_date_end', 'create_date'], 'safe'],
             [['truck1', 'truck2', 'driver1', 'driver2', 'oil_set'], 'integer'],
             [['order_id'], 'string', 'max' => 10],
@@ -46,6 +46,7 @@ class OrdersTransport extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'order_id' => 'รหัสใบปฏิบัติงาน',
+            'employer' => 'ผู้ว่าจ้าง',
             'order_date_start' => 'วันที่ไป',
             'order_date_end' => 'วันที่กลับ',
             'truck1' => 'รหัสรถ1(หัวลาก,หรือรถไม่มีพ่วง)',

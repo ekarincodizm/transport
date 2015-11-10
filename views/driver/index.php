@@ -4,7 +4,7 @@ use yii\helpers\Html;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 use app\models\Config_system;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DriverSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,14 +12,17 @@ use app\models\Config_system;
 $this->title = 'พนักงานขับรถ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="driver-index">
-    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
-    <p>
+<p>
         <?= Html::a('<i class="fa fa-user-plus"></i> เพิ่มพนักงานขับรถ', ['create'], ['class' => 'btn btn-default']) ?>
         <font style="color:#ff0000" class="pull-right">* หมายเหตุ ใบขับขี่จะแจ้งเตือนก่อนหมดอายุ 15 วัน</font>
     </p>
+<!--
+<div class="driver-index">
+    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
+    
 
     <?php
+    /*
     $heading = '<i class="fa fa-users"></i> ' . $this->title;
 
     echo GridView::widget([
@@ -27,14 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
             'name',
             'lname',
             'card_id',
             'address',
             [
                 'class' => '\kartik\grid\DataColumn',
-                //'attribute' => 'amount',
                 'label' => 'สถานะใบขับขี่',
                 'hAlign' => 'center',
                 'width' => '10%',
@@ -55,22 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $status;
                 },
             ],
-            // 'tel1',
-            // 'tel2',
-            // 'driver_license_id',
-            // 'driver_license_expire',
-            // 'create_date',
-            // 'images',
-            /*
-              [
-              'class' => 'yii\grid\ActionColumn',
-              'mergeHeader'=>true,
-              'headerOptions' => ['style' => 'text-align:center;'],
-              'header' => 'action',
-              'contentOptions' => ['style' => 'width:10%; text-align:center;'],
-              ],
-             * 
-             */
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'header' => 'ตัวเลือก',
@@ -93,6 +78,80 @@ $this->params['breadcrumbs'][] = $this->title;
             'heading' => $heading,
         ],
     ]);
+     * 
+     */
     ?>
 
 </div>
+-->
+<?php
+$config = new Config_system();
+?>
+<div class="row">
+    <?php foreach ($driver as $rs): ?>
+        <div class="col-md-4">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-primary widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-image" style=" text-align: center;">
+                    <?php if (!empty($rs['images'])) { ?>
+                    <img src="<?php echo Url::to('@web/web/uploads/profile/' . $rs['images']) ?>" class="img-circle" style="max-width: 100px;"/>
+                            <?php } else { ?>
+                                <img src="<?php echo Url::to('@web/web/images/No_image.jpg') ?>" class="img-circle" style="max-width: 125px;"/>
+                            <?php } ?>
+                                <br/>
+                    <p style=" color: #6600ff; font-weight: bold; font-size: 16px;"><?php echo $rs['name'] . ' - ' . $rs['lname']; ?></p>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">อายุ</h5>
+                                <span class="description-text">
+                                    <?php
+                                        $age = $config->get_age($rs['birth']);
+                                        echo $age;
+                                    ?>
+                                </span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">ใบขับขี่</h5>
+                                <span class="description-text">
+                                    <?php
+                                    $d_date = $config->Datediff_day($rs['driver_license_expire']);
+                                    if ($d_date <= 0) {
+                                        $status = "<p style='color:red;'><i class='fa fa-remove'></i> หมดอายุ</p>";
+                                    } else if ($d_date <= 15) {
+                                        $status = "<p style='color:orange;'><i class='fa fa-warning'></i> เหลือหน้อย</p>";
+                                    } else {
+                                        $status = "<p style='color:green;'><i class='fa fa-check'></i> ใช้งานปกติ</p>";
+                                    }
+
+                                    echo $status;
+                                    ?>
+                                </span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4">
+                            <div class="description-block">
+                                <h5 class="description-header">ข้อมูล</h5>
+                                <span class="description-text">
+                                    <a href="<?php echo Url::to(['view','id' => $rs['id']])?>"><i class="fa fa-eye"></i> คลิก</a>
+                                </span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>      

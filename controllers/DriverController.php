@@ -34,9 +34,11 @@ class DriverController extends Controller {
     public function actionIndex() {
         $searchModel = new DriverSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $driver = Driver::find()->all();
         return $this->render('index', [
                     'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider
+                    'dataProvider' => $dataProvider,
+                    'driver' => $driver,
         ]);
     }
 
