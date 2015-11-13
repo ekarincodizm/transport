@@ -92,6 +92,8 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                     <li><a href="#timeline" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
                     <li><a href="#settings" data-toggle="tab"><i class="fa fa-bar-chart"></i> ภาพรวม</a></a></li>
                     <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> บัญชีเงินเดือน</a></a></li>
+                    <li><a href="#incom" data-toggle="tab" onclick="load_incom('<?php echo $model->driver_id ?>');"><i class="fa fa-download"></i> รายรับ</a></a></li>
+                    <li><a href="#expenses" data-toggle="tab" onclick="load_expenses('<?php echo $model->driver_id ?>');"><i class="fa fa-upload"></i> รายจ่าย</a></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
@@ -212,14 +214,14 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                                     $yearnow = date("Y");
                                                     for ($i = $yearnow; $i >= ($yearnow - 2); $i--):
                                                         ?>
-                                                        <option value="<?php echo $yearnow; ?>"><?php echo $yearnow + 543; ?></option>
+                                                        <option value="<?php echo $i; ?>"><?php echo $i + 543; ?></option>
                                                     <?php endfor; ?>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                                        <button id="" class="btn btn-success btn-block" onclick="save_salary();"><i class="fa fa-money"></i> จ่าย้งินเดือน</button>
+                                        <button id="" class="btn btn-success btn-block" onclick="save_salary();"><i class="fa fa-money"></i> จ่ายเงินเดือน</button>
                                     </div>
                                 </div>
                             </div>
@@ -327,7 +329,7 @@ $this->registerJs(
 <script type="text/javascript">
     //ประวัติการวิ่งรถ
     function get_history(driver_id) {
-        $("#history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        $("#history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         var url = "<?php echo Url::to(['history']) ?>";
         var data = {driver_id: driver_id};
 
@@ -338,7 +340,7 @@ $this->registerJs(
 
     //ประวัติการรับเงินเดือน
     function load_salary() {
-        $("#result-salary").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        $("#result-salary").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         var url = "<?php echo Url::to(['salary/load_salary']) ?>";
         var employee = $("#employee").val();
         var data = {employee: employee};

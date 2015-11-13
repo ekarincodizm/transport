@@ -114,4 +114,35 @@ class TruckController extends Controller {
         }
     }
 
+    public function actionLoad_history() {
+        $truck = new Truck();
+        $id = \Yii::$app->request->post('id');
+        $history = $truck->get_history($id);
+
+        return $this->renderPartial('load_history', [
+                    'history' => $history,
+        ]);
+    }
+    
+    public function actionLoad_repair() {
+        $truck = new Truck();
+        $license_plate = \Yii::$app->request->post('license_plate');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+        $repair_order = $truck->get_repair_in_order($license_plate,$year,$month);
+
+        return $this->renderPartial('load_repair', [
+                    'repair_order' => $repair_order,
+        ]);
+    }
+    
+    public function actionGet_truck(){
+        $result = Truck::find()->orderBy(['id' => 'DESC'])->all();
+        
+        return $this->renderPartial('list_truck',[
+           "truck" => $result, 
+        ]);
+
+    }
+
 }

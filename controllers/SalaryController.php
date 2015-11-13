@@ -115,10 +115,9 @@ class SalaryController extends Controller {
     }
 
     public function actionLoad_salary() {
+        $Model = new Salary();
         $employee = \Yii::$app->request->post('employee');
-        $salary = Salary::find()->where(['employee' => $employee])
-                ->orderBy(['year' => 'DESC', 'month' => 'DESC'])
-                ->all();
+        $salary = $Model->getsalary_one($employee);
 
         return $this->renderPartial('load_salary', [
                     'salary' => $salary
@@ -137,6 +136,13 @@ class SalaryController extends Controller {
 
         Yii::$app->db->createCommand()
                 ->insert("salary", $columns)
+                ->execute();
+    }
+    
+    public function actionDelete_salary(){
+        $id = \Yii::$app->request->post('id');
+        \Yii::$app->db->createCommand()
+                ->delete("salary","id = '$id' ")
                 ->execute();
     }
 

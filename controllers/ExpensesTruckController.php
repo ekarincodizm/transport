@@ -59,6 +59,7 @@ class ExpensesTruckController extends Controller {
         $model = new ExpensesTruck();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->create_date = date("Y-m-d H:i:s");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

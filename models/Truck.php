@@ -65,4 +65,40 @@ class Truck extends \yii\db\ActiveRecord {
         ];
     }
 
+    //ประวัติการวิ่งรถ
+    function get_history($id){
+        $sql = "SELECT *
+                FROM orders_transport o 
+                WHERE (o.truck1 = '$id' OR o.truck2 = '$id')
+                ORDER BY o.id DESC ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+    
+    //ประวัติการซ่อมระหว่างขนส่ง
+    function get_repair_in_order($lincense_plate = null,$year = null,$month = null){
+        $sql = "(
+                    SELECT o.create_date,o.detail,o.price,'0' AS order_id
+                                    FROM `repair` o 
+                                    WHERE o.truck_license = '$lincense_plate' 
+                                        AND LEFT(o.create_date,4) = '$year'
+                                        AND SUBSTR(o.create_date,6,2) = '$month'
+                                    ORDER BY o.id DESC
+                    )
+
+                    UNION
+
+                    (
+                    SELECT e.create_date,e.detail,e.price,e.order_id
+                                    FROM expenses_truck e
+                                    WHERE e.truck_license = '$lincense_plate' 
+                                        AND LEFT(e.create_date,4) = '$year'
+                                        AND SUBSTR(e.create_date,6,2) = '$month'
+                                    ORDER BY e.id DESC
+                    )
+
+                    ORDER BY create_date DESC ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
 }

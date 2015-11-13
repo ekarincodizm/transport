@@ -6,7 +6,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+//use yii\widgets\DetailView;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -771,9 +771,22 @@ $order_model = new \app\models\OrdersTransport();
 <!-- รายรับ - รายจ่าย เที่ยวนี้ -->
 <script type="text/javascript">
     function delete_assign(id) {
-        var r = confirm("คุณแน่ใจหรือไม่ ...?");
-        if (r == true) {
+        //var r = confirm("คุณแน่ใจหรือไม่ ...?");
+        swal({   title: "คุณแน่ใจหรือไม่ ...?",   text: "คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่!",   type: "warning",   showCancelButton: true,   confirmButtonColor: "#DD6B55",   confirmButtonText: "ใช่, ต้องการลบ!",   closeOnConfirm: false }, 
+        function(){   
             var url = "<?php echo Url::to(['order-transport/delete_assign']) ?>";
+            var data = {id: id};
+
+            $.post(url, data, function (success) {
+                swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success"); 
+                window.location.reload();
+                return false;
+            });
+            
+        });
+        /*
+        if (r == true) {
+            var url = "<?//php echo Url::to(['order-transport/delete_assign']) ?>";
             var data = {id: id};
 
             $.post(url, data, function (success) {
@@ -781,6 +794,7 @@ $order_model = new \app\models\OrdersTransport();
                 return false;
             });
         }
+        */
     }
 </script>
 

@@ -8,7 +8,7 @@ use app\models\CustomerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\OrdersTransport;
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
@@ -120,6 +120,41 @@ class CustomerController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionGet_history_transport() {
+        $Model = new Customer();
+        $employer = \Yii::$app->request->post('employer');
+        $result = $Model->get_history_transport($employer);
+
+        return $this->renderPartial('history_transport', [
+                    'history' => $result,
+        ]);
+    }
+    
+    //รายลัเอียดการขนส่งของแต่ละใบปฏิบัติงาน
+    public function actionDetail_transport($id = null){
+        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
+        $assign_model = new \app\models\Assign();
+        //$outgoings_model = new \app\models\Outgoings();
+        //$expenses_model = new \app\models\ExpensesTruck();
+        //$outgoings = $outgoings_model->find()->where(['order_id' => $order_id])->all();
+        //$expenses = $expenses_model->find()->where(['order_id' => $order_id])->all();
+        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
+        $model = OrdersTransport::findOne($id);
+
+        $page = $this->renderPartial('detail_transport', [
+            'model' => $model,
+            'assigns' => $assign,
+            //'outgoings' => $outgoings,
+            //'expenses' => $expenses,
+            //'order_id' => $order_id,
+        ]);
+
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($page);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output($order_id . ".pdf", "I");
     }
 
 }

@@ -55,5 +55,20 @@ class Customer extends \yii\db\ActiveRecord {
             'create_date' => 'วันที่บันทึก',
         ];
     }
+    
+    //ข้อมูลรายการการว่าจ้าง
+    function get_history_transport($employer){
+        return OrdersTransport::find()->where(['employer' => $employer])->all();
+    }
+    
+    //ค่าใช้จ่ายรวมในแต่ละใบปฏิบัติงานของลูกค้า
+    function sum_expenses($order_id = null){
+        $sql = "SELECT SUM(a.income) AS expenses
+                FROM assign a 
+                WHERE a.order_id = '$order_id'";
+        $rs = \Yii::$app->db->createCommand($sql)->queryOne();
+        
+        return $rs['expenses'];
+    }
 
 }

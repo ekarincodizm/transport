@@ -29,11 +29,12 @@ class AdminLteAsset extends AssetBundle {
         'web/themes/AdminLTE/plugins/datatables/dataTables.bootstrap.css',
         'web/croppic-master/assets/css/main.css',
         'web/croppic-master/assets/css/croppic.css',
+        
+        //Alert 
+        'web/lib/sweetalert-master/dist/sweetalert.css',
     ];
     public $js = [
-
-        'web/themes/AdminLTE/plugins/datatables/jquery.dataTables.js',
-        'web/themes/AdminLTE/plugins/datatables/dataTables.bootstrap.js',
+        
         'web/themes/AdminLTE/bootstrap/js/bootstrap.min.js',
         'web/themes/AdminLTE/plugins/fastclick/fastclick.min.js',
         'web/themes/AdminLTE/dist/js/app.min.js',
@@ -47,6 +48,10 @@ class AdminLteAsset extends AssetBundle {
         'web/themes/AdminLTE/plugins/chartjs/Chart.min.js',
         'web/croppic-master/assets/js/jquery.mousewheel.min.js',
         'web/croppic-master/croppic.min.js',
+        'web/themes/AdminLTE/plugins/datatables/jquery.dataTables.js',
+        'web/themes/AdminLTE/plugins/datatables/dataTables.bootstrap.js',
+        //Alert
+        'web/lib/sweetalert-master/dist/sweetalert.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

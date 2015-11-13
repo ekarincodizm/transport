@@ -52,4 +52,13 @@ class Salary extends \yii\db\ActiveRecord
             'date_salary' => 'วันที่จ่าย',
         ];
     }
+    
+    function getsalary_one($employee = null){
+        $query = "SELECT s.*,m.month_th
+                  FROM salary s INNER JOIN month m ON s.month = m.id 
+                  WHERE s.employee = '$employee'
+                  ORDER BY s.year,s.month DESC";
+        $result = \Yii::$app->db->createCommand($query)->queryAll();
+        return $result;
+    }
 }

@@ -18,7 +18,7 @@ $this->title = 'ตงตงทรานสปอร์ต';
 <br/>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
         <a href="<?php echo Url::to(['order-transport/index']) ?>">
             <div class="thumbnail" id="btn">
                 <img src="<?php echo Url::to('@web/web/images/data-transport-icon.png') ?>"/>
@@ -29,7 +29,7 @@ $this->title = 'ตงตงทรานสปอร์ต';
             </div>
         </a>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
         <div class="thumbnail" id="btn">
             <img src="<?php echo Url::to('@web/web/images/company-building-icon.png') ?>"/>
             <div class="caption" style=" text-align: center;">
@@ -38,16 +38,66 @@ $this->title = 'ตงตงทรานสปอร์ต';
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-        <div class="thumbnail" id="btn">
-            <img src="<?php echo Url::to('@web/web/images/Car-Repair-icon.png') ?>"/>
-            <div class="caption">
-                <h3>ซ่อมบำรุง</h3>
-                <p>(บันทึกรายการซ่อมบำรุงรถ)</p>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+        <a href="javascript:popup_truck()">
+            <div class="thumbnail" id="btn">
+                <img src="<?php echo Url::to('@web/web/images/Car-Repair-icon.png') ?>"/>
+                <div class="caption">
+                    <h3>ซ่อมบำรุง</h3>
+                    <p>(บันทึกรายการซ่อมบำรุงรถ)</p>
+                </div>
             </div>
-        </div>
+        </a>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+        <a href="javascript:popup_truck()">
+            <div class="thumbnail" id="btn">
+                <img src="<?php echo Url::to('@web/web/images/Account-icon.png') ?>"/>
+                <div class="caption">
+                    <h3>(รายได้ - รายจ่าย) พนักงาน</h3>
+                    <p>(บันทึก เงินเดือน/รายได้/รายจ่าย พนักงาน)</p>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
+<!---- 
+    ############ Model Get ทะเบียนรถ เพื่อบันทึกรายการซ่อม #############
+-->
+
+
+<div class="modal" id="popup-truck">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-truck text-green"></i> เลือกรถ</h4>
+            </div>
+            <div class="modal-body">
+                <div id="list-truck-result"></div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script type="text/javascript">
+    function popup_truck() {
+        $("#popup-truck").modal();
+        $("#list-truck-result").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+        var url = "<?php echo Url::to(['truck/get_truck']) ?>";
+        var data = {a: 1};
+        $.post(url, data, function (result) {
+            $("#list-truck-result").html(result);
+        });
+
+    }
+
+</script>
 
 
 

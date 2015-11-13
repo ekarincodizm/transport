@@ -34,7 +34,8 @@ function Unit_price_Calculator() {
     var weigh = $("#weigh").val();
     if (weigh == "") {
         $("#unit_price").prop("disabled", true);
-        alert("ยังไม่ได้กรอกช่องน้ำหนัก ...");
+        //alert("ยังไม่ได้กรอกช่องน้ำหนัก ...");
+        swal("แจ้งเตือน!", "ยังไม่ได้กรอกช่องน้ำหนัก..!", "warning");
         $("#r1").prop("checked", false);
         $("#weigh").focus();
         return false;
@@ -71,13 +72,14 @@ function Save_before_release() {
     var data = {order_id: order_id, oil_set: oil_set};
 
     if (oil_set == "") {
-        alert("ช่องน้ำมันที่กำหนดต้องไม่เป็นค่าว่าง ..");
+        //alert("ช่องน้ำมันที่กำหนดต้องไม่เป็นค่าว่าง ..");
+        swal("แจ้งเตือน!", "ช่องน้ำมันที่กำหนดต้องไม่เป็นค่าว่าง ..!", "warning");
         $("#oil_set").focus();
         return false;
     }
 
     $.post(url, data, function (datas) {
-        alert("บันทึกข้อมูลแล้ว");
+        swal("Success!", "บันทึกข้อมูลส่วนนี้แล้ว", "success");
         $("#oil_set").val(datas.oil_set);
         $("#oil_set_ofter").val(datas.oil_set);
         compensate_calculus();
@@ -195,9 +197,10 @@ function save_fuel() {
     var distance = $("#distance").val();
     var avg_oil = $("#avg_oil").val();
     var compensate = $("#compensate").val();
-    
-    if(oil == "" || oil_unit == "" || now_mile == ""){
-        alert("กรอกข้อมูลในเครื่อง * ไม่ครบ");
+
+    if (oil == "" || oil_unit == "" || now_mile == "") {
+        //alert("กรอกข้อมูลในเครื่อง * ไม่ครบ");
+        swal("แจ้งเตือน!", "กรอกข้อมูลในเครื่อง * ไม่ครบ ..!", "warning");
         return false;
     }
     var data = {
@@ -228,8 +231,8 @@ function save_fuel() {
         $("#avg_oil").val(datas.avg_oil);
         $("#compensate").val(datas.compensate);
     }, "json");
-    
-    $("#process_fuel_success").fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+
+    $("#process_fuel_success").fadeIn(300).delay(1000).fadeOut(400);
 }
 
 function oil_calculus() {
@@ -308,7 +311,8 @@ function save_outgoings() {
     var price = $("#price").val();
     if (detail == '' || price == '') {
         $("#l-ding").hide();
-        alert("กรอกข้อมูลไม่ครบ ...");
+        //alert("กรอกข้อมูลไม่ครบ ...");
+        swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ ..!", "warning");
         return false;
     }
     var data = {
@@ -343,7 +347,8 @@ function save_expenses() {
     var price = $("#truck_price").val();
     if (detail == '' || price == '' || truck_license == '') {
         $("#e-ding").hide();
-        alert("กรอกข้อมูลไม่ครบ ...");
+        //alert("กรอกข้อมูลไม่ครบ ...");
+        swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ..!", "warning");
         return false;
     }
     var data = {
@@ -362,13 +367,13 @@ function save_expenses() {
 
 
 //บันทึกหมายเหตุ
-function save_message(){
+function save_message() {
     var url = $("#Url_save_message").val();
     var order_id = $("#order_id").val();
     var message = $("#message").val();
-    var data = {message: message,order_id: order_id};
-    
-    $.post(url,data,function(success){
-        $("#process_success").fadeIn( 300 ).delay( 1000 ).fadeOut( 400 );
+    var data = {message: message, order_id: order_id};
+
+    $.post(url, data, function (success) {
+        $("#process_success").fadeIn(300).delay(1000).fadeOut(400);
     });
 }
