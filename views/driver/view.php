@@ -92,7 +92,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                     <li><a href="#timeline" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
                     <li><a href="#settings" data-toggle="tab"><i class="fa fa-bar-chart"></i> ภาพรวม</a></a></li>
                     <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> บัญชีเงินเดือน</a></a></li>
-                    <li><a href="#incom" data-toggle="tab" onclick="load_incom('<?php echo $model->driver_id ?>');"><i class="fa fa-download"></i> รายรับ</a></a></li>
+                    <li><a href="#income" data-toggle="tab" onclick="load_income();"><i class="fa fa-download"></i> รายรับ</a></a></li>
                     <li><a href="#expenses" data-toggle="tab" onclick="load_expenses('<?php echo $model->driver_id ?>');"><i class="fa fa-upload"></i> รายจ่าย</a></a></li>
                 </ul>
                 <div class="tab-content">
@@ -235,6 +235,171 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
 
                     </div>
                     <!-- /.tab-pane -->
+
+                    <!--
+                    ################ Tab บันทึกรายรับ พนักงาน ################
+                    -->
+                    <div class="tab-pane" id="income">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ประจำเดือน</div>
+                                        <select id="month_income" name="month_income" class="form-control">
+                                            <?php
+                                            /*$monthnow = date("m");
+                                            if (strlen($monthnow) > 1) {
+                                                $month = $monthnow;
+                                            } else {
+                                                $month = "0" . $monthnow;
+                                            }
+                                            $month_val = $config->Monthval();
+                                            $month_full = $config->MonthFull();
+                                             * 
+                                             */
+                                            for ($a = 0; $a <= 11; $a++):
+                                                ?>
+                                                <option value="<?php echo $month_val[$a]; ?>" <?php
+                                                if ($month_val[$a] == $month) {
+                                                    echo "selected = 'selected' ";
+                                                }
+                                                ?>>
+                                                            <?php echo $month_val[$a] . " - " . $month_full[$a]; ?>
+                                                </option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ประจำปี</div>
+                                        <select id="year_income" name="year_income" class="form-control">
+                                            <?php
+                                            //$yearnow = date("Y");
+                                            for ($b = $yearnow; $b >= ($yearnow - 2); $b--):
+                                                ?>
+                                                <option value="<?php echo $b; ?>"><?php echo $b + 543; ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">รายการ</div>
+                                        <input type="text" id="detail_income" name="detail_income" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ราคา</div>
+                                        <input type="text" id="price_income" name="price_income" class="form-control" placeholder="ตัวเลขเท่านั้น ..." onkeypress="return chkNumber()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                <button id="" class="btn btn-success btn-block" onclick="save_income();"><i class="fa fa-save"></i> บันทึก</button>
+                            </div>
+                        </div>
+                        
+                        <div id="load_income"></div>
+                        
+                    </div>
+                    
+                    <!--
+                    ################ Tab บันทึกรายรับ พนักงาน ################
+                    -->
+                    <div class="tab-pane" id="expenses">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ประจำเดือน</div>
+                                        <select id="month_expenses" name="month_expenses" class="form-control">
+                                            <?php
+                                            /*$monthnow = date("m");
+                                            if (strlen($monthnow) > 1) {
+                                                $month = $monthnow;
+                                            } else {
+                                                $month = "0" . $monthnow;
+                                            }
+                                            $month_val = $config->Monthval();
+                                            $month_full = $config->MonthFull();
+                                             * 
+                                             */
+                                            for ($c = 0; $c <= 11; $c++):
+                                                ?>
+                                                <option value="<?php echo $month_val[$c]; ?>" <?php
+                                                if ($month_val[$c] == $month) {
+                                                    echo "selected = 'selected' ";
+                                                }
+                                                ?>>
+                                                            <?php echo $month_val[$c] . " - " . $month_full[$c]; ?>
+                                                </option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ประจำปี</div>
+                                        <select id="year_expenses" name="year_expenses" class="form-control">
+                                            <?php
+                                            //$yearnow = date("Y");
+                                            for ($d = $yearnow; $d >= ($yearnow - 2); $d--):
+                                                ?>
+                                                <option value="<?php echo $d; ?>"><?php echo $d + 543; ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">รายการ</div>
+                                        <input type="text" id="detail_expenses" name="detail_expenses" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ราคา</div>
+                                        <input type="text" id="price_espenses" name="price_expenses" class="form-control" placeholder="ตัวเลขเท่านั้น ..." onkeypress="return chkNumber()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                <button id="" class="btn btn-success btn-block" onclick="save_expenses();"><i class="fa fa-save"></i> บันทึก</button>
+                            </div>
+                        </div>
+                        
+                        <div id="load_expenses"></div>
+                        
+                    </div>
+
                 </div>
                 <!-- /.tab-content -->
             </div>
@@ -246,6 +411,10 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
 
 </section>
 <!-- /.content -->
+
+
+<!-- //////////////////////////////////////////////////////////////////////////-->
+
 
 <!--
     ########### Dialog เพิ่มเงินเดือนพนักงาน ##############
@@ -273,10 +442,6 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                         <div id="result-salary-moaster"></div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline">Save changes</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -401,8 +566,82 @@ $this->registerJs(
         };
 
         $.post(url, data, function (result) {
-            load_salary();
+            if (result == '1') {
+                swal("แจ้งเตือน!", "จ่ายเงินเดือนพนักงานคนนี้ไปแล้ว", "warning");
+                return false;
+            } else {
+                swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+                load_salary();
+            }
         });
 
+    }
+    
+    //function เพิ่มรายรับพนักงาน
+    function save_income(){
+         var url = "<?php echo Url::to(['driver-income/save']) ?>";
+        var price_income = $("#price_income").val();
+        var detail_income = $("#detail_income").val();
+        var employee = $("#employee").val();
+        var month_income = $("#month_income").val();
+        var year_income = $("#year_income").val();
+        
+        if(price_income == '' || detail_income == ''){
+            swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ ...!", "warning");
+            return false;
+        }
+        
+        var data = {
+            price_income: price_income,
+            detail_income:detail_income,
+            employee: employee,
+            month_income: month_income,
+            year_income: year_income
+        };
+
+        $.post(url, data, function (result) {
+                swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+                load_income();
+        });
+    }
+    
+    //function เพิ่มรายรับพนักงาน
+    function load_income(){
+        $("#load_income").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['driver-income/load_income']) ?>";
+        var employee = $("#employee").val();
+        var month_income = $("#month_income").val();
+        var year_income = $("#year_income").val();
+
+        var data = {
+            employee: employee,
+            month: month_income,
+            year: year_income
+        };
+
+        $.post(url, data, function (result) {
+                //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+                $("#load_income").html(result);
+        });
+    }
+    
+    //function เพิ่มรายรับพนักงาน
+    function load_expenses(){
+        $("#load_income").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['driver-expenses/load_expenses']) ?>";
+        var employee = $("#employee").val();
+        var month_expenses = $("#month_expenses").val();
+        var year_expenses = $("#year_expenses").val();
+
+        var data = {
+            employee: employee,
+            month: month_expenses,
+            year: year_expenses
+        };
+
+        $.post(url, data, function (result) {
+                //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+                $("#load_expenses").html(result);
+        });
     }
 </script>
