@@ -98,6 +98,7 @@ $this->title = "ตงตงทรานสปอร์ต";
                         <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> บริษัทรถร่วม</a></li>
                         <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> ประเภทรถ</a></li>
                         <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> ประเภทสินค้า</a></li>
+                        <li><a href="<?php echo Url::to(['company/index']); ?>"><i class="fa fa-university text-success"></i> ข้อมูลบริษัท</a></li>
                         <li class="header"><i class="fa fa-book"></i> รายงาน</li>
                         <li><a href="#"><i class="fa fa-bar-chart text-danger"></i> รับ - จ่าย(รายปี)</a></li>
                         <li><a href="#"><i class="fa fa-bar-chart text-success"></i> รับ - จ่าย(รายเดือน)</a></li>
