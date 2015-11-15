@@ -134,15 +134,24 @@ class SalaryController extends Controller {
             "date_salary" => date("Y-m-d")
         );
 
-        Yii::$app->db->createCommand()
-                ->insert("salary", $columns)
-                ->execute();
+        $result = Salary::find()
+                ->where(['employee' => $request->post('employee')])
+                ->andWhere(['year' => $request->post('year')])
+                ->andWhere(['month' => $request->post('month')])
+                ->one();
+        if (empty($result)) {
+            Yii::$app->db->createCommand()
+                    ->insert("salary", $columns)
+                    ->execute();
+        } else {
+            echo "1";
+        }
     }
-    
-    public function actionDelete_salary(){
+
+    public function actionDelete_salary() {
         $id = \Yii::$app->request->post('id');
         \Yii::$app->db->createCommand()
-                ->delete("salary","id = '$id' ")
+                ->delete("salary", "id = '$id' ")
                 ->execute();
     }
 

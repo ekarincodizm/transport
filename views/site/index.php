@@ -51,7 +51,7 @@ $this->title = 'ตงตงทรานสปอร์ต';
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-        <a href="javascript:popup_truck()">
+        <a href="javascript:popup_driver()">
             <div class="thumbnail" id="btn">
                 <img src="<?php echo Url::to('@web/web/images/Account-icon.png') ?>"/>
                 <div class="caption">
@@ -62,11 +62,10 @@ $this->title = 'ตงตงทรานสปอร์ต';
         </a>
     </div>
 </div>
+
 <!---- 
     ############ Model Get ทะเบียนรถ เพื่อบันทึกรายการซ่อม #############
 -->
-
-
 <div class="modal" id="popup-truck">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -85,6 +84,30 @@ $this->title = 'ตงตงทรานสปอร์ต';
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<!---- 
+    ############ Model Get รายชื่อพนักงาน #############
+-->
+<div class="modal" id="popup-driver">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-users text-green"></i> เลือกพนักงาน</h4>
+            </div>
+            <div class="modal-body">
+                <div id="list-driver"></div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
 <script type="text/javascript">
     function popup_truck() {
         $("#popup-truck").modal();
@@ -96,7 +119,19 @@ $this->title = 'ตงตงทรานสปอร์ต';
         });
 
     }
+</script>
 
+<script type="text/javascript">
+    function popup_driver() {
+        $("#popup-driver").modal();
+        $("#list-driver").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+        var url = "<?php echo Url::to(['driver/get_driver']) ?>";
+        var data = {a: 1};
+        $.post(url, data, function (result) {
+            $("#list-driver").html(result);
+        });
+
+    }
 </script>
 
 

@@ -284,5 +284,13 @@ class DriverController extends Controller {
 
         return $this->renderPartial('history', $data);
     }
-
+    
+    public function actionGet_driver(){
+        $driver = Driver::find()->all();
+        return $this->renderPartial('list_driver',[
+            'driver' => $driver,
+        ]);
+    }
+    
+   
 }
