@@ -317,6 +317,88 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                         <div id="load_income"></div>
                         
                     </div>
+                    
+                    <!--
+                    ################ Tab บันทึกรายรับ พนักงาน ################
+                    -->
+                    <div class="tab-pane" id="expenses">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ประจำเดือน</div>
+                                        <select id="month_expenses" name="month_expenses" class="form-control">
+                                            <?php
+                                            /*$monthnow = date("m");
+                                            if (strlen($monthnow) > 1) {
+                                                $month = $monthnow;
+                                            } else {
+                                                $month = "0" . $monthnow;
+                                            }
+                                            $month_val = $config->Monthval();
+                                            $month_full = $config->MonthFull();
+                                             * 
+                                             */
+                                            for ($c = 0; $c <= 11; $c++):
+                                                ?>
+                                                <option value="<?php echo $month_val[$c]; ?>" <?php
+                                                if ($month_val[$c] == $month) {
+                                                    echo "selected = 'selected' ";
+                                                }
+                                                ?>>
+                                                            <?php echo $month_val[$c] . " - " . $month_full[$c]; ?>
+                                                </option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ประจำปี</div>
+                                        <select id="year_expenses" name="year_expenses" class="form-control">
+                                            <?php
+                                            //$yearnow = date("Y");
+                                            for ($d = $yearnow; $d >= ($yearnow - 2); $d--):
+                                                ?>
+                                                <option value="<?php echo $d; ?>"><?php echo $d + 543; ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">รายการ</div>
+                                        <input type="text" id="detail_expenses" name="detail_expenses" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">ราคา</div>
+                                        <input type="text" id="price_espenses" name="price_expenses" class="form-control" placeholder="ตัวเลขเท่านั้น ..." onkeypress="return chkNumber()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                <button id="" class="btn btn-success btn-block" onclick="save_expenses();"><i class="fa fa-save"></i> บันทึก</button>
+                            </div>
+                        </div>
+                        
+                        <div id="load_expenses"></div>
+                        
+                    </div>
 
                 </div>
                 <!-- /.tab-content -->
@@ -540,6 +622,26 @@ $this->registerJs(
         $.post(url, data, function (result) {
                 //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
                 $("#load_income").html(result);
+        });
+    }
+    
+    //function เพิ่มรายรับพนักงาน
+    function load_expenses(){
+        $("#load_income").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['driver-expenses/load_expenses']) ?>";
+        var employee = $("#employee").val();
+        var month_expenses = $("#month_expenses").val();
+        var year_expenses = $("#year_expenses").val();
+
+        var data = {
+            employee: employee,
+            month: month_expenses,
+            year: year_expenses
+        };
+
+        $.post(url, data, function (result) {
+                //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+                $("#load_expenses").html(result);
         });
     }
 </script>

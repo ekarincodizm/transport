@@ -123,7 +123,8 @@ class ExpensesTruckController extends Controller {
             "order_id" => $order_id,
             "truck_license" => $truck_license,
             "detail" => $detail,
-            "price" => $price
+            "price" => $price,
+            "create_date" => date("Y-m-d H:i:s"),
         );
 
         \Yii::$app->db->createCommand()
