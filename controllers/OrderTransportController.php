@@ -119,8 +119,11 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
+        //$this->findModel($id)->delete();
+        $columes = array("delete_flag" => '1');
+        Yii::$app->db->createCommand()
+                ->update("orders_transport", $columes,"id = '$id' ")
+                ->execute();
         return $this->redirect(['index']);
     }
 

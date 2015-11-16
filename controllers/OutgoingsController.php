@@ -60,7 +60,9 @@ class OutgoingsController extends Controller {
     public function actionCreate() {
         $model = new Outgoings();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->create_date = date("Y-m-d H:i:s");
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -125,7 +127,8 @@ class OutgoingsController extends Controller {
         $columns = array(
             "order_id" => $order_id,
             "detail" => $detail,
-            "price" => $price
+            "price" => $price,
+            "create_date" => date("Y-m-d H:i:s"),
         );
 
         \Yii::$app->db->createCommand()
