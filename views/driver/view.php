@@ -245,7 +245,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำเดือน</div>
-                                        <select id="month_income" name="month_income" class="form-control">
+                                        <select id="month_income" name="month_income" class="form-control" onchange="load_income()">
                                             <?php
                                             /* $monthnow = date("m");
                                               if (strlen($monthnow) > 1) {
@@ -275,7 +275,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำปี</div>
-                                        <select id="year_income" name="year_income" class="form-control">
+                                        <select id="year_income" name="year_income" class="form-control" onchange="load_income()">
                                             <?php
                                             //$yearnow = date("Y");
                                             for ($b = $yearnow; $b >= ($yearnow - 2); $b--):
@@ -327,7 +327,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำเดือน</div>
-                                        <select id="month_expenses" name="month_expenses" class="form-control">
+                                        <select id="month_expenses" name="month_expenses" class="form-control" onchange="load_expenses_driver()">
                                             <?php
                                             /* $monthnow = date("m");
                                               if (strlen($monthnow) > 1) {
@@ -357,7 +357,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำปี</div>
-                                        <select id="year_expenses" name="year_expenses" class="form-control">
+                                        <select id="year_expenses" name="year_expenses" class="form-control" onchange="load_expenses_driver()">
                                             <?php
                                             //$yearnow = date("Y");
                                             for ($d = $yearnow; $d >= ($yearnow - 2); $d--):

@@ -147,4 +147,12 @@ class DriverIncomeController extends Controller
             "income" => $result,
         ]);
     }
+    
+    public function actionDelete_income()
+    {
+        $id = Yii::$app->request->post('id');
+        $this->findModel($id)->delete();
+
+        //return $this->redirect(['index']);
+    }
 }

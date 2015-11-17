@@ -152,4 +152,9 @@ class DriverExpensesController extends Controller
         ]);
     }
     
+    public function actionDelete_expenses(){
+        $id = Yii::$app->request->post('id');
+        $this->findModel($id)->delete();
+    }
+    
 }
