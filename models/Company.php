@@ -22,7 +22,6 @@ class Company extends \yii\db\ActiveRecord
     {
         return 'company';
     }
-
     /**
      * @inheritdoc
      */
