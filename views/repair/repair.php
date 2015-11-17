@@ -9,6 +9,7 @@ use yii\helpers\Url;
   $order = new app\models\OrdersTransport();
  */
 use yii\helpers\Html;
+
 $config = new app\models\Config_system();
 /* @var $this yii\web\View */
 /* @var $model app\models\Repair */
@@ -26,48 +27,88 @@ $this->params['breadcrumbs'][] = 'บันทึกรายการซ่อ�
         </div>
     </div>
     <div class="box-body">
-        <table class="table table-bordered table-striped" id="result_repair">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>วันที่</th>
-                    <th>รายการ</th>
-                    <th style="text-align: center;">จำนวนเงิน</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 0;
-                foreach ($repair as $rs): $i++;
-                    //$order_id = $order->find()->where(['order_id' => $rs['order_id']])->one()['id'];
-                    ?>
-                    <tr>
-                        <td><?php echo $i; ?></td>
-                        <td>
-                            <?php echo $config->thaidate($rs['create_date']) ?>
-                        </td>
-                        <td><?php echo $rs['detail'] ?></td>
-                        <td style=" text-align: right;">
-                            <?php echo number_format($rs['price'], 2); ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">ประจำเดือน</div>
+                        <select id="month" name="month" class="form-control">
+                            <?php
+                            $monthnow = date("m");
+                            if (strlen($monthnow) > 1) {
+                                $month = $monthnow;
+                            } else {
+                                $month = "0" . $monthnow;
+                            }
+                            $month_val = $config->Monthval();
+                            $month_full = $config->MonthFull();
+                            for ($i = 0; $i <= 11; $i++):
+                                ?>
+                                <option value="<?php echo $month_val[$i]; ?>" <?php
+                                if ($month_val[$i] == $month) {
+                                    echo "selected = 'selected' ";
+                                }
+                                ?>>
+                                            <?php echo $month_val[$i] . " - " . $month_full[$i]; ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">ประจำปี</div>
+                        <select id="year" name="year" class="form-control">
+                            <?php
+                            $yearnow = date("Y");
+                            for ($i = $yearnow; $i >= ($yearnow - 2); $i--):
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i + 543; ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                <button id="" class="btn btn-info btn-block" onclick="load_repair();"><i class="fa fa-search"></i> ค้นหา</button>
+            </div>
+        </div>
+
+        <div id="result_repair"></div>
+
     </div>
 </div>
-<?php
-$this->registerJs('
-    $(function () {
-        $("#result_repair").DataTable({
-            "paging": false,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "scrollY": "250px"
+<script type="text/javascript">
+//function เพิ่มรายรับพนักงาน
+    //load_repair();
+    
+    <?php
+    $this->registerJs('
+        $(function () {
+            load_repair();
         });
-    });
-    ');
-?>
+        ');
+    ?>
+
+    function load_repair() {
+        $("#result_repair").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+        var url = "<?php echo Url::to(['repair/load_repair']) ?>";
+        var truck_licenses = "<?php echo $truck_license; ?>";
+        var month = $("#month").val();
+        var year = $("#year").val();
+
+        var data = {
+            truck_licenses: truck_licenses,
+            month: month,
+            year: year
+        };
+
+        $.post(url, data, function (result) {
+            //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+            $("#result_repair").html(result);
+        });
+    }
+</script>

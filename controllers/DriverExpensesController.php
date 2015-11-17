@@ -118,4 +118,43 @@ class DriverExpensesController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    public function actionSave(){
+        $request = \Yii::$app->request;
+        $columns = array(
+            "employee" => $request->post('employee'),
+            "detail" => $request->post('detail_expenses'),
+            "price" => $request->post('price_expenses'),
+            "year" => $request->post('year_expenses'),
+            "month" => $request->post('month_expenses'),
+            "create_date" => date("Y-m-d H:i:s")
+        );
+        
+        \Yii::$app->db->createCommand()
+                ->insert("driver_expenses",$columns)
+                ->execute();
+    }
+    
+    public function actionLoad_expenses(){
+        $driver = new DriverExpenses();
+        $request = \Yii::$app->request;
+        $employee = $request->post('employee');
+        $year = $request->post('year');
+        $month = $request->post('month');
+        $result = $driver->find()
+                ->where(['employee' => $employee])
+                ->andWhere(['year' => $year])
+                ->andWhere(['month' => $month])
+                ->all();
+        
+        return $this->renderPartial('load_expenses',[
+            "expenses" => $result,
+        ]);
+    }
+    
+    public function actionDelete_expenses(){
+        $id = Yii::$app->request->post('id');
+        $this->findModel($id)->delete();
+    }
+    
 }

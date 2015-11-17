@@ -78,7 +78,7 @@ class Truck extends \yii\db\ActiveRecord {
     //ประวัติการซ่อมระหว่างขนส่ง
     function get_repair_in_order($lincense_plate = null,$year = null,$month = null){
         $sql = "(
-                    SELECT o.create_date,o.detail,o.price,'0' AS order_id
+                    SELECT o.id,o.create_date,o.detail,o.price,'0' AS order_id,'0' AS type
                                     FROM `repair` o 
                                     WHERE o.truck_license = '$lincense_plate' 
                                         AND LEFT(o.create_date,4) = '$year'
@@ -89,7 +89,7 @@ class Truck extends \yii\db\ActiveRecord {
                     UNION
 
                     (
-                    SELECT e.create_date,e.detail,e.price,e.order_id
+                    SELECT e.id,e.create_date,e.detail,e.price,e.order_id,'1' AS type
                                     FROM expenses_truck e
                                     WHERE e.truck_license = '$lincense_plate' 
                                         AND LEFT(e.create_date,4) = '$year'

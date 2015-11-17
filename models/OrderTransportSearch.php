@@ -68,6 +68,7 @@ class OrderTransportSearch extends OrdersTransport {
         ]);
 
         $query->andFilterWhere(['like', 'order_id', $this->order_id]);
+        $query->andWhere(['delete_flag' => 0]);
 
         return $dataProvider;
     }

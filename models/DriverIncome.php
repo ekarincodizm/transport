@@ -55,8 +55,9 @@ class DriverIncome extends \yii\db\ActiveRecord {
 
     //ข้อมูลรายรับของพนักงาน
     function income($employee = null, $year = null, $month = null) {
-        $query = "SELECT a.transport_date,'เบี้ยเลี้ยง' AS detail,
-                    IF(LEFT(a.allowance_driver1,5) = '$employee',trim(SUBSTR(a.allowance_driver1,7,15)),trim(SUBSTR(a.allowance_driver2,7,15))) AS price
+        $query = "SELECT a.id,a.transport_date,'เบี้ยเลี้ยง' AS detail,
+                    IF(LEFT(a.allowance_driver1,5) = '$employee',trim(SUBSTR(a.allowance_driver1,7,15)),trim(SUBSTR(a.allowance_driver2,7,15))) AS price,
+                    '0' AS type
                     FROM assign a 
                     WHERE (LEFT(a.allowance_driver1,5) = '$employee' OR LEFT(a.allowance_driver2,5) = '$employee')
                     AND LEFT(a.transport_date,4) = '$year'
@@ -64,7 +65,7 @@ class DriverIncome extends \yii\db\ActiveRecord {
 
                     UNION
 
-                    SELECT d.create_date AS transport_date,detail,price
+                    SELECT d.id,d.create_date AS transport_date,detail,price,'1' AS type
                     FROM driver_income d 
                     WHERE d.month = '$month' AND d.year = '$year' 
                     AND d.employee = '$employee' ";

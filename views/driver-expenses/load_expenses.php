@@ -11,27 +11,25 @@ $config = new app\models\Config_system();
             <th>วันที่</th>
             <th>รายการ</th>
             <th style=" text-align: center;">ราคา</th>
-            <th style=" text-align:  center;">ลบ</th>
+            <th style=" text-align: center;">ลบ</th>
         </tr>
     </thead>
     <tbody>
         <?php
         $sum = 0;
         $i = 0;
-        foreach ($income as $rs): $i++;
+        foreach ($expenses as $rs): $i++;
             $sum = $sum + $rs['price'];
             ?>
             <tr>
                 <td><?php echo $i; ?></td>
-                <td><?php echo $config->thaidate($rs['transport_date']); ?></td>
+                <td><?php echo $config->thaidate($rs['create_date']); ?></td>
                 <td><?php echo $rs['detail']; ?></td>
                 <td style=" text-align: right;"><?php echo number_format($rs['price'], 2); ?></td>
                 <td style=" text-align:  center;">
-                    <?php if ($rs['type'] == 1) { ?>
-                        <a href="javascript:delete_driver_income('<?php echo $rs['id'] ?>')">
-                            <i class="fa fa-remove text-red"></i>
-                        </a>
-                    <?php } ?>
+                    <a href="javascript:delete_driver_expenses('<?php echo $rs['id'] ?>')">
+                        <i class="fa fa-remove text-red"></i>
+                    </a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -46,7 +44,7 @@ $config = new app\models\Config_system();
 </table>
 
 <script type="text/javascript">
-    function delete_driver_income(id) {
+    function delete_driver_expenses(id) {
         //var r = confirm("คุณแน่ใจหรือไม่ ...?");
 
         swal({
@@ -58,10 +56,10 @@ $config = new app\models\Config_system();
             confirmButtonText: "ใช่, ต้องการลบ!",
             closeOnConfirm: false},
         function () {
-            var url = "<?php echo Url::to(['driver-income/delete_income']) ?>";
+            var url = "<?php echo Url::to(['driver-expenses/delete_expenses']) ?>";
             var data = {id: id};
             $.post(url, data, function (success) {
-                load_income();
+                load_expenses_driver();
             });
             swal("Deleted!", "ลบข้อมูลแล้ว.", "success");
         });
@@ -69,4 +67,3 @@ $config = new app\models\Config_system();
 
     }
 </script>
-

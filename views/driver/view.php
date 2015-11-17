@@ -90,10 +90,10 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#activity" data-toggle="tab"><i class="fa fa-user"></i> ข้อมูลทั่วไป</a></li>
                     <li><a href="#timeline" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
-                    <li><a href="#settings" data-toggle="tab"><i class="fa fa-bar-chart"></i> ภาพรวม</a></a></li>
-                    <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> บัญชีเงินเดือน</a></a></li>
-                    <li><a href="#income" data-toggle="tab" onclick="load_income();"><i class="fa fa-download"></i> รายรับ</a></a></li>
-                    <li><a href="#expenses" data-toggle="tab" onclick="load_expenses('<?php echo $model->driver_id ?>');"><i class="fa fa-upload"></i> รายจ่าย</a></a></li>
+                    <li><a href="#settings" data-toggle="tab"><i class="fa fa-bar-chart"></i> ภาพรวม</a></li>
+                    <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> บัญชีเงินเดือน</a></li>
+                    <li><a href="#income" data-toggle="tab" onclick="load_income();"><i class="fa fa-download"></i> รายรับ</a></li>
+                    <li><a href="#expenses" data-toggle="tab" onclick="load_expenses_driver();"><i class="fa fa-upload"></i> รายจ่าย</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
@@ -245,16 +245,16 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำเดือน</div>
-                                        <select id="month_income" name="month_income" class="form-control">
+                                        <select id="month_income" name="month_income" class="form-control" onchange="load_income()">
                                             <?php
-                                            /*$monthnow = date("m");
-                                            if (strlen($monthnow) > 1) {
-                                                $month = $monthnow;
-                                            } else {
-                                                $month = "0" . $monthnow;
-                                            }
-                                            $month_val = $config->Monthval();
-                                            $month_full = $config->MonthFull();
+                                            /* $monthnow = date("m");
+                                              if (strlen($monthnow) > 1) {
+                                              $month = $monthnow;
+                                              } else {
+                                              $month = "0" . $monthnow;
+                                              }
+                                              $month_val = $config->Monthval();
+                                              $month_full = $config->MonthFull();
                                              * 
                                              */
                                             for ($a = 0; $a <= 11; $a++):
@@ -275,7 +275,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำปี</div>
-                                        <select id="year_income" name="year_income" class="form-control">
+                                        <select id="year_income" name="year_income" class="form-control" onchange="load_income()">
                                             <?php
                                             //$yearnow = date("Y");
                                             for ($b = $yearnow; $b >= ($yearnow - 2); $b--):
@@ -286,9 +286,9 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
@@ -299,7 +299,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                                 <div class="form-group">
@@ -313,13 +313,13 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <button id="" class="btn btn-success btn-block" onclick="save_income();"><i class="fa fa-save"></i> บันทึก</button>
                             </div>
                         </div>
-                        
+
                         <div id="load_income"></div>
-                        
+
                     </div>
-                    
+
                     <!--
-                    ################ Tab บันทึกรายรับ พนักงาน ################
+                    ################ Tab บันทึกรายจ่ายพนักงาน ################
                     -->
                     <div class="tab-pane" id="expenses">
                         <div class="row">
@@ -327,16 +327,16 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำเดือน</div>
-                                        <select id="month_expenses" name="month_expenses" class="form-control">
+                                        <select id="month_expenses" name="month_expenses" class="form-control" onchange="load_expenses_driver()">
                                             <?php
-                                            /*$monthnow = date("m");
-                                            if (strlen($monthnow) > 1) {
-                                                $month = $monthnow;
-                                            } else {
-                                                $month = "0" . $monthnow;
-                                            }
-                                            $month_val = $config->Monthval();
-                                            $month_full = $config->MonthFull();
+                                            /* $monthnow = date("m");
+                                              if (strlen($monthnow) > 1) {
+                                              $month = $monthnow;
+                                              } else {
+                                              $month = "0" . $monthnow;
+                                              }
+                                              $month_val = $config->Monthval();
+                                              $month_full = $config->MonthFull();
                                              * 
                                              */
                                             for ($c = 0; $c <= 11; $c++):
@@ -357,7 +357,7 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ประจำปี</div>
-                                        <select id="year_expenses" name="year_expenses" class="form-control">
+                                        <select id="year_expenses" name="year_expenses" class="form-control" onchange="load_expenses_driver()">
                                             <?php
                                             //$yearnow = date("Y");
                                             for ($d = $yearnow; $d >= ($yearnow - 2); $d--):
@@ -368,9 +368,9 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
@@ -381,23 +381,23 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">ราคา</div>
-                                        <input type="text" id="price_espenses" name="price_expenses" class="form-control" placeholder="ตัวเลขเท่านั้น ..." onkeypress="return chkNumber()"/>
+                                        <input type="text" id="price_expenses" name="price_expenses" class="form-control" placeholder="ตัวเลขเท่านั้น ..." onkeypress="return chkNumber()"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-                                <button id="" class="btn btn-success btn-block" onclick="save_expenses();"><i class="fa fa-save"></i> บันทึก</button>
+                                <button class="btn btn-info btn-block" onclick="save_expenses_driver();"><i class="fa fa-save"></i> บันทึก</button>
                             </div>
                         </div>
-                        
-                        <div id="load_expenses"></div>
-                        
+
+                        <div id="result_expenses"></div>
+
                     </div>
 
                 </div>
@@ -576,37 +576,39 @@ $this->registerJs(
         });
 
     }
-    
+
     //function เพิ่มรายรับพนักงาน
-    function save_income(){
-         var url = "<?php echo Url::to(['driver-income/save']) ?>";
+    function save_income() {
+        var url = "<?php echo Url::to(['driver-income/save']) ?>";
         var price_income = $("#price_income").val();
         var detail_income = $("#detail_income").val();
         var employee = $("#employee").val();
         var month_income = $("#month_income").val();
         var year_income = $("#year_income").val();
-        
-        if(price_income == '' || detail_income == ''){
+
+        if (price_income == '' || detail_income == '') {
             swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ ...!", "warning");
             return false;
         }
-        
+
         var data = {
             price_income: price_income,
-            detail_income:detail_income,
+            detail_income: detail_income,
             employee: employee,
             month_income: month_income,
             year_income: year_income
         };
 
         $.post(url, data, function (result) {
-                swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
-                load_income();
+            $("#price_income").val("");
+            $("#detail_income").val("");
+            swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+            load_income();
         });
     }
-    
+
     //function เพิ่มรายรับพนักงาน
-    function load_income(){
+    function load_income() {
         $("#load_income").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
         var url = "<?php echo Url::to(['driver-income/load_income']) ?>";
         var employee = $("#employee").val();
@@ -620,14 +622,46 @@ $this->registerJs(
         };
 
         $.post(url, data, function (result) {
-                //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
-                $("#load_income").html(result);
+            //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+            $("#load_income").html(result);
         });
     }
-    
-    //function เพิ่มรายรับพนักงาน
-    function load_expenses(){
-        $("#load_income").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
+
+
+    //function เพิ่มรายจ่ายพนักงาน
+    function save_expenses_driver() {
+
+        var url = "<?php echo Url::to(['driver-expenses/save']) ?>";
+        var price_expenses = $("#price_expenses").val();
+        var detail_expenses = $("#detail_expenses").val();
+        var employee = $("#employee").val();
+        var month_expenses = $("#month_expenses").val();
+        var year_expenses = $("#year_expenses").val();
+
+        if (price_expenses == '' || detail_expenses == '') {
+            swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ ...!", "warning");
+            return false;
+        }
+
+        var data = {
+            price_expenses: price_expenses,
+            detail_expenses: detail_expenses,
+            employee: employee,
+            month_expenses: month_expenses,
+            year_expenses: year_expenses
+        };
+
+        $.post(url, data, function (result) {
+            $("#price_expenses").val("");
+            $("#detail_expenses").val("");
+            swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+            load_expenses_driver();
+        });
+    }
+
+    //function แสดงรายจ่ายพนักงาน
+    function load_expenses_driver() {
+        $("#result_expenses").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x'><i></center>");
         var url = "<?php echo Url::to(['driver-expenses/load_expenses']) ?>";
         var employee = $("#employee").val();
         var month_expenses = $("#month_expenses").val();
@@ -638,10 +672,9 @@ $this->registerJs(
             month: month_expenses,
             year: year_expenses
         };
-
         $.post(url, data, function (result) {
-                //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
-                $("#load_expenses").html(result);
+            //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+            $("#result_expenses").html(result);
         });
     }
 </script>
