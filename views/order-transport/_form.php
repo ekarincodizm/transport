@@ -22,7 +22,9 @@ $form = ActiveForm::begin([
 <?= $form->field($model, 'order_id')->textInput(['maxlength' => true, 'value' => $order_id, 'readonly' => 'leadonly']) ?>
 
 <?php
-echo $form->field($model, 'employer')->dropDownList(ArrayHelper::map(\app\models\Customer::find()->all(), 'cus_id', 'company'), [
+echo $form->field($model, 'employer')->dropDownList(ArrayHelper::map(\app\models\Customer::find()
+                        ->where(['delete_flag' => '0'])
+                        ->all(), 'cus_id', 'company'), [
     'employer' => 'employer',
     'required' => 'required',
     'prompt' => 'เลือกผู้ว่าจ้าง',
@@ -35,40 +37,63 @@ echo $form->field($model, 'employer')->dropDownList(ArrayHelper::map(\app\models
 ]);
 ?>
 <?php
-echo DatePicker::widget([
-    'model' => $model,
-    'form' => $form,
-    'attribute' => 'order_date_start',
+/*
+  echo DatePicker::widget([
+  'model' => $model,
+  'form' => $form,
+  'attribute' => 'order_date_start',
+  'language' => 'th',
+  'value' => date("Y-m-d"),
+  'removeButton' => false,
+  'readonly' => true,
+  //'required' => true,
+  'pluginOptions' => [
+  'autoclose' => true,
+  'format' => 'yyyy-mm-dd'
+  ]
+  ]);
+ * 
+ */
+?>
+
+<?php
+echo $form->field($model, 'order_date_start')->widget(\kartik\widgets\DatePicker::classname(), [
     'language' => 'th',
-    'value' => date("Y-m-d"),
     'removeButton' => false,
-    'readonly' => true,
-    //'required' => true,
+    'options' => [
+        'value' => date("Y-m-d"),
+        'readonly' => true,
+    //'disabled' => 'disabled',
+    ],
     'pluginOptions' => [
         'autoclose' => true,
-        'format' => 'yyyy-mm-dd'
+        'format' => 'yyyy-mm-dd',
+        'todayHighlight' => true,
     ]
 ]);
 ?>
 
 <?php
-echo DatePicker::widget([
-    'model' => $model,
-    'form' => $form,
-    'attribute' => 'order_date_end',
+echo $form->field($model, 'order_date_end')->widget(\kartik\widgets\DatePicker::classname(), [
     'language' => 'th',
-    'value' => date("Y-m-d"),
     'removeButton' => false,
-    'readonly' => true,
+    'options' => [
+        'value' => date("Y-m-d"),
+        'readonly' => true,
+    //'disabled' => 'disabled',
+    ],
     'pluginOptions' => [
         'autoclose' => true,
-        'format' => 'yyyy-mm-dd'
+        'format' => 'yyyy-mm-dd',
+        'todayHighlight' => true,
     ]
 ]);
 ?>
 
 <?php
-echo $form->field($model, 'truck1')->dropDownList(ArrayHelper::map(\app\models\Truck::find()->all(), 'id', 'license_plate'), [
+echo $form->field($model, 'truck1')->dropDownList(ArrayHelper::map(\app\models\Truck::find()
+                        ->where(['delete_flag' => '0'])
+                        ->all(), 'id', 'license_plate'), [
     'id' => 'id',
     'required' => 'required',
     'prompt' => 'เลือกรถบรรทุก',
@@ -82,7 +107,9 @@ echo $form->field($model, 'truck1')->dropDownList(ArrayHelper::map(\app\models\T
 ?>
 
 <?php
-echo $form->field($model, 'truck2')->dropDownList(ArrayHelper::map(\app\models\Truck::find()->all(), 'id', 'license_plate'), [
+echo $form->field($model, 'truck2')->dropDownList(ArrayHelper::map(\app\models\Truck::find()
+                        ->where(['delete_flag' => '0'])
+                        ->all(), 'id', 'license_plate'), [
     'id' => 'id',
     //'required' => 'required',
     'prompt' => 'เลือกรถถบรรทุก',
@@ -96,7 +123,7 @@ echo $form->field($model, 'truck2')->dropDownList(ArrayHelper::map(\app\models\T
 ?>
 
 <?php
-$sql1 = "select id,concat(name,' ',lname) as name from driver";
+$sql1 = "select id,concat(name,' ',lname) as name from driver where delete_flag = '0'";
 echo $form->field($model, 'driver1')->dropDownList(ArrayHelper::map(\app\models\Driver::findBySql($sql1)->all(), 'id', 'name'), [
     'id' => 'id',
     'required' => 'required',

@@ -6,7 +6,7 @@ $changwat = new app\models\Changwat();
 $customer = new \app\models\Customer();
 $config = new \app\models\Config_system();
 ?>
-<div class="box box-info">
+<div class="box box-info table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
             <tr>

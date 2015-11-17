@@ -11,6 +11,7 @@ use yii\helpers\Url;
 AdminLteAsset::register($this);
 JsAsset::register($this);
 $this->title = "ตงตงทรานสปอร์ต";
+$driver_model = new \app\models\Driver();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -52,9 +53,9 @@ $this->title = "ตงตงทรานสปอร์ต";
                             </li>
                             <!-- Tasks: style can be found in dropdown.less -->
                             <li class="dropdown tasks-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-flag-o"></i> ใบขับขี่
-                                    <span class="label label-danger">9</span>
+                                <a href="<?php echo Url::to(['driver/driver_license_expire'])?>" class="dropdown-toggle">
+                                    <i class="fa fa-credit-card"></i> ใบขับขี่
+                                    <span class="label label-danger"><?php echo $driver_model->Get_license_expire(); ?></span>
                                 </a>
                             </li>
                             <!-- User Account: style can be found in dropdown.less -->

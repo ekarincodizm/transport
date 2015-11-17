@@ -17,7 +17,7 @@ class DriverSearch extends Driver {
      */
     public function rules() {
         return [
-            [['id'], 'integer'],
+            [['id','delete_flag'], 'integer'],
             [['driver_id', 'name', 'lname', 'card_id', 'birth', 'address', 'tel1', 'tel2', 'driver_license_id', 'driver_license_expire', 'create_date', 'images'], 'safe'],
         ];
     }
@@ -70,7 +70,7 @@ class DriverSearch extends Driver {
                 ->andFilterWhere(['like', 'tel2', $this->tel2])
                 ->andFilterWhere(['like', 'driver_license_id', $this->driver_license_id])
                 ->andFilterWhere(['like', 'images', $this->images]);
-
+        $query->andWhere(['delete_flag' => '0']);
         return $dataProvider;
     }
 

@@ -12,6 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="panel panel-default">
     <div class="panel-heading"><?= Html::encode($this->title) ?></div>
     <div class="panel-body">
+        <?php if (!empty($error)) { ?>
+        <div class="alert alert-danger" style=" text-align: center;"><i class="fa fa-warning fa-2x"></i> <h3><?php echo $error; ?></h3></div>
+        <?php } ?>
         <?=
         $this->render('_form', [
             'model' => $model,

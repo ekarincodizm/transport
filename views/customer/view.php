@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <div class="tab-pane" id="history">
-            <div id="result-history-transport"></div>
+            <div id="result-history-transport" class="table table-responsive"></div>
         </div>
     </div>
 </div>

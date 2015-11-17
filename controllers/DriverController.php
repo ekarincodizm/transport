@@ -34,7 +34,7 @@ class DriverController extends Controller {
     public function actionIndex() {
         $searchModel = new DriverSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $driver = Driver::find()->all();
+        $driver = Driver::find()->where(['delete_flag' => '0'])->all();
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
@@ -104,7 +104,11 @@ class DriverController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        $columns = array("delete_flag" => "1");
+        Yii::$app->db->createCommand()
+                ->update("driver", $columns, "id = '$id'")
+                ->execute();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -284,13 +288,34 @@ class DriverController extends Controller {
 
         return $this->renderPartial('history', $data);
     }
-    
-    public function actionGet_driver(){
-        $driver = Driver::find()->all();
-        return $this->renderPartial('list_driver',[
-            'driver' => $driver,
+
+    public function actionGet_driver() {
+        $driver = Driver::find()->where(['delete_flag' => '0'])->all();
+        return $this->renderPartial('list_driver', [
+                    'driver' => $driver,
         ]);
     }
-    
-   
+
+    public function actionDriver_license_expire() {
+        $driver_model = new Driver();
+        $driver = $driver_model->Get_driver_license_expire();
+        return $this->render('driver_license_expire', [
+                    'driver' => $driver,
+        ]);
+    }
+
+    //สรุป รายรับ - รายจ่าย
+    public function actionLoad_income_expenses() {
+        $driver = new Driver();
+        $employee = Yii::$app->request->post('employee');
+        $month = Yii::$app->request->post('month');
+        $year = Yii::$app->request->post('year');
+
+        $result = $driver->Conclude_incom_expenses($employee, $year, $month);
+
+        return $this->renderPartial('conclude_incom_expenses', [
+                    "result" => $result,
+        ]);
+    }
+
 }

@@ -106,8 +106,11 @@ class TruckController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
+        //$this->findModel($id)->delete();
+        $columns = array("delete_flag" => '1');
+        Yii::$app->db->createCommand()
+                ->update("truck", $columns,"id = '$id'")
+                ->execute();
         return $this->redirect(['index']);
     }
 
@@ -149,7 +152,7 @@ class TruckController extends Controller {
     }
 
     public function actionGet_truck() {
-        $result = Truck::find()->orderBy(['id' => 'DESC'])->all();
+        $result = Truck::find()->where(['delete_flag' => '0'])->orderBy(['id' => 'DESC'])->all();
 
         return $this->renderPartial('list_truck', [
                     "truck" => $result,

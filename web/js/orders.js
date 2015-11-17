@@ -261,7 +261,7 @@ function gas_calculus() {
 function distance_calculus() {
     var now_mile = $("#now_mile").val();
     var old_mile = $("#old_mile").val();
-    var totla_mile = (now_mile - old_mile);
+    var totla_mile = parseInt((now_mile - old_mile));
     var avg;//ค่าเฉลี่ย
     var oil = $("#oil").val();
     if (totla_mile < 1) {
@@ -270,7 +270,7 @@ function distance_calculus() {
         avg = accounting.formatNumber(totla_mile / oil, 2);
     }
 
-    if (now_mile < old_mile) {
+    if (parseInt(now_mile) < parseInt(old_mile)) {
         $("#distance").val(0);
     } else {
         $("#distance").val(totla_mile);
@@ -283,9 +283,9 @@ function distance_calculus() {
 function compensate_calculus() {
     var oil = $("#oil").val();//น้ำมันที่เติม
     var oil_set_ofter = $("#oil_set_ofter").val();
-    var total = (oil_set_ofter - oil);
+    var total = parseInt((oil_set_ofter - oil));
 
-    if (oil > oil_set_ofter) {
+    if (parseInt(oil) > parseInt(oil_set_ofter)) {
         $("#compensate").val(total);
     } else {
         $("#compensate").val(0);

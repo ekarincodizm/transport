@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\OrdersTransport;
+
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
@@ -61,13 +62,27 @@ class CustomerController extends Controller {
         $model = new Customer();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->create_date = date("Y-m-d H:i:s");
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $tax_number = $model->tax_number;
+            $check = $model->find()->where(['tax_number' => $tax_number])->one();
+            if ($check['tax_number'] != '') {
+                $config = new \app\models\Config_system();
+                $cusId = $config->autoId("customer", "cus_id", 7);
+                return $this->render('create', [
+                            'error' => "ลูกค้าบริษัทนี้นี้มีอยู่ในระบบแล้ว ...!",
+                            'model' => $model,
+                            'cus_id' => $cusId,
+                ]);
+            } else {
+                $model->create_date = date("Y-m-d H:i:s");
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             $config = new \app\models\Config_system();
             $cusId = $config->autoId("customer", "cus_id", 7);
             return $this->render('create', [
+                        'error' => '',
                         'model' => $model,
                         'cus_id' => $cusId,
             ]);
@@ -131,9 +146,9 @@ class CustomerController extends Controller {
                     'history' => $result,
         ]);
     }
-    
+
     //รายลัเอียดการขนส่งของแต่ละใบปฏิบัติงาน
-    public function actionDetail_transport($id = null){
+    public function actionDetail_transport($id = null) {
         $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
         $assign_model = new \app\models\Assign();
         //$outgoings_model = new \app\models\Outgoings();
@@ -146,9 +161,9 @@ class CustomerController extends Controller {
         $page = $this->renderPartial('detail_transport', [
             'model' => $model,
             'assigns' => $assign,
-            //'outgoings' => $outgoings,
-            //'expenses' => $expenses,
-            //'order_id' => $order_id,
+                //'outgoings' => $outgoings,
+                //'expenses' => $expenses,
+                //'order_id' => $order_id,
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');

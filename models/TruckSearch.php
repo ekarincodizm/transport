@@ -18,7 +18,7 @@ class TruckSearch extends Truck
     public function rules()
     {
         return [
-            [['id', 'period', 'type_id'], 'integer'],
+            [['id', 'period', 'type_id','delete_flag'], 'integer'],
             [['license_plate', 'brand', 'model', 'color', 'date_buy', 'date_supply'], 'safe'],
             [['price', 'down', 'period_price'], 'number'],
         ];
@@ -71,7 +71,7 @@ class TruckSearch extends Truck
             ->andFilterWhere(['like', 'brand', $this->brand])
             ->andFilterWhere(['like', 'model', $this->model])
             ->andFilterWhere(['like', 'color', $this->color]);
-
+        $query->andWhere(['delete_flag' => '0']);
         return $dataProvider;
     }
 }
