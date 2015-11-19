@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\AffiliatedTruck;
-
+use app\models\OrdersTransportAffiliated;
 /**
  * AffiliatedController implements the CRUD actions for Affiliated model.
  */
@@ -123,6 +123,17 @@ class AffiliatedController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    
+    public function actionLoad_history(){
+        $id = Yii::$app->request->post('id');
+        $model = $this->findModel($id);
+        $hisyory = OrdersTransportAffiliated::find()->where(['company_id' => $model->company_id])->all();
+        return $this->renderPartial('load_history',[
+            "history" => $hisyory,
+            "model" => $model,
+        ]);
     }
 
 }

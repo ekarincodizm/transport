@@ -23,16 +23,16 @@ $driver_model = new \app\models\Driver();
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="skin-blue-light fixed">
+    <body class="skin-blue-light fixed sidebar-collapse sidebar-mini">
         <?php $this->beginBody() ?>
 
         <div class="wrapper">
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="index2.html" class="logo" id="bg-nav">
+                <a href="index2.html" class="logo" id="bg-nav" style=" background: #999999;">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>A</b>LT</span>
+                    <span class="logo-mini"><img src="<?php echo Url::to("@web/web/images/logo.jpg") ?>" width="32"/></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><b><img src="<?php echo Url::to("@web/web/images/logo.jpg") ?>" width="32"/></b> ตงตงทรานสปอร์ต</span>
                 </a>
@@ -53,7 +53,7 @@ $driver_model = new \app\models\Driver();
                             </li>
                             <!-- Tasks: style can be found in dropdown.less -->
                             <li class="dropdown tasks-menu">
-                                <a href="<?php echo Url::to(['driver/driver_license_expire'])?>" class="dropdown-toggle">
+                                <a href="<?php echo Url::to(['driver/driver_license_expire']) ?>" class="dropdown-toggle">
                                     <i class="fa fa-credit-card"></i> ใบขับขี่
                                     <span class="label label-danger"><?php echo $driver_model->Get_license_expire(); ?></span>
                                 </a>
@@ -66,7 +66,7 @@ $driver_model = new \app\models\Driver();
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
-                                    <li class="user-header">
+                                    <li class="user-header" style=" background: #999999;">
                                         <img src="<?php echo Url::to('@web/web/images/A_LOGO.png'); ?>" class="img-circle" alt="User Image" />
                                         <p>
                                             Developer
@@ -93,16 +93,16 @@ $driver_model = new \app\models\Driver();
                     <ul class="sidebar-menu">
                         <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
                         <li class="header"><i class="fa fa-cogs"></i> ตั้งค่าระบบ</li>
-                        <li><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> ข้อมูลรถ</a></li>
-                        <li><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users text-yellow"></i> ข้อมูลคนขับ</a></li>
-                        <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> ข้อมูลลูกค้า</a></li>
-                        <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> บริษัทรถร่วม</a></li>
-                        <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> ประเภทรถ</a></li>
-                        <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> ประเภทสินค้า</a></li>
-                        <li><a href="<?php echo Url::to(['company/index']); ?>"><i class="fa fa-university text-success"></i> ข้อมูลบริษัท</a></li>
+                        <li><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> <span>ข้อมูลรถ</span></a></li>
+                        <li><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users text-yellow"></i> <span>ข้อมูลคนขับ</span></a></li>
+                        <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> <span>ข้อมูลลูกค้า</span></a></li>
+                        <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
+                        <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> <span>ประเภทรถ</span></a></li>
+                        <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
+                        <li><a href="<?php echo Url::to(['company/index']); ?>"><i class="fa fa-university text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
                         <li class="header"><i class="fa fa-book"></i> รายงาน</li>
-                        <li><a href="#"><i class="fa fa-bar-chart text-danger"></i> รับ - จ่าย(รายปี)</a></li>
-                        <li><a href="#"><i class="fa fa-bar-chart text-success"></i> รับ - จ่าย(รายเดือน)</a></li>
+                        <li><a href="#"><i class="fa fa-bar-chart text-danger"></i> <span>รับ - จ่าย(รายปี)</span></a></li>
+                        <li><a href="#"><i class="fa fa-bar-chart text-success"></i> <span>รับ - จ่าย(รายเดือน)</span></a></li>
                     </ul>
 
 
@@ -111,10 +111,10 @@ $driver_model = new \app\models\Driver();
             </aside>
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+            <div class="content-wrapper" id="content-bg">
                 <!-- Content Header (Page header) -->
                 <section class="content-header" style="margin: 0px;padding: 0px; border-radius: 0px;">
-                    <h4 style="margin: 0px; font-size: 14px;">
+                    <h4 style="margin: 0px; font-size: 14px;" class="navicator">
                         <?php
                         //echo Yii::$app->request->baseUrl;
                         ?>

@@ -1,6 +1,7 @@
 <?php
 
 /* Server ข้างนอก */
+/*
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=110.164.211.112;dbname=transport_db',
@@ -8,7 +9,7 @@ return [
     'password' => 'assembler',
     'charset' => 'utf8',
 ];
-
+*/
 /* Server ข้างใน
 return [
     'class' => 'yii\db\Connection',
@@ -17,6 +18,7 @@ return [
     'password' => 'assembler',
     'charset' => 'utf8',
 ];
+*/
 
 /*
 return [
@@ -26,5 +28,13 @@ return [
     'password' => '1234',
     'charset' => 'utf8',
 ];
- * 
  */
+//Server พบพระ
+
+return [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=122.154.239.67;dbname=transport_db',
+    'username' => 'root',
+    'password' => '01234',
+    'charset' => 'utf8',
+];

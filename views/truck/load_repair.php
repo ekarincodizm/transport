@@ -48,7 +48,7 @@ $order = new app\models\OrdersTransport();
     </tbody>
     <tfoot>
         <tr>
-            <td style=" text-align: center;" colspan="4">รวม</td>
+            <td style=" text-align: center;" colspan="3">รวม</td>
             <td style=" text-align: right; font-weight: bold;"><?php echo number_format($sum,2)?></td>
             <td></td>
         </tr>

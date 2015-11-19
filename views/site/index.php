@@ -30,13 +30,15 @@ $this->title = 'ตงตงทรานสปอร์ต';
         </a>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-        <div class="thumbnail" id="btn">
-            <img src="<?php echo Url::to('@web/web/images/company-building-icon.png') ?>"/>
-            <div class="caption" style=" text-align: center;">
-                <h3>ขนส่งโดยใช้รถบริษัทข้างนอก</h3>
-                <p>(ใบงานการขนส่งโดยใช้รถของบริษัทภายนอก)</p>
+        <a href="<?php echo Url::to(['orders-transport-affiliated/index']) ?>">
+            <div class="thumbnail" id="btn">
+                <img src="<?php echo Url::to('@web/web/images/company-building-icon.png') ?>"/>
+                <div class="caption" style=" text-align: center;">
+                    <h3>ขนส่งโดยใช้รถบริษัทข้างนอก</h3>
+                    <p>(ใบงานการขนส่งโดยใช้รถของบริษัทภายนอก)</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
         <a href="javascript:popup_truck()">

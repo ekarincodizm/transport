@@ -25,6 +25,8 @@ $config = new app\models\Config_system();
             <li class="active"><a href="#detail" data-toggle="tab"><i class="fa fa-car"></i> ข้อมูลทั่วไป</a></li>
             <li><a href="#history" data-toggle="tab" onclick="get_history('<?php echo $model->id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
             <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs"></i> ข้อมูลซ่อมบำรุง</a></a></li>
+            <li><a href="#truck_register" data-toggle="tab" onclick=""><i class="fa fa-briefcase"></i> การต่อทะเบียน</a></a></li>
+            <li><a href="#act" data-toggle="tab" onclick=""><i class="fa fa-fax"></i> พรบ.</a></a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="detail">

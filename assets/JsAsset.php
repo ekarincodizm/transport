@@ -22,6 +22,7 @@ class JsAsset extends AssetBundle {
     ];
     public $js = [
         'web/js/orders.js',
+        'web/js/orders_affiliated.js',
         'web/js/accounting.js',
     ];
     public $depends = [
