@@ -12,6 +12,7 @@ AdminLteAsset::register($this);
 JsAsset::register($this);
 $this->title = "ตงตงทรานสปอร์ต";
 $driver_model = new \app\models\Driver();
+$truck_act = new \app\models\TruckAct();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -32,7 +33,7 @@ $driver_model = new \app\models\Driver();
                 <!-- Logo -->
                 <a href="index2.html" class="logo" id="bg-nav" style=" background: #999999;">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><img src="<?php echo Url::to("@web/web/images/logo.jpg") ?>" width="32"/></span>
+                    <span class="logo-mini">demo</span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><b><img src="<?php echo Url::to("@web/web/images/logo.jpg") ?>" width="32"/></b> ตงตงทรานสปอร์ต</span>
                 </a>
@@ -42,13 +43,17 @@ $driver_model = new \app\models\Driver();
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
+                    
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
+                            
                             <!-- Notifications: style can be found in dropdown.less -->
                             <li class="dropdown notifications-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <a href="<?php echo Url::to(['truck-act/notification'])?>">
                                     <i class="fa fa-bell-o"></i> พรบ/ภาษี
-                                    <span class="label label-warning">10</span>
+                                    <span class="label label-warning">
+                                        <?php echo $truck_act->notification_act();?>
+                                    </span>
                                 </a>
                             </li>
                             <!-- Tasks: style can be found in dropdown.less -->
@@ -100,6 +105,7 @@ $driver_model = new \app\models\Driver();
                         <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> <span>ประเภทรถ</span></a></li>
                         <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
                         <li><a href="<?php echo Url::to(['company/index']); ?>"><i class="fa fa-university text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
+                        <li><a href="<?php echo Url::to(['notifications/view','id' => '1']); ?>"><i class="fa fa-bell text-orange"></i> <span>ตั้งค่าการแจ้งเตือน</span></a></li>
                         <li class="header"><i class="fa fa-book"></i> รายงาน</li>
                         <li><a href="#"><i class="fa fa-bar-chart text-danger"></i> <span>รับ - จ่าย(รายปี)</span></a></li>
                         <li><a href="#"><i class="fa fa-bar-chart text-success"></i> <span>รับ - จ่าย(รายเดือน)</span></a></li>

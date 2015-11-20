@@ -10,11 +10,14 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\DriverSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$notifications = new \app\models\Notifications();
+$notify = $notifications->find()->one();
+
 $this->title = 'พนักงานขับรถใบขับขี่หมดอายุ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="well well-sm">
-    <font style="color:#ff0000">* หมายเหตุ ใบขับขี่จะแจ้งเตือนก่อนหมดอายุ 15 วัน</font>
+    <font style="color:#ff0000">* หมายเหตุ ใบขับขี่จะแจ้งเตือนก่อนหมดอายุ <?php echo $notify->driver_license; ?> วัน</font>
 </div>
 <!--
 <div class="driver-index">
@@ -125,7 +128,7 @@ $config = new Config_system();
                                     $d_date = $config->Datediff_day($rs['driver_license_expire']);
                                     if ($d_date <= 0) {
                                         $status = "<p style='color:red;'><i class='fa fa-remove'></i> หมดอายุ</p>";
-                                    } else if ($d_date <= 15) {
+                                    } else if ($d_date <= $notify->driver_license) {
                                         $status = "<p style='color:orange;'><i class='fa fa-warning'></i> เหลือหน้อย</p>";
                                     } else {
                                         $status = "<p style='color:green;'><i class='fa fa-check'></i> ใช้งานปกติ</p>";

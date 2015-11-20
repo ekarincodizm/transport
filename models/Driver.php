@@ -78,7 +78,7 @@ class Driver extends \yii\db\ActiveRecord {
     function Get_license_expire() {
         $query = "SELECT COUNT(*) AS TOTAL
                     FROM driver d
-                    WHERE DATEDIFF(d.driver_license_expire,DATE(NOW())) < 15 
+                    WHERE DATEDIFF(d.driver_license_expire,DATE(NOW())) < (SELECT driver_license FROM notifications)
                     AND d.delete_flag = '0'";
         $result = Yii::$app->db->createCommand($query)->queryOne();
         return $result['TOTAL'];
@@ -86,9 +86,9 @@ class Driver extends \yii\db\ActiveRecord {
 
     //รายชื่อผู้ที่ใบขับขี่หมดอสยุ
     function Get_driver_license_expire() {
-        $query = "SELECT *
+        $query = "SELECT *,DATEDIFF(d.driver_license_expire,DATE(NOW())) AS OVER_DAY
                     FROM driver d
-                    WHERE DATEDIFF(d.driver_license_expire,DATE(NOW())) < 15 
+                    WHERE DATEDIFF(d.driver_license_expire,DATE(NOW())) < (SELECT driver_license FROM notifications)
                     AND d.delete_flag = '0'";
         $result = Yii::$app->db->createCommand($query)->queryAll();
         return $result;

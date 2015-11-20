@@ -4,6 +4,8 @@ use yii\helpers\Html;
 //use yii\widgets\DetailView;
 use kartik\detail\DetailView;
 use yii\helpers\Url;
+use kartik\date\DatePicker;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Truck */
 
@@ -25,8 +27,7 @@ $config = new app\models\Config_system();
             <li class="active"><a href="#detail" data-toggle="tab"><i class="fa fa-car"></i> ข้อมูลทั่วไป</a></li>
             <li><a href="#history" data-toggle="tab" onclick="get_history('<?php echo $model->id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
             <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs"></i> ข้อมูลซ่อมบำรุง</a></a></li>
-            <li><a href="#truck_register" data-toggle="tab" onclick=""><i class="fa fa-briefcase"></i> การต่อทะเบียน</a></a></li>
-            <li><a href="#act" data-toggle="tab" onclick=""><i class="fa fa-fax"></i> พรบ.</a></a></li>
+            <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase"></i> การต่อทะเบียน / พรบ.</a></a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="detail">
@@ -92,7 +93,7 @@ $config = new app\models\Config_system();
             <div class="tab-pane" id="history">
                 <div id="load_history"></div>
             </div>
-            
+
             <div class="tab-pane" id="repair">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -148,38 +149,146 @@ $config = new app\models\Config_system();
                     </div>
                 </div>
             </div>
+
+
+            <div class="tab-pane" id="truck_act">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <?php
+                        // usage without model
+                        echo '<label>วันที่ทำสัญญา</label>';
+                        echo DatePicker::widget([
+                            'name' => 'act_start',
+                            'id' => 'act_start',
+                            'value' => date('Y-m-d'),
+                            'language' => 'th',
+                            'removeButton' => false,
+                            //'readonly' => true,
+                            'options' => ['placeholder' => 'Select issue date ...'],
+                            'pluginOptions' => [
+                                'format' => 'yyyy-mm-dd',
+                                'todayHighlight' => true
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <?php
+                        // usage without model
+                        echo '<label>วันที่ครบกำหนด</label>';
+                        echo DatePicker::widget([
+                            'name' => 'act_end',
+                            'id' => 'act_end',
+                            'value' => date('Y-m-d'),
+                            'language' => 'th',
+                            'removeButton' => false,
+                            //'readonly' => true,
+                            'options' => ['placeholder' => 'Select issue date ...'],
+                            'pluginOptions' => [
+                                'format' => 'yyyy-mm-dd',
+                                'todayHighlight' => true
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <label>จำนวนเงิน</label>
+                        <input type="text" class="form-control" id="act_price" name="act_price" placeholder="ตัวเลขเท่านั้น" onkeypress="return chkNumber()"/>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <label style="color: #FFF;">.</label>
+                        <button type="button" class="btn btn-success btn-block"
+                                onclick="save_act()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+                    </div>
+                </div>
+
+                <div id="load_act"></div>
+
+            </div>
         </div><!-- End Content -->
     </div>
 </div>
 
+<script type="text/javascript">
+    function chkNumber(ele) {
+        var vchar = String.fromCharCode(event.keyCode);
+        if ((vchar < '0' || vchar > '9') && (vchar != '.'))
+            return false;
+        //ele.onKeyPress = vchar;
+    }
+</script>
 
 <script type="text/javascript">
     //โหลดประวัติการวิ่งรถ
-    function get_history(id){
+    function get_history(id) {
         $("#load_history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-green'><i></center>");
-        var url = "<?php echo Url::to(['truck/load_history'])?>";
+        var url = "<?php echo Url::to(['truck/load_history']) ?>";
         var data = {id: id};
-        
-        $.post(url,data,function(result){
+
+        $.post(url, data, function (result) {
             $("#load_history").html(result);
         });
     }
-    
+
     //ข้อมูลการซ้อมบำรุง
-    function get_repair(){
+    function get_repair() {
         $("#load_repair").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         var license_plate = "<?php echo $model->license_plate ?>";
         var year = $("#year").val();
         var month = $("#month").val();
-        var url = "<?php echo Url::to(['truck/load_repair']);?>";
+        var url = "<?php echo Url::to(['truck/load_repair']); ?>";
         var data = {
             license_plate: license_plate,
             year: year,
             month: month
         };
-        
-        $.post(url,data,function(result){
+
+        $.post(url, data, function (result) {
             $("#load_repair").html(result);
+        });
+    }
+
+    //ข้อมูลการต่อทะเบียน
+    function get_act() {
+        $("#load_act").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+        var license_plate = "<?php echo $model->license_plate ?>";
+        var act_start = $("#act_start").val();
+        var act_end = $("#act_end").val();
+        var url = "<?php echo Url::to(['truck-act/load_act']); ?>";
+        var data = {
+            license_plate: license_plate,
+            act_start: act_start,
+            act_end: act_end
+        };
+
+        $.post(url, data, function (result) {
+            $("#load_act").html(result);
+        });
+    }
+
+    //ข้อมูลการต่อทะเบียน
+    function save_act() {
+        var license_plate = "<?php echo $model->license_plate ?>";
+        var act_start = $("#act_start").val();
+        var act_end = $("#act_end").val();
+        var act_price = $("#act_price").val()
+        var url = "<?php echo Url::to(['truck-act/save']); ?>";
+        
+        if(act_price == ''){
+            $("#act_price").focus();
+            return false;
+        }
+        
+        var data = {
+            license_plate: license_plate,
+            act_start: act_start,
+            act_end: act_end,
+            act_price: act_price
+        };
+        $("#load_act").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+        $.post(url, data, function (result) {
+            $("#act_price").val("");
+            get_act();
         });
     }
 </script>
