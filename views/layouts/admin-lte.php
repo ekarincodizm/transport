@@ -13,6 +13,7 @@ JsAsset::register($this);
 $this->title = "ตงตงทรานสปอร์ต";
 $driver_model = new \app\models\Driver();
 $truck_act = new \app\models\TruckAct();
+$annuities = new app\models\Annuities();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -63,6 +64,15 @@ $truck_act = new \app\models\TruckAct();
                                     <span class="label label-danger"><?php echo $driver_model->Get_license_expire(); ?></span>
                                 </a>
                             </li>
+                            
+                            <!-- Tasks: style can be found in dropdown.less -->
+                            <li class="dropdown tasks-menu">
+                                <a href="<?php echo Url::to(['annuities/list_over']) ?>" class="dropdown-toggle">
+                                    <i class="fa fa-truck"></i> ค่างวด
+                                    <span class="label label-danger"><?php echo $annuities->count_over(); ?></span>
+                                </a>
+                            </li>
+                            
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -8,7 +8,7 @@ use yii\helpers\Url;
   $order = new app\models\OrdersTransport();
  */
 
-$this->title = "แจ้งเตือน พรบ. / ภาษีรถ ที่ถึงกำหนดชำระ ";
+$this->title = "แจ้งเตือนค่างวดรถ ";
 //$this->params['breadcrumbs'][] = ['label' => 'รถบรรทุก', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -18,7 +18,7 @@ $notifications = new \app\models\Notifications();
 $notify = $notifications->find()->one();
 ?>
 <label style=" color: #ff3300;">
-    * ระบบจะแจ้งเตือนก่อน <?php echo $notify->truck_act; ?> วัน
+    * ระบบจะแจ้งเตือนก่อน <?php echo $notify->truck_period; ?> วัน
 </label>
 
 <div class="box box-danger">
@@ -26,12 +26,13 @@ $notify = $notifications->find()->one();
         <?php echo $this->title; ?>
     </div>
     <div class="box-body">
-        <table class="table table-bordered table-striped" id="tb_notification_truck_act">
+        <table class="table table-bordered table-striped" id="tb_notification_over">
             <thead>
                 <tr>
                     <th>#</th>
                     <th>ทะเบียนรถ</th>
-                    <th>วันที่ครบกำหนดครั้งสุดท้าย</th>
+                    <th>งวดสุดท้ายที่จ่าย</th>
+                    <th>งวด ณ ปัจจุบัน</th>
                     <th>สถานะ</th>
                     <th style="text-align: center;">เลือก</th>
                 </tr>
@@ -48,14 +49,19 @@ $notify = $notifications->find()->one();
                             <?php echo $rs['license_plate'] ?>
                         </td>
                         <td>
-                            <?php echo $config->thaidate($rs['act_end']) ?>
+                            <?php echo $config->thaidate($rs['last_period']) ?>
                         </td>
                         <td>
                             <?php
-                            if (substr($rs['OVER_DAY'], 0, 1) == '-') {
-                                echo "<font style='color:red;'>เลยมา " . +-$rs['OVER_DAY'] . " วัน</font>";
+                            echo $config->thaidate($rs['checkdate']);
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if (substr($rs['over_day'], 0, 1) != '-') {
+                                echo "<font style='color: #ff9900;'>ชำระภายใน " . $rs['over_day'] . " วัน</font>";
                             } else {
-                                echo "<font style='color:orange;'>เหลือ " . $rs['OVER_DAY'] . " วัน</font>";
+                                echo "<font style='color: red;'>เลยกำหนดชำระ " . +-$rs['over_day'] . " วัน</font>";
                             }
                             ?>
                         </td>
@@ -70,10 +76,10 @@ $notify = $notifications->find()->one();
     </div>
 </div>
 
-<?php 
-    $this->registerJs("
+<?php
+$this->registerJs("
     $(document).ready(function () {
-        $('#tb_notification_truck_act').DataTable({
+        $('#tb_notification_over').DataTable({
             'paging': true,
             'lengthChange': false,
             'searching': false,

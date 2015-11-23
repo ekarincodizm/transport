@@ -28,6 +28,7 @@ $config = new app\models\Config_system();
             <li><a href="#history" data-toggle="tab" onclick="get_history('<?php echo $model->id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
             <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs"></i> ข้อมูลซ่อมบำรุง</a></a></li>
             <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase"></i> การต่อทะเบียน / พรบ.</a></a></li>
+            <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart"></i> ค่างวด</a></a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="detail">
@@ -205,90 +206,202 @@ $config = new app\models\Config_system();
                 <div id="load_act"></div>
 
             </div>
-        </div><!-- End Content -->
+
+            <div class="tab-pane" id="annuities">
+                <div class="tab-pane" id="repair">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">ปี</div>
+                                    <select id="annuities_year" name="annuities_year" class="form-control">
+                                        <?php
+                                        $yearnow = date("Y");
+                                        for ($i = $yearnow; $i >= ($yearnow - 2); $i--):
+                                            ?>
+                                            <option value="<?php echo $i; ?>"><?php echo $i + 543; ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">เดือน</div>
+                                    <select id="annuities_month" name="annuities_month" class="form-control">
+                                        <?php
+                                        $monthnow = date("m");
+                                        if (strlen($monthnow) > 1) {
+                                            $month = $monthnow;
+                                        } else {
+                                            $month = "0" . $monthnow;
+                                        }
+                                        $month_val = $config->Monthval();
+                                        $month_full = $config->MonthFull();
+                                        for ($i = 0; $i <= 11; $i++):
+                                            ?>
+                                            <option value="<?php echo $month_val[$i]; ?>" <?php
+                                            if ($month_val[$i] == $month) {
+                                                echo "selected = 'selected' ";
+                                            }
+                                            ?>>
+                                                        <?php echo $month_val[$i] . " - " . $month_full[$i]; ?>
+                                            </option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">ค่างวด</div>
+                                    <input type="text" id="price_period" class="form-control" readonly="readonly" value="<?php echo $model->period_price; ?>"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            <button type="button" id="search_repair" class="btn btn-primary btn-block" onclick="save_annuities()"><i class="fa fa-search"></i> บันทึก</button>
+                        </div> 
+                    </div>
+                    
+                    <!-- Result --> 
+                    <div id="load_annuities"></div>
+                    
+                </div>
+            </div><!-- End Content -->
+        </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    function chkNumber(ele) {
-        var vchar = String.fromCharCode(event.keyCode);
-        if ((vchar < '0' || vchar > '9') && (vchar != '.'))
-            return false;
-        //ele.onKeyPress = vchar;
-    }
-</script>
+    <script type="text/javascript">
+        function chkNumber(ele) {
+            var vchar = String.fromCharCode(event.keyCode);
+            if ((vchar < '0' || vchar > '9') && (vchar != '.'))
+                return false;
+            //ele.onKeyPress = vchar;
+        }
+    </script>
 
-<script type="text/javascript">
-    //โหลดประวัติการวิ่งรถ
-    function get_history(id) {
-        $("#load_history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-green'><i></center>");
-        var url = "<?php echo Url::to(['truck/load_history']) ?>";
-        var data = {id: id};
+    <script type="text/javascript">
+        //โหลดประวัติการวิ่งรถ
+        function get_history(id) {
+            $("#load_history").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-green'><i></center>");
+            var url = "<?php echo Url::to(['truck/load_history']) ?>";
+            var data = {id: id};
 
-        $.post(url, data, function (result) {
-            $("#load_history").html(result);
-        });
-    }
+            $.post(url, data, function (result) {
+                $("#load_history").html(result);
+            });
+        }
 
-    //ข้อมูลการซ้อมบำรุง
-    function get_repair() {
-        $("#load_repair").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
-        var license_plate = "<?php echo $model->license_plate ?>";
-        var year = $("#year").val();
-        var month = $("#month").val();
-        var url = "<?php echo Url::to(['truck/load_repair']); ?>";
-        var data = {
-            license_plate: license_plate,
-            year: year,
-            month: month
-        };
+        //ข้อมูลการซ้อมบำรุง
+        function get_repair() {
+            $("#load_repair").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+            var license_plate = "<?php echo $model->license_plate ?>";
+            var year = $("#year").val();
+            var month = $("#month").val();
+            var url = "<?php echo Url::to(['truck/load_repair']); ?>";
+            var data = {
+                license_plate: license_plate,
+                year: year,
+                month: month
+            };
 
-        $.post(url, data, function (result) {
-            $("#load_repair").html(result);
-        });
-    }
+            $.post(url, data, function (result) {
+                $("#load_repair").html(result);
+            });
+        }
 
-    //ข้อมูลการต่อทะเบียน
-    function get_act() {
-        $("#load_act").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
-        var license_plate = "<?php echo $model->license_plate ?>";
-        var act_start = $("#act_start").val();
-        var act_end = $("#act_end").val();
-        var url = "<?php echo Url::to(['truck-act/load_act']); ?>";
-        var data = {
-            license_plate: license_plate,
-            act_start: act_start,
-            act_end: act_end
-        };
+        //ข้อมูลการต่อทะเบียน
+        function get_act() {
+            $("#load_act").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+            var license_plate = "<?php echo $model->license_plate ?>";
+            var act_start = $("#act_start").val();
+            var act_end = $("#act_end").val();
+            var url = "<?php echo Url::to(['truck-act/load_act']); ?>";
+            var data = {
+                license_plate: license_plate,
+                act_start: act_start,
+                act_end: act_end
+            };
 
-        $.post(url, data, function (result) {
-            $("#load_act").html(result);
-        });
-    }
+            $.post(url, data, function (result) {
+                $("#load_act").html(result);
+            });
+        }
 
-    //ข้อมูลการต่อทะเบียน
-    function save_act() {
-        var license_plate = "<?php echo $model->license_plate ?>";
-        var act_start = $("#act_start").val();
-        var act_end = $("#act_end").val();
-        var act_price = $("#act_price").val()
-        var url = "<?php echo Url::to(['truck-act/save']); ?>";
-        
-        if(act_price == ''){
-            $("#act_price").focus();
-            return false;
+        //ข้อมูลการต่อทะเบียน
+        function save_act() {
+            var license_plate = "<?php echo $model->license_plate ?>";
+            var act_start = $("#act_start").val();
+            var act_end = $("#act_end").val();
+            var act_price = $("#act_price").val()
+            var url = "<?php echo Url::to(['truck-act/save']); ?>";
+
+            if (act_price == '') {
+                $("#act_price").focus();
+                return false;
+            }
+
+            var data = {
+                license_plate: license_plate,
+                act_start: act_start,
+                act_end: act_end,
+                act_price: act_price
+            };
+            $("#load_act").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+            $.post(url, data, function (result) {
+                $("#act_price").val("");
+                get_act();
+            });
         }
         
-        var data = {
-            license_plate: license_plate,
-            act_start: act_start,
-            act_end: act_end,
-            act_price: act_price
-        };
-        $("#load_act").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
-        $.post(url, data, function (result) {
-            $("#act_price").val("");
-            get_act();
-        });
-    }
-</script>
+        
+        //ข้อมูลค่างวด
+        function get_annuities() {
+            $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+            var license_plate = "<?php echo $model->license_plate ?>";
+            var annuities_month = $("#annuities_month").val();
+            var annuities_year = $("#annuities_year").val();
+            var url = "<?php echo Url::to(['annuities/load_annuities']); ?>";
+            var data = {
+                license_plate: license_plate,
+                month: annuities_month,
+                year: annuities_year
+            };
+
+            $.post(url, data, function (result) {
+                $("#load_annuities").html(result);
+            });
+        }
+
+        //บันทึกค่างวด
+        function save_annuities() {
+            var license_plate = "<?php echo $model->license_plate ?>";
+            var annuities_month = $("#annuities_month").val();
+            var annuities_year = $("#annuities_year").val();
+            var date_supply = "<?php echo $model->date_supply; ?>";
+            var period_price = "<?php echo $model->period_price; ?>";
+            var url = "<?php echo Url::to(['annuities/save']); ?>";
+            var data = {
+                license_plate: license_plate,
+                day: date_supply,
+                month: annuities_month,
+                year: annuities_year,
+                period_price: period_price
+            };
+
+            $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+            $.post(url, data, function (result) {
+                if(result == '1'){
+                    swal("Alert!", "บันทึกข้อมูลซ้ำกรุณาตรวจสอบ...!", "warning"); 
+                    get_annuities();
+                    return false;
+                } else {
+                    get_annuities();
+                }
+                
+            });
+        }
+    </script>

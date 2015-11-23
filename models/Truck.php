@@ -38,6 +38,7 @@ class Truck extends \yii\db\ActiveRecord {
             [['date_buy'], 'safe'],
             [['price', 'down', 'period_price'], 'number'],
             [['date_supply'], 'string', 'max' => 2],
+            [['date_supply'], 'string', 'length' => [2, 2]],
             [['period', 'type_id'], 'integer'],
             [['license_plate'], 'string', 'max' => 20],
             [['brand', 'model'], 'string', 'max' => 255],
