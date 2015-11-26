@@ -53,7 +53,8 @@ function Pertimes_Calculator() {
     var weigh = $("#weigh").val();
     if (weigh == "") {
         $("#per_times").prop("disabled", true);
-        alert("ยังไม่ได้กรอกช่องน้ำหนัก ...");
+        //alert("ยังไม่ได้กรอกช่องน้ำหนัก ...");
+        swal("แจ้งเตือน!", "ยังไม่ได้กรอกช่องน้ำหนัก..!", "warning");
         $("#r2").prop("checked", false);
         $("#weigh").focus();
         return false;

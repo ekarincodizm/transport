@@ -102,4 +102,53 @@ class Truck extends \yii\db\ActiveRecord {
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
+    
+    //ประวัติค่าใช้จ่ายทั้งหมด
+    function get_price($lincense_plate = null,$year = null,$month = null){
+        $sql = "(
+                    SELECT o.id,o.create_date,o.detail,o.price,'0' AS order_id,'0' AS type
+                                    FROM `repair` o 
+                                    WHERE o.truck_license = '$lincense_plate' 
+                                        AND LEFT(o.create_date,4) = '$year'
+                                        AND SUBSTR(o.create_date,6,2) = '$month'
+                                    ORDER BY o.id DESC
+                    )
+
+                    UNION
+
+                    (
+                    SELECT e.id,e.create_date,e.detail,e.price,e.order_id,'1' AS type
+                                    FROM expenses_truck e
+                                    WHERE e.truck_license = '$lincense_plate' 
+                                        AND LEFT(e.create_date,4) = '$year'
+                                        AND SUBSTR(e.create_date,6,2) = '$month'
+                                    ORDER BY e.id DESC
+                    )
+
+	UNION
+
+	   (
+                    SELECT e.id,e.create_date,'ค่าต่อทะเบียน/พรบ./ภาษีประจำปี' AS detail,e.act_price AS price,'0' AS order_id,'0' AS type
+                                    FROM truck_act e
+                                    WHERE e.license_plate = '$lincense_plate' 
+                                        AND LEFT(e.create_date,4) = '$year'
+                                        AND SUBSTR(e.create_date,6,2) = '$month'
+                                    ORDER BY e.id DESC
+                    )
+                    
+UNION 
+
+(
+SELECT e.id,e.create_date,CONCAT('จ่ายค่างวดรถ งวดวันที่ ',e.`day`,'/',e.`month`,'/',e.`year`) AS detail,e.period_price AS price,'0' AS order_id,'0' AS type
+                                    FROM annuities e
+                                    WHERE e.license_plate = '$lincense_plate' 
+                                        AND LEFT(e.create_date,4) = '$year'
+                                        AND SUBSTR(e.create_date,6,2) = '$month'
+                                    ORDER BY e.id DESC
+)
+
+                    ORDER BY create_date ASC ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
 }

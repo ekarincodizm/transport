@@ -109,7 +109,7 @@ class TruckController extends Controller {
         //$this->findModel($id)->delete();
         $columns = array("delete_flag" => '1');
         Yii::$app->db->createCommand()
-                ->update("truck", $columns,"id = '$id'")
+                ->update("truck", $columns, "id = '$id'")
                 ->execute();
         return $this->redirect(['index']);
     }
@@ -156,6 +156,18 @@ class TruckController extends Controller {
 
         return $this->renderPartial('list_truck', [
                     "truck" => $result,
+        ]);
+    }
+
+    public function actionLoad_price() {
+        $truck = new Truck();
+        $license_plate = \Yii::$app->request->post('license_plate');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+        $price = $truck->get_price($license_plate, $year, $month);
+
+        return $this->renderPartial('load_price', [
+                    'model' => $price,
         ]);
     }
 

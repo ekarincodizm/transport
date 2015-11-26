@@ -24,11 +24,12 @@ $config = new app\models\Config_system();
     </div>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#detail" data-toggle="tab"><i class="fa fa-car"></i> ข้อมูลทั่วไป</a></li>
-            <li><a href="#history" data-toggle="tab" onclick="get_history('<?php echo $model->id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
-            <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs"></i> ข้อมูลซ่อมบำรุง</a></a></li>
-            <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase"></i> การต่อทะเบียน / พรบ.</a></a></li>
-            <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart"></i> ค่างวด</a></a></li>
+            <li class="active"><a href="#detail" data-toggle="tab"><i class="fa fa-car text-primary"></i> ข้อมูลทั่วไป</a></li>
+            <li><a href="#history" data-toggle="tab" onclick="get_history('<?php echo $model->id ?>')"><i class="fa fa-truck text-green"></i> ประวัติการวิ่งรถ</a></li>
+            <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs text-gray"></i> ข้อมูลซ่อมบำรุง</a></a></li>
+            <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase text-yellow"></i> การต่อทะเบียน / พรบ.</a></a></li>
+            <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart text-orange"></i> ค่างวด</a></a></li>
+            <li><a href="#price" data-toggle="tab" onclick="get_price()"><i class="fa fa-calendar text-red"></i> ค่าใช้จ่ายรวม(เดือน)</a></a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="detail">
@@ -265,12 +266,69 @@ $config = new app\models\Config_system();
                             <button type="button" id="search_repair" class="btn btn-primary btn-block" onclick="save_annuities()"><i class="fa fa-search"></i> บันทึก</button>
                         </div> 
                     </div>
-                    
+
                     <!-- Result --> 
                     <div id="load_annuities"></div>
-                    
+
                 </div>
             </div><!-- End Content -->
+
+            <div class="tab-pane" id="price">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">ปี</div>
+                                <select id="year_price" name="year_price" class="form-control">
+                                    <?php
+                                    for ($i = $yearnow; $i >= ($yearnow - 2); $i--):
+                                        ?>
+                                        <option value="<?php echo $i; ?>"><?php echo $i + 543; ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">เดือน</div>
+                                <select id="month_price" name="month_price" class="form-control">
+                                    <?php
+                                    if (strlen($monthnow) > 1) {
+                                        $month = $monthnow;
+                                    } else {
+                                        $month = "0" . $monthnow;
+                                    }
+                                    //$month_val = $config->Monthval();
+                                    //$month_full = $config->MonthFull();
+                                    for ($i = 0; $i <= 11; $i++):
+                                        ?>
+                                        <option value="<?php echo $month_val[$i]; ?>" <?php
+                                        if ($month_val[$i] == $month) {
+                                            echo "selected = 'selected' ";
+                                        }
+                                        ?>>
+                                                    <?php echo $month_val[$i] . " - " . $month_full[$i]; ?>
+                                        </option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <button type="button" id="search_repair" class="btn btn-primary btn-block" onclick="get_price()"><i class="fa fa-search"></i> คันหา</button>
+                    </div> 
+                </div>
+                <div class="box box-default">
+                    <div class="box-body">
+                        <div id="load_price"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 
@@ -356,8 +414,8 @@ $config = new app\models\Config_system();
                 get_act();
             });
         }
-        
-        
+
+
         //ข้อมูลค่างวด
         function get_annuities() {
             $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
@@ -394,14 +452,31 @@ $config = new app\models\Config_system();
 
             $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
             $.post(url, data, function (result) {
-                if(result == '1'){
-                    swal("Alert!", "บันทึกข้อมูลซ้ำกรุณาตรวจสอบ...!", "warning"); 
+                if (result == '1') {
+                    swal("Alert!", "บันทึกข้อมูลซ้ำกรุณาตรวจสอบ...!", "warning");
                     get_annuities();
                     return false;
                 } else {
                     get_annuities();
                 }
-                
+
+            });
+        }
+
+        //สรุปรายจ่าย
+        function get_price() {
+            $("#load_price").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-green'><i></center>");
+            var url = "<?php echo Url::to(['truck/load_price']) ?>";
+            var license_plate = "<?php echo $model->license_plate ?>";
+            var year = $("#year_price").val();
+            var month = $("#month_price").val();
+            var data = {
+                license_plate: license_plate,
+                year: year,
+                month: month
+            };
+            $.post(url, data, function (result) {
+                $("#load_price").html(result);
             });
         }
     </script>

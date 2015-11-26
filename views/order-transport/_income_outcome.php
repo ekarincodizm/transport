@@ -172,7 +172,7 @@ $producttype_model = new app\models\ProductType();
                     ?>
 
                 </td>
-                <td style=" text-align: right;" valign="top"><?php echo number_format($sumallowance, 2) ?></td>
+                <td style=" text-align: right;" valign="top"><?php echo number_format((int)$sumallowance, 2) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

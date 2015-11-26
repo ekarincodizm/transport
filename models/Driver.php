@@ -99,7 +99,7 @@ class Driver extends \yii\db\ActiveRecord {
         $query = "SELECT Q1.*
             FROM 
             (
-            SELECT a.transport_date,CONCAT('เบี้ยเลี้ยงจาก ',a.order_id) AS detail,
+            SELECT a.transport_date,CONCAT('เบี้ยเลี้ยงจากขนส่งในรายการ ',a.order_id) AS detail,
                   IF(LEFT(a.allowance_driver1,5) = '$employee',trim(SUBSTR(a.allowance_driver1,7,15)),trim(SUBSTR(a.allowance_driver2,7,15))) AS price,
                   '1' AS type
             FROM assign a 
