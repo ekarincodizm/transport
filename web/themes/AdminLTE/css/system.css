@@ -43,12 +43,14 @@
 
 #content-bg{
     //#e5e5e5
-   background: rgba(232,232,232,1);
-background: -moz-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(232,232,232,1)), color-stop(46%, rgba(232,232,232,1)), color-stop(100%, rgba(208,206,206,1)));
-background: -webkit-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
-background: -o-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
-background: -ms-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
-background: radial-gradient(ellipse at center, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e8e8', endColorstr='#d0cece', GradientType=1 );
-    }
+
+    background: rgba(232,232,232,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(232,232,232,1)), color-stop(46%, rgba(232,232,232,1)), color-stop(100%, rgba(208,206,206,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e8e8', endColorstr='#d0cece', GradientType=1 );
+
+}
