@@ -35,27 +35,33 @@ use Yii;
  * @property string $message
  * @property integer $delete_flag
  */
-class OrdersTransportAffiliated extends \yii\db\ActiveRecord
-{
+class OrdersTransportAffiliated extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'orders_transport_affiliated';
     }
 
     /**
      * @inheritdoc
      */
-        public function rules() {
+    public function rules() {
         return [
-            [['order_date_start', 'order_date_end', 'truck1', 'driver1','employer','company_id'], 'required'],
+            [['order_date_start', 'order_date_end', 'truck1', 'driver1', 'employer', 'company_id'], 'required'],
             [['order_date_start', 'order_date_end', 'create_date'], 'safe'],
-            [['truck1', 'truck2','price_employer','price_affiliated','income_total'], 'integer'],
-            [['driver1', 'driver2'],'string','max' => '100'],
-            [['order_id','company_id'], 'string', 'max' => 10],
+            [['truck1', 'truck2', 'price_employer', 'price_affiliated', 'income_total'], 'integer'],
+            [['driver1', 'driver2'], 'string', 'max' => 100],
+            [['order_id', 'company_id'], 'string', 'max' => 10],
             [['order_id'], 'unique']
+                /*
+                  [['order_date_start', 'order_date_end', 'truck1', 'driver1','employer'], 'required'],
+                  [['order_date_start', 'order_date_end', 'create_date'], 'safe'],
+                  [['truck1', 'truck2', 'driver1', 'driver2', 'oil_set'], 'integer'],
+                  [['order_id'], 'string', 'max' => 10],
+                  [['order_id'], 'unique']
+                 */
         ];
     }
 

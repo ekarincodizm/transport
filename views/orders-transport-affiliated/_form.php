@@ -27,7 +27,7 @@ use app\models\Customer;
     <div class="box box-info">
         <div class="box-header with-border">ผู้ว่าจ้าง</div>
         <div class="box-body">
-            <?= $form->field($model, 'order_id')->textInput(['maxlength' => true, 'value' => $order_id, 'readonly' => 'readonly']) ?>
+            <?= $form->field($model, 'order_id')->textInput(['value' => $order_id, 'readonly' => 'readonly']) ?>
             <?=
             $form->field($model, 'employer')->dropdownList(
                     ArrayHelper::map(Customer::find()->all(), 'cus_id', 'company'), [
