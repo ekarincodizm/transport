@@ -55,7 +55,7 @@ class DriverIncome extends \yii\db\ActiveRecord {
 
     //ข้อมูลรายรับของพนักงาน
     function income($employee = null, $year = null, $month = null) {
-        $query = "SELECT a.id,a.transport_date,'เบี้ยเลี้ยง' AS detail,
+        $query = "SELECT a.id,a.transport_date,CONCAT('เบี้ยเลี้ยงจากรหัสสั่งงาน ',a.assign_id) AS detail,
                     IF(LEFT(a.allowance_driver1,5) = '$employee',trim(SUBSTR(a.allowance_driver1,7,15)),trim(SUBSTR(a.allowance_driver2,7,15))) AS price,
                     '0' AS type
                     FROM assign a 

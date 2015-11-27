@@ -18,22 +18,25 @@ $config = new app\models\Config_system();
         <?php
         $sum = 0;
         $i = 0;
-        foreach ($income as $rs): $i++;
+        foreach ($income as $rs):
             $sum = $sum + $rs['price'];
-            ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <td><?php echo $config->thaidate($rs['transport_date']); ?></td>
-                <td><?php echo $rs['detail']; ?></td>
-                <td style=" text-align: right;"><?php echo number_format($rs['price'], 2); ?></td>
-                <td style=" text-align:  center;">
-                    <?php if ($rs['type'] == 1) { ?>
-                        <a href="javascript:delete_driver_income('<?php echo $rs['id'] ?>')">
-                            <i class="fa fa-remove text-red"></i>
-                        </a>
-                    <?php } ?>
-                </td>
-            </tr>
+            //if ((int) $rs['price'] != 0) {
+                $i++;
+                ?>
+                <tr>
+                    <td><?php echo $i; ?></td>
+                    <td><?php echo $config->thaidate($rs['transport_date']); ?></td>
+                    <td><?php echo $rs['detail']; ?></td>
+                    <td style=" text-align: right;"><?php echo number_format((int) $rs['price'], 2); ?></td>
+                    <td style=" text-align:  center;">
+                        <?php if ($rs['type'] == 1) { ?>
+                            <a href="javascript:delete_driver_income('<?php echo $rs['id'] ?>')">
+                                <i class="fa fa-remove text-red"></i>
+                            </a>
+                        <?php } ?>
+                    </td>
+                </tr>
+            <?php //} ?>
         <?php endforeach; ?>
     </tbody>
     <tfoot>

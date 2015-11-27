@@ -30,7 +30,7 @@
                 <td style="text-align: right;">
                     <?php
                     if ($rs['type'] == '1') {
-                        echo number_format($rs['price'],2);
+                        echo number_format((int)$rs['price'],2);
                     } else {
                         echo "-";
                     }
@@ -39,7 +39,7 @@
                 <td style="text-align: right;">
                      <?php
                     if ($rs['type'] == '0') {
-                        echo number_format($rs['price'],2);
+                        echo number_format((int)$rs['price'],2);
                     } else {
                         echo "-";
                     }
@@ -51,8 +51,8 @@
     <tfoot>
         <tr>
             <td colspan="3" style=" text-align:  center; font-weight: bold;">รวม</td>
-            <td style=" font-weight: bold; text-align: right"><?php echo number_format($sum_income,2)?></td>
-            <td style=" font-weight: bold; text-align: right"><?php echo number_format($sum_expenses,2)?></td>
+            <td style=" font-weight: bold; text-align: right"><?php echo number_format((int)$sum_income,2)?></td>
+            <td style=" font-weight: bold; text-align: right"><?php echo number_format((int)$sum_expenses,2)?></td>
         </tr>
         <tr style=" color: #0000ff;">
             <td colspan="3" style=" text-align:  center; font-weight: bold;">สุทธิ</td>

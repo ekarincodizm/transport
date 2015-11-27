@@ -68,9 +68,10 @@ class Truck extends \yii\db\ActiveRecord {
 
     //ประวัติการวิ่งรถ
     function get_history($id){
-        $sql = "SELECT *
-                FROM orders_transport o 
+        $sql = "SELECT o.*,SUM(a.income) AS income
+                FROM orders_transport o INNER JOIN assign a ON o.order_id = a.order_id
                 WHERE (o.truck1 = '$id' OR o.truck2 = '$id')
+		GROUP BY o.order_id
                 ORDER BY o.id DESC ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
