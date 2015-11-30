@@ -17,6 +17,8 @@ $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
 $thaibaht = new app\models\Thaibaht();
+$company_model = new \app\models\Company();
+$company = $company_model->find()->one();
 ?>
 <!--
     #ข้อมูลใบปฏิบัติงาน
@@ -30,11 +32,11 @@ $thaibaht = new app\models\Thaibaht();
 
 <div style="float: left; padding-top:50px;">
     <font style=" font-size: 12px;">
-    <b><?php echo "ห้างหุ้นส่วนจํากัด ตงตง ทรานสปอร์ต"; ?></b><br/>
-    162 หมู่ที่3  ต.พบพระ<br/>
-    อ.พบพระ จ.ตาก 63160<br/>
-    โทรศัพท์ 081-8868090 แฟกซ์ 055-508914<br/>
-    เลขประจำตัวผู้เสียภาษี : 0633557000014
+    <b><?php echo $company['companyname'] ?></b><br/>
+    <?php echo $company['address'] ?><br/>
+    <?php echo $company['contact'] ?><br/>
+    เลขประจำตัวผู้เสียภาษี <?php echo $company['taxation_number'] ?><br/>
+
     </font>
 </div>
 
@@ -50,9 +52,9 @@ $thaibaht = new app\models\Thaibaht();
     <tr>
         <td colspan="2" valign='top'>
             <?php $employer = $customer_model->find()->where(['cus_id' => $model->employer])->one() ?>
-        <b>ลูกค้า :</b> <?php echo $employer['company']; ?>
-        <div id="line">.</div>
-        <b>ที่อยู่ : </b> <?php echo $employer['address']; ?>
+            <b>ลูกค้า :</b> <?php echo $employer['company']; ?>
+            <div id="line">.</div>
+            <b>ที่อยู่ : </b> <?php echo $employer['address']; ?>
         </td>
         <td colspan="2" valign='top'>
             <b>เลขที่ Invoice No.:</b>
@@ -92,8 +94,8 @@ $thaibaht = new app\models\Thaibaht();
                     - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $rs['changwat_start']])->one()['changwat_name']; ?>
                     - <?php echo $changwat_model->find()->where(['changwat_id' => $rs['changwat_end']])->one()['changwat_name']; ?>
                 </td>
-                <td style=" text-align: center;" valign='top'><?php echo $rs['weigh']?></td>
-                <td style=" text-align: right;" valign='top'><?php echo number_format($rs['unit_price'],2)?></td>
+                <td style=" text-align: center;" valign='top'><?php echo $rs['weigh'] ?></td>
+                <td style=" text-align: right;" valign='top'><?php echo number_format($rs['unit_price'], 2) ?></td>
                 <td style=" text-align: right;" valign="top"><?php echo number_format($rs['income'], 2); ?></td>
             </tr>
         <?php endforeach; ?>
@@ -112,13 +114,13 @@ $thaibaht = new app\models\Thaibaht();
                 <b>( <?php echo $thaibaht->convert($sum); ?> )</b>
             </td>
         </tr>
-       
+
         <tr>
             <td colspan="5" style=" text-align: center;">
-                ในนาม ห้างหุ้นส่วนจำกัด ตงตง ทรานสปอร์ต TONG TONG TRANSPORT LIMITED PARTNERSHIP
+                ในนาม <?php echo $company['companyname'] ?>
             </td>
         </tr>
-       
+
     </tfoot>
 </table>
 
@@ -131,7 +133,7 @@ $thaibaht = new app\models\Thaibaht();
     <div style="position: absolute; bottom: 100px; left: 0px; width: 40%; border-bottom: #000000 dotted 1px; float: left;"></div>
     <!-- ผู้อนุมัติ -->
     <div style="position: absolute; bottom: 100px; right: 0px; width: 40%; border-bottom: #000000 dotted 1px; float: right;"></div>
-    
+
     <div style="position: absolute; bottom: 50px; left: 0px; width: 40%; text-align: center; float: left; margin-top: 10px;">
         <b>ผู้รับเงิน</b>
         <div id="line">.</div>
@@ -142,5 +144,5 @@ $thaibaht = new app\models\Thaibaht();
         <div id="line">.</div>
         Authorized
     </div>
- 
+
 </div>

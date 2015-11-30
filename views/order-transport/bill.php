@@ -17,6 +17,8 @@ $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
 $thaibaht = new app\models\Thaibaht();
+$company_model = new \app\models\Company();
+$company = $company_model->find()->one();
 ?>
 <!--
     #ข้อมูลใบปฏิบัติงาน
@@ -30,11 +32,10 @@ $thaibaht = new app\models\Thaibaht();
 
 <div style="float: left; padding-top:50px;">
     <font style=" font-size: 12px;">
-    <b><?php echo "ห้างหุ้นส่วนจํากัด ตงตง ทรานสปอร์ต"; ?></b><br/>
-    162 หมู่ที่3  ต.พบพระ<br/>
-    อ.พบพระ จ.ตาก 63160<br/>
-    โทรศัพท์ 081-8868090 แฟกซ์ 055-508914<br/>
-    เลขประจำตัวผู้เสียภาษี : 0633557000014
+    <b><?php echo $company['companyname'] ?></b><br/>
+    <?php echo $company['address'] ?><br/>
+    <?php echo $company['contact'] ?><br/>
+    เลขประจำตัวผู้เสียภาษี <?php echo $company['taxation_number'] ?><br/>
     </font>
 </div>
 
@@ -118,12 +119,12 @@ $thaibaht = new app\models\Thaibaht();
         </tr>
         <tr>
             <td colspan="3" style=" text-align: center;">
-                ในนาม ห้างหุ้นส่วนจำกัด ตงตง ทรานสปอร์ต TONG TONG TRANSPORT LIMITED PARTNERSHIP
+                ในนาม <?php echo $company['companyname'] ?>
             </td>
         </tr>
         <tr>
             <td colspan="3" style=" text-align: center; font-weight: bold;">
-                รัตนากร นาจาย
+                <?php echo $company['ceo']?>
                 <div id="line">.</div>
                 AUTHORIZED SIGNATURE / DATE
             </td>

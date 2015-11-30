@@ -6,34 +6,35 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Company */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Companies', 'url' => ['index']];
+$this->title = $model->companyname;
+//$this->params['breadcrumbs'][] = ['label' => 'Companies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="company-view">
+<div class="panel panel-primary">
+    <div class="panel-heading">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <?= Html::encode($this->title) ?>
+    </div>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
+    <div class="panel-body">
+        <?= Html::img($model->getPhotoViewer(), ['style' => 'width:100px;', 'class' => 'img-rounded']); ?>
+        <br/> <br/>
+        <?=
+        DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'id',
+                'companyname',
+                'address',
+                'contact',
+                'taxation_number',
+                'ceo',
             ],
-        ]) ?>
-    </p>
+        ])
+        ?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'CompanyName',
-            'Address',
-            'contact',
-            'Taxation_Number',
-        ],
-    ]) ?>
-
+        <p>
+            <?= Html::a('<i class="fa fa-edit"></i>แก้ไขข้อมูล', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        </p>
+    </div>
 </div>
