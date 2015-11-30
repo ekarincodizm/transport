@@ -12,17 +12,22 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="driver-update">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4><i class="fa fa-pencil"></i> <?= Html::encode($this->title) ?></h4>
+    <div class="panel panel-primary">
+        <div class="panel-heading" style=" padding-top: 10px;">
+            <i class="fa fa-pencil"></i> <?= Html::encode($this->title) ?>
+            <div class="pull-right">
+            <a href="<?php echo yii\helpers\Url::to(['site/index']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
         </div>
-        <div class="panel-body">
+        </div>
+        <div class="panel-body" id="panel-body">
+            <div class="well">
             <?=
             $this->render('_form', [
                 'model' => $model,
                 'driver_id' => $driver_id,
             ])
             ?>
+            </div>
         </div>
     </div>
 

@@ -64,7 +64,7 @@ $month_full = $config->MonthFullKey();
             "ordering": true,
             "info": true,
             "autoWidth": false,
-            "scrollY": "250px"
+            "scrollX": true
         });
     });
 

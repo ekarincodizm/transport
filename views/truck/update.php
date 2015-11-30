@@ -12,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="truck-update">
 
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            <h4><i class="fa fa-truck"></i> <?= Html::encode($this->title) ?></h4>
+            <i class="fa fa-truck"></i> <?= Html::encode($this->title) ?>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" id="panel-body">
 
             <?=
             $this->render('_form', [

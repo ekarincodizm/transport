@@ -57,14 +57,15 @@ $order = new app\models\OrdersTransport();
 
 <script>
     $(function () {
-        $("#history_repair").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
+        //$("#history_repair").DataTable();
+        $('#history_repair').DataTable({
+            "paging": false,
             "lengthChange": false,
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "info": true,
-            "autoWidth": false
+            //"autoWidth": false
+            "scrollX": true
         });
     });
     

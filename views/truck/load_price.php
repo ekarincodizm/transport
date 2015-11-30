@@ -50,7 +50,7 @@ $order = new app\models\OrdersTransport();
     $(function () {
         //$("#tb_load_price").DataTable();
         $('#tb_load_price').DataTable({
-            "paging": true,
+            "paging": false,
             "lengthChange": false,
             "searching": false,
             "ordering": true,

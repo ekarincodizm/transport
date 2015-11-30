@@ -58,8 +58,8 @@ $config = new app\models\Config_system();
             "searching": false,
             "ordering": true,
             "info": true,
-            "autoWidth": false
-                    //"scrollY" : "250px"
+            "autoWidth": false,
+            "scrollX" : true
         });
     });
     

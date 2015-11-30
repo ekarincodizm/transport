@@ -140,12 +140,36 @@ class Truck extends \yii\db\ActiveRecord {
 UNION 
 
 (
-SELECT e.id,e.create_date,CONCAT('จ่ายค่างวดรถ งวดวันที่ ',e.`day`,'/',e.`month`,'/',e.`year`) AS detail,e.period_price AS price,'0' AS order_id,'0' AS type
+                    SELECT e.id,e.create_date,CONCAT('จ่ายค่างวดรถ งวดวันที่ ',e.`day`,'/',e.`month`,'/',e.`year`) AS detail,e.period_price AS price,'0' AS order_id,'0' AS type
                                     FROM annuities e
                                     WHERE e.license_plate = '$lincense_plate' 
                                         AND LEFT(e.create_date,4) = '$year'
                                         AND SUBSTR(e.create_date,6,2) = '$month'
                                     ORDER BY e.id DESC
+)
+
+UNION 
+
+(
+    SELECT o.id,o.order_date_start AS create_date,'เติมน้ำมัน ' AS detail,o.oil_price AS price,o.order_id,'0' AS type
+    FROM orders_transport o INNER JOIN truck t ON o.truck1 = t.id
+    WHERE t.license_plate = '$lincense_plate' 
+        AND o.oil_price != ''
+        AND LEFT(o.order_date_start,4) = '$year'
+        AND SUBSTR(o.order_date_start,6,2) = '$month'
+    ORDER BY o.id DESC
+)
+
+UNION 
+
+(
+    SELECT o.id,o.order_date_start AS create_date,'เติมแก๊ส ' AS detail,o.gas_price AS price,o.order_id,'0' AS type
+    FROM orders_transport o INNER JOIN truck t ON o.truck1 = t.id
+    WHERE t.license_plate = '$lincense_plate' 
+        AND o.gas_price != ''
+        AND LEFT(o.order_date_start,4) = '$year'
+        AND SUBSTR(o.order_date_start,6,2) = '$month'
+    ORDER BY o.id DESC
 )
 
                     ORDER BY create_date ASC ";

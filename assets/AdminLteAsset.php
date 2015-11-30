@@ -32,6 +32,8 @@ class AdminLteAsset extends AssetBundle {
         
         //Alert 
         'web/lib/sweetalert-master/dist/sweetalert.css',
+         //Model Effect
+        'web/lib/custombox-master/src/css/custombox.css',
     ];
     public $js = [
         
@@ -52,6 +54,11 @@ class AdminLteAsset extends AssetBundle {
         'web/themes/AdminLTE/plugins/datatables/dataTables.bootstrap.js',
         //Alert
         'web/lib/sweetalert-master/dist/sweetalert.min.js',
+        
+        //Model Effect
+        'web/lib/custombox-master/dist/custombox.min.js',
+        //'web/lib/custombox-master/dist/legacy.min.js',
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

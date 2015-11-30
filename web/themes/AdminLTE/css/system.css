@@ -14,6 +14,9 @@
     background: #373c42;//สีเทา
     //background: #2196f5;//สีฟ้า
 }
+body #bg-nav-head{
+    background: #373c42;//สีเทา
+}
 //#bg-nav ul li a{ color: #000000; text-shadow:1px 0px #FFFFFF;}
 //#bg-nav a{ color: #000000; text-shadow:1px 0px #FFFFFF;}
 #bg-sidebar{
@@ -24,10 +27,17 @@
 
 #btn{
     text-align: center;
+    background: none;
+    border: none;
+}
+
+#btn img{
+    max-width: 100px;
 }
 
 #btn:hover{
-    background: #cccccc;
+    background:#FFFFFF;
+    opacity: 0.5;
     text-align: center;
 }
 
@@ -36,12 +46,14 @@
     background: #000;
 }
 
+
 .navicator > ul{
     border-radius:0px; 
     background: #e9e8e8;
+    //margin-bottom: 0px;
 }
 
-#content-bg{
+#content-bg-gray{
     //#e5e5e5
 
     background: rgba(232,232,232,1);
@@ -53,4 +65,146 @@
     background: radial-gradient(ellipse at center, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e8e8', endColorstr='#d0cece', GradientType=1 );
 
+}
+
+#content-bg-blue{
+    //#e5e5e5
+    background: rgba(147,206,222,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(147,206,222,1)), color-stop(41%, rgba(117,189,209,1)), color-stop(100%, rgba(73,165,191,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf', GradientType=1 );
+
+}
+
+#content-bg-red{
+    //#e5e5e5
+    color:#ffffff;
+    background: rgba(169,3,41,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(169,3,41,1)), color-stop(44%, rgba(143,2,34,1)), color-stop(100%, rgba(109,0,25,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019', GradientType=1 );
+
+}
+
+#content-bg-red #text-color{
+    color: #FFF;
+}
+#content-bg-red h4{
+    color: #FFF;
+}
+
+#content-bg-red #btn:hover{
+    background:#000;
+    opacity: 0.5;
+    text-align: center;
+}
+
+
+/*Green*/
+#content-bg-green{
+    background: rgba(164,179,87,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(164,179,87,1) 0%, rgba(117,137,12,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(164,179,87,1)), color-stop(100%, rgba(117,137,12,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(164,179,87,1) 0%, rgba(117,137,12,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(164,179,87,1) 0%, rgba(117,137,12,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(164,179,87,1) 0%, rgba(117,137,12,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(164,179,87,1) 0%, rgba(117,137,12,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4b357', endColorstr='#75890c', GradientType=1 );
+}
+
+/*Green-Dark*/
+#content-bg-green-dark{
+    background: rgba(98,125,77,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(98,125,77,1)), color-stop(100%, rgba(31,59,8,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#627d4d', endColorstr='#1f3b08', GradientType=1 );
+}
+
+#content-bg-green-dark #text-color{
+    color: #FFF;
+}
+#content-bg-green-dark h4{
+    color: #FFF;
+}
+
+#content-bg-green-dark #btn:hover{
+    background:#000;
+    opacity: 0.5;
+    text-align: center;
+}
+
+/*Blur-Dark*/
+#content-bg-blue-dark{
+    background: rgba(0,92,149,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(0,92,149,1) 0%, rgba(0,73,121,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(0,92,149,1)), color-stop(100%, rgba(0,73,121,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(0,92,149,1) 0%, rgba(0,73,121,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(0,92,149,1) 0%, rgba(0,73,121,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(0,92,149,1) 0%, rgba(0,73,121,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,92,149,1) 0%, rgba(0,73,121,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005c95', endColorstr='#004979', GradientType=1 );
+}
+
+#content-bg-blue-dark #text-color{
+    color: #FFF;
+}
+#content-bg-blue-dark h4{
+    color: #FFF;
+}
+
+#content-bg-blue-dark #btn:hover{
+    background:#000;
+    opacity: 0.5;
+    text-align: center;
+}
+
+
+/*Dark*/
+#content-bg-dark{
+    background: rgba(99,99,99,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(99,99,99,1) 0%, rgba(41,41,41,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(99,99,99,1)), color-stop(100%, rgba(41,41,41,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(99,99,99,1) 0%, rgba(41,41,41,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(99,99,99,1) 0%, rgba(41,41,41,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(99,99,99,1) 0%, rgba(41,41,41,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(99,99,99,1) 0%, rgba(41,41,41,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#636363', endColorstr='#292929', GradientType=1 );
+}
+
+#content-bg-dark #text-color{
+    color: #FFF;
+}
+#content-bg-dark h4{
+    color: #FFF;
+}
+
+#content-bg-dark #btn:hover{
+    background:#000;
+    opacity: 0.5;
+    text-align: center;
+}
+
+body #bg-nav-head{
+    //background: none;
+}
+
+#sidebar-toggle{
+    //border-left:#FFFFFF solid 1px;
+}
+
+#sidebar-toggle:hover{
+    background:none;
+    opacity: 0.5;
 }

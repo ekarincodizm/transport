@@ -19,7 +19,7 @@ use kartik\date\DatePicker;
     $form = ActiveForm::begin([
                 //'id' => 'login-form-horizontal',
                 'type' => ActiveForm::TYPE_HORIZONTAL,
-                'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+                'formConfig' => ['labelSpan' => 2, 'deviceSize' => ActiveForm::SIZE_SMALL]
     ]);
     ?>
     <?php
@@ -44,8 +44,8 @@ use kartik\date\DatePicker;
     <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group field-driver-driver_license_id required">
-        <label class="control-label col-sm-3" for="driver-date_buy">วันที่ซื้อ</label>
-        <div class='col-sm-9'>
+        <label class="control-label col-sm-2" for="driver-date_buy">วันที่ซื้อ</label>
+        <div class='col-sm-10'>
             <?php
             echo DatePicker::widget([
                 'model' => $model,
@@ -61,8 +61,8 @@ use kartik\date\DatePicker;
             ]);
             ?>
         </div>
-        <div class='col-sm-offset-3 col-sm-9'></div>
-        <div class='col-sm-offset-3 col-sm-9'><div class="help-block"></div></div>
+        <div class='col-sm-offset-2 col-sm-10'></div>
+        <div class='col-sm-offset-2 col-sm-10'><div class="help-block"></div></div>
     </div>
 
     <?= $form->field($model, 'price')->textInput() ?>
@@ -78,7 +78,7 @@ use kartik\date\DatePicker;
     <?php // $form->field($model, 'type_id')->textInput()   ?>
 
     <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-9">
+        <div class="col-sm-offset-2 col-sm-10">
             <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-save"></i> บันทึกข้อมูล' : '<i class="fa fa-pencil"></i> แก้ไข', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             <?= Html::resetButton('<i class="fa fa-remove"></i> ยกเลิก', ['class' => 'btn btn-danger']) ?>
         </div>

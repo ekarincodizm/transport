@@ -45,6 +45,19 @@ class Config_system {
             return $thaidate = (int) $day . " " . $thai[(int) $month] . " " . ($year + 543) . " " . substr($dateformat, 10);
         }
     }
+    
+    function thaidateFull($dateformat = "") {
+        $year = substr($dateformat, 0, 4);
+        $month = substr($dateformat, 5, 2);
+        $day = substr($dateformat, 8, 2);
+        $thai = array("","มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+
+        if (strlen($dateformat) <= 10) {
+            return $thaidate = (int) $day . " " . $thai[(int) $month] . " " . ($year + 543);
+        } else {
+            return $thaidate = (int) $day . " " . $thai[(int) $month] . " " . ($year + 543) . " " . substr($dateformat, 10);
+        }
+    }
 
     function Monthval() {
         $month = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');

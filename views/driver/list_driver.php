@@ -29,7 +29,7 @@ $order = new app\models\OrdersTransport();
                     <?php if(!empty($rs['images'])){ ?>
                     <img src="<?php echo Url::to('@web/web/uploads/profile/'.$rs['images']); ?>" width="30px;"/>
                     <?php } else {?>
-                    <img src="<?php echo Url::to('@web/web/images/No_image.jpg'); ?>" height="50px;"/>
+                    <img src="<?php echo Url::to('@web/web/images/No_image.jpg'); ?>" style=" max-height: 50px; max-width: 30px;"/>
                     <?php } ?>
                 </td>
                 <td>
