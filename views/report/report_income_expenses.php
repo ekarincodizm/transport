@@ -67,9 +67,26 @@ $config = new app\models\Config_system();
             <div class="col-sm-12 col-md-2 col-lg-2">
                 <label style="color: #FFF;">.</label>
                 <button type="button" class="btn btn-success btn-block"
-                        onclick="get_report()"><i class="fa fa-search"></i> ดูข้อมูล</button>
+                        onclick="load_report_income_expenses()"><i class="fa fa-search"></i> ดูข้อมูล</button>
             </div>
         </div>
+        
+        <!-- Result -->
+        <div id="load_report"></div>
+        
     </div>
 </div>
+
+
+<!-- Script By Kimniyom -->
+<script type="text/javascript">
+    function load_report_income_expenses(){
+        var url = "<?php echo Url::to(['report/load_report_income_expenses'])?>";
+        var data = {a: 1};
+        
+        $.post(url,data,function(result){
+            $("#load_report").html(result);
+        });
+    }
+</script>
 

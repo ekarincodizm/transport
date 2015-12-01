@@ -182,7 +182,6 @@ $order_model = new \app\models\OrdersTransport();
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-truck"></i> <i class="fa fa-angle-up"></i> รายละเอียดขาไป</a></li>
-                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-truck"></i> <i class="fa fa-angle-down"></i> รายละเอียดขากลับ</a></li>
                     </ul>
 
                     <!-- Tab panes -->
@@ -681,8 +680,7 @@ $order_model = new \app\models\OrdersTransport();
                             <a href="<?php echo Yii::$app->getHomeUrl(); ?>">
                                 <button type="button" class="btn btn-danger"><i class="fa fa-sign-out"></i> ออกจากหน้านี้</button></a>
                         </div>
-                        <!-- ฟอร์มกรอกขากลับ -->
-                        <div role="tabpanel" class="tab-pane" id="profile">2</div>
+                        
                     </div>
 
                 </div>
