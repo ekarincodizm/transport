@@ -33,7 +33,7 @@ class Company extends \yii\db\ActiveRecord {
             [['companyname', 'address', 'contact', 'taxation_number', 'ceo'], 'required'],
             [['companyname', 'address', 'contact'], 'string', 'max' => 150],
             [['ceo'], 'string', 'max' => 100],
-            [['taxation_number'], 'string', 'max' => 255]
+            [['taxation_number'], 'string', 'max' => 13]
         ];
     }
 
