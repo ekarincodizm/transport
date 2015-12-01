@@ -19,7 +19,7 @@ $config = new app\models\Config_system();
 ?>
 <b>สรุปยอด (กำไร - ขาดทุก) ปี พ.ศ. <?php echo ($year + 543)?></b>
 <div class="table table-responsive">
-<table class="table table-striped table-bordered table-hover" id="report_year">
+<table class="table table-striped table-hover" id="report_year">
     <thead>
         <tr>
             <th rowspan="2" valign="middle"><i class="fa fa-calendar"></i><br/>เดือน</th>
