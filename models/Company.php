@@ -33,8 +33,8 @@ class Company extends \yii\db\ActiveRecord {
             [['companyname', 'address', 'contact', 'taxation_number', 'ceo'], 'required'],
             [['companyname', 'address', 'contact'], 'string', 'max' => 150],
             [['ceo'], 'string', 'max' => 100],
-            [['taxation_number'], 'string', 'max' => 13]
-        ];
+            [['taxation_number'], 'string','max'=>13,'length'=>13]
+            ];
     }
 
     /**
@@ -42,7 +42,7 @@ class Company extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'id' => 'ID',
+            'id' => 'ลำดับ',
             'companyname' => 'ชื่อบริษัท',
             'address' => 'ที่อยู่บริษัท',
             'contact' => 'ที่ติดต่อ',
