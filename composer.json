@@ -28,7 +28,8 @@
         "kartik-v/yii2-export": "*",
         "kartik-v/yii2-mpdf": "@dev",
         "robregonm/yii2-pdf": "dev-master",
-        "mpdf/mpdf": "*"
+        "mpdf/mpdf": "*",
+        "miloschuman/yii2-highcharts-widget": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

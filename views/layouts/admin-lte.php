@@ -39,8 +39,10 @@ $annuities = new app\models\Annuities();
                 var s = today.getSeconds();
                 m = checkTime(m);
                 s = checkTime(s);
-                document.getElementById('txt').innerHTML =
-                        h + "<br/>" + m + ":" + s;
+                var clock = h + "<br/>" + m + ":" + s;
+                
+                $("#txt").html(clock);
+                
                 var t = setTimeout(startTime, 500);
             }
             function checkTime(i) {
@@ -135,8 +137,7 @@ $annuities = new app\models\Annuities();
                                 <li><a href="<?php echo Url::to(['company/view','id' => '1']); ?>"><i class="fa fa-university text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
                                 <li><a href="<?php echo Url::to(['notifications/view', 'id' => '1']); ?>"><i class="fa fa-bell text-orange"></i> <span>ตั้งค่าการแจ้งเตือน</span></a></li>
                                 <li class="header"><i class="fa fa-book"></i> รายงาน</li>
-                                <li><a href="<?php echo Url::to(['report/report_year'])?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี)</span></a></li>
-                                <li><a href="<?php echo Url::to(['report/report_month'])?>"><i class="fa fa-bar-chart text-blue"></i> <span>กำไร - ขาดทุน(เดือน)</span></a></li>
+                                <li><a href="<?php echo Url::to(['report/report_year'])?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี,เดือน)</span></a></li>
                                 <li><a href="<?php echo Url::to(['report/report_period'])?>"><i class="fa fa-bar-chart text-danger"></i> <span>กำไร - ขาดทุน(ไตรมาส)</span></a></li>
                                 <li><a href="#"><i class="fa fa-bar-chart text-success"></i> <span>รับ - จ่าย(รายเดือน)</span></a></li>
                                 <li style=" border-top: #000 solid 1px;">

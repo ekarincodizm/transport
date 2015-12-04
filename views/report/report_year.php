@@ -2,7 +2,7 @@
 <?php
 
 use yii\helpers\Url;
-
+//use miloschuman\highcharts\Highcharts;
 $config = new \app\models\Config_system();
 $monthFull = $config->MonthFullKey();
 $monthVal = $config->Monthval();
@@ -38,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div id="report_year"></div>
-
 </div>
 
 <!-- Script By Kimniyom -->
@@ -53,6 +52,7 @@ $this->registerJs('
         var data = {year: year};
 
         $.post(url, data, function (result) {
+            //alert(result);
             $("#report_year").html(result);
         });
     }
