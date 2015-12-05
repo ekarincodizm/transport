@@ -39,7 +39,8 @@ class Affiliated extends \yii\db\ActiveRecord
             [['create_date'], 'safe'],
             [['company_id'], 'string', 'max' => 10],
             [['company'], 'string', 'max' => 255],
-            [['tax_number','tel'], 'number'],
+            [['tel'], 'string','max'=>9,'length'=>9],
+            [['tax_number'], 'string','max'=>13,'length'=>13],
         ];
     }
 
