@@ -129,6 +129,7 @@ $annuities = new app\models\Annuities();
                                 <li><a href="<?php echo Url::to(['site/index']); ?>"><i class="fa fa-home"></i> <span>หน้าแรก</span></a></li>
                                 <li class="header"><i class="fa fa-cogs"></i> ตั้งค่าระบบ</li>
                                 <li class="active"><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> <span>ข้อมูลรถ</span></a></li>
+                                <li><a href="<?php echo Url::to(['map-truck/index']); ?>"><i class="fa fa-truck text-info"></i> <span>จับคู่รถ(ส่วนหั-ส่วนท้าย)</span></a></li>
                                 <li><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users text-yellow"></i> <span>ข้อมูลคนขับ</span></a></li>
                                 <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> <span>ข้อมูลลูกค้า</span></a></li>
                                 <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
