@@ -67,7 +67,7 @@ class Truck extends \yii\db\ActiveRecord {
     }
 
     //ประวัติการวิ่งรถ
-    function get_history($id){
+    function get_history($id) {
         $sql = "SELECT o.*,SUM(a.income) AS income
                 FROM orders_transport o INNER JOIN assign a ON o.order_id = a.order_id
                 WHERE (o.truck1 = '$id' OR o.truck2 = '$id')
@@ -76,9 +76,9 @@ class Truck extends \yii\db\ActiveRecord {
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
-    
+
     //ประวัติการซ่อมระหว่างขนส่ง
-    function get_repair_in_order($lincense_plate = null,$year = null,$month = null){
+    function get_repair_in_order($lincense_plate = null, $year = null, $month = null) {
         $sql = "(
                     SELECT o.id,o.create_date,o.detail,o.price,'0' AS order_id,'0' AS type
                                     FROM `repair` o 
@@ -103,9 +103,9 @@ class Truck extends \yii\db\ActiveRecord {
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
-    
+
     //ประวัติค่าใช้จ่ายทั้งหมด
-    function get_price($lincense_plate = null,$year = null,$month = null){
+    function get_price($lincense_plate = null, $year = null, $month = null) {
         $sql = "(
                     SELECT o.id,o.create_date,o.detail,o.price,'0' AS order_id,'0' AS type
                                     FROM `repair` o 
@@ -176,4 +176,5 @@ UNION
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
+
 }
