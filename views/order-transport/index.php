@@ -8,67 +8,79 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\OrderTransportSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'ใบปฏิบัติงาน';
+$this->title = 'ใบสั่งงาน';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="orders-transport-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-        <?= Html::a('<i class="fa fa-plus"></i> สร้างใบปฏิบัติงาน', ['create'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> สร้างใบสั่งงาน', ['create'], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?php
     $columns = [
         ['class' => 'yii\grid\SerialColumn'],
         //'id',
-        'order_id',
+        'assign_id',
         ['class' => '\kartik\grid\DataColumn',
-            'attribute' => 'order_date_start',
-            'label' => 'วันที่ไป',
-            'hAlign' => 'center',
-            'width' => '10%',
-            'format' => 'raw',
-            'mergeHeader' => true,
-            'value' => function ($model) {
-                $config = new \app\models\Config_system();
-                return $config->thaidate($model->order_date_start);
-            }],
-        ['class' => '\kartik\grid\DataColumn',
-            'attribute' => 'order_date_end',
-            'label' => 'วันที่กลับ',
-            'hAlign' => 'center',
-            'width' => '10%',
-            'format' => 'raw',
-            'mergeHeader' => true,
-            'value' => function ($model) {
-                $config = new \app\models\Config_system();
-                return $config->thaidate($model->order_date_end);
-            }],
-        ['class' => '\kartik\grid\DataColumn',
-            'attribute' => 'truck1',
-            'label' => 'ทะเบียนรถ',
-            'mergeHeader' => true,
+            'attribute' => 'employer',
+            'label' => 'ผู้ว่าจ้าง',
             //'hAlign' => 'center',
             //'width' => '10%',
-            //'format' => 'raw',
+            'format' => 'raw',
+            //'mergeHeader' => true,
             'value' => function ($model) {
-                $truck = new app\models\Truck();
-                $tr = $truck->find()->where(['id' => $model->truck1])->one();
-                return $tr['license_plate'];
+                $customer = new \app\models\Customer();
+                $cus = $customer->find()->where(['cus_id' => $model->employer])->one();
+                return $cus['company'];
             }],
                 ['class' => '\kartik\grid\DataColumn',
-                    'attribute' => 'truck2',
-                    'label' => 'ทะเบียน(พ่วง)',
+                    'attribute' => 'order_date_start',
+                    'label' => 'วันที่ไป',
+                    'hAlign' => 'center',
+                    'width' => '10%',
+                    'format' => 'raw',
+                    'mergeHeader' => true,
+                    'value' => function ($model) {
+                        $config = new \app\models\Config_system();
+                        return $config->thaidate($model->order_date_start);
+                    }],
+                ['class' => '\kartik\grid\DataColumn',
+                    'attribute' => 'order_date_end',
+                    'label' => 'วันที่กลับ',
+                    'hAlign' => 'center',
+                    'width' => '10%',
+                    'format' => 'raw',
+                    'mergeHeader' => true,
+                    'value' => function ($model) {
+                        $config = new \app\models\Config_system();
+                        return $config->thaidate($model->order_date_end);
+                    }],
+                ['class' => '\kartik\grid\DataColumn',
+                    'attribute' => 'car_id',
+                    'label' => 'รถคันที่',
                     'mergeHeader' => true,
                     //'hAlign' => 'center',
                     //'width' => '10%',
                     //'format' => 'raw',
                     'value' => function ($model) {
-                        $truck = new app\models\Truck();
-                        $tr = $truck->find()->where(['id' => $model->truck2])->one();
-                        return $tr['license_plate'];
+                        $truck = new app\models\MapTruck();
+                        $tr = $truck->find()->where(['car_id' => $model->car_id])->one();
+                        return $tr['truck1'] . ' - ' . $tr['truck2'];
                     }],
+                        /*
+                          ['class' => '\kartik\grid\DataColumn',
+                          'attribute' => 'truck2',
+                          'label' => 'ทะเบียน(พ่วง)',
+                          'mergeHeader' => true,
+                          'value' => function ($model) {
+                          $truck = new app\models\Truck();
+                          $tr = $truck->find()->where(['id' => $model->truck2])->one();
+                          return $tr['license_plate'];
+                          }],
+                         * 
+                         */
                         ['class' => '\kartik\grid\DataColumn',
                             'attribute' => 'driver1',
                             'label' => 'คนขับ1',

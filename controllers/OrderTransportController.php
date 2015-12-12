@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\OrdersTransport;
 use app\models\OrderTransportSearch;
+use app\models\Assign;
+use app\models\AssignSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -34,7 +36,8 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new OrderTransportSearch();
+        //$searchModel = new OrderTransportSearch();
+        $searchModel = new AssignSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -67,30 +70,15 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        $model = new OrdersTransport();
+        $model = new Assign();
         $confix = new \app\models\Config_system();
-        $id = $confix->autoId_order("orders_transport", "order_id", 5);
+        $id = $confix->autoId_order("assign", "assign_id", 5);
         $newId = substr(date("Y"), -2) . "-" . $id;
 
-        if ($model->load(Yii::$app->request->post())) {
-            // Yii::$app->response->format = Response::FORMAT_JSON;
-
-            if (Yii::$app->request->post('orders-transport', null)) {
-                $model->scenario = 'orders-transport';
-                return ActiveForm::validate($model);
-            }
-
-            if ($model->load(Yii::$app->request->post())) {
-                $model->create_date = date("Y-m-d H:i:s");
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            return $this->render('create', [
-                        'model' => $model,
-                        'order_id' => $newId,
-            ]);
-        }
+        return $this->render('create', [
+                    'model' => $model,
+                    'assign_id' => $newId,
+        ]);
     }
 
     /**
@@ -122,7 +110,7 @@ class OrderTransportController extends Controller {
         //$this->findModel($id)->delete();
         $columes = array("delete_flag" => '1');
         Yii::$app->db->createCommand()
-                ->update("orders_transport", $columes,"id = '$id' ")
+                ->update("orders_transport", $columes, "id = '$id' ")
                 ->execute();
         return $this->redirect(['index']);
     }
@@ -161,7 +149,7 @@ class OrderTransportController extends Controller {
         $request = \Yii::$app->request;
         $driver1 = $request->post('driver1');
         $driver2 = $request->post('driver2');
-        if($request->post('allowance_driver2') != ''){
+        if ($request->post('allowance_driver2') != '') {
             $driver_2 = $driver2 . "-" . $request->post('allowance_driver2');
         } else {
             $driver_2 = "";
@@ -270,7 +258,7 @@ class OrderTransportController extends Controller {
                 ->delete("assign", "id = '$id'")
                 ->execute();
     }
-    
+
     //ใบแจ้งหนี้
     public function actionBill($id = null) {
         //$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
@@ -290,7 +278,7 @@ class OrderTransportController extends Controller {
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($order_id . ".pdf", "I");
     }
-    
+
     //รับ - จ่าย
     public function actionIncom_outcome($id = null) {
         $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
@@ -315,9 +303,9 @@ class OrderTransportController extends Controller {
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($order_id . ".pdf", "I");
     }
-    
+
     //ใบเสร็จ
-    public function actionReceipt($id = null){
+    public function actionReceipt($id = null) {
         $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
         $assign_model = new \app\models\Assign();
         //$outgoings_model = new \app\models\Outgoings();
@@ -330,9 +318,9 @@ class OrderTransportController extends Controller {
         $page = $this->renderPartial('_receipt', [
             'model' => $model,
             'assigns' => $assign,
-            //'outgoings' => $outgoings,
-            //'expenses' => $expenses,
-            //'order_id' => $order_id,
+                //'outgoings' => $outgoings,
+                //'expenses' => $expenses,
+                //'order_id' => $order_id,
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
@@ -340,4 +328,5 @@ class OrderTransportController extends Controller {
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($order_id . ".pdf", "I");
     }
+
 }
