@@ -134,4 +134,16 @@ class Driver extends \yii\db\ActiveRecord {
         return $result;
     }
 
+    //ดึงข้อมูลคนขับที่ยังไม่มีรถขับประจำมาแสดง
+
+    function get_driver_not_car() {
+        $sql = "SELECT * 
+                FROM driver d
+                WHERE d.driver_id NOT IN(SELECT m.driver FROM map_driver m WHERE m.active = '1') 
+                AND d.delete_flag = '0' ";
+
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+
 }
