@@ -6,7 +6,7 @@
             <th style="text-align: center;">คันที่</th>
             <th>หัวลาก</th>
             <th>พ่วง</th>
-            <th style="text-align: center;">คนขับ</th>
+            <th style="text-align: center;">คนขับประจำ</th>
             <th style="text-align: center;">ตัวเลือก</th>
         </tr>
     </thead>

@@ -93,6 +93,7 @@ $this->registerJs('
 
         if (truck_1 == '' || truck_2 == '') {
             sweetAlert("แจ้งเตือน...", "คุณกรอกข้อมูลยังไม่ครบ!", "warning");
+            return false;
         }
         var data = {truck_1: truck_1, truck_2: truck_2};
 
