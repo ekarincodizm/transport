@@ -335,7 +335,7 @@ $order_model = new \app\models\OrdersTransport();
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-balance-scale"></i> น้ำหนัก</div>
-                                    <input type="text" id="weigh" name="weigh" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
+                                    <input type="text" id="weigh" name="weigh" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator(0);"/>
                                     <div class="input-group-addon">ตัน</div>
                                 </div>
                             </div> 

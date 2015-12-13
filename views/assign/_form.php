@@ -12,8 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'order_id')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'assign_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'order_date_start')->textInput() ?>
@@ -30,33 +28,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'oil_set')->textInput() ?>
 
-    <?= $form->field($model, 'oil')->textInput() ?>
-
-    <?= $form->field($model, 'oil_unit')->textInput() ?>
-
-    <?= $form->field($model, 'oil_price')->textInput() ?>
-
-    <?= $form->field($model, 'gas')->textInput() ?>
-
-    <?= $form->field($model, 'gas_unit')->textInput() ?>
-
-    <?= $form->field($model, 'gas_price')->textInput() ?>
-
-    <?= $form->field($model, 'product_up')->textInput() ?>
-
-    <?= $form->field($model, 'product_down')->textInput() ?>
-
-    <?= $form->field($model, 'old_mile')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'now_mile')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'distance')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'distance_collect')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'avg_oil')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'compensate')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'transport_date')->textInput() ?>
 

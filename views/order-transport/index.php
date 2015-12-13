@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($model) {
                         $truck = new app\models\MapTruck();
                         $tr = $truck->find()->where(['car_id' => $model->car_id])->one();
-                        return $tr['truck1'] . ' - ' . $tr['truck2'];
+                        return "(" . $tr['truck_1'] . ') - (' . $tr['truck_2'] . ")";
                     }],
                         /*
                           ['class' => '\kartik\grid\DataColumn',
@@ -87,10 +87,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'mergeHeader' => true,
                             //'hAlign' => 'center',
                             //'width' => '10%',
-                            //'format' => 'raw',
+                            'format' => 'raw',
                             'value' => function ($model) {
                                 $driver = new app\models\Driver();
-                                $dr = $driver->find()->where(['id' => $model->driver1])->one();
+                                $dr = $driver->find()->where(['driver_id' => $model->driver1])->one();
                                 return $dr['name'] . ' ' . $dr['lname'];
                             }],
                                 ['class' => '\kartik\grid\DataColumn',
@@ -99,11 +99,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'mergeHeader' => true,
                                     //'hAlign' => 'center',
                                     //'width' => '10%',
-                                    //'format' => 'raw',
+                                    'format' => 'raw',
                                     'value' => function ($model) {
-                                        $driver = new app\models\Driver();
-                                        $dr = $driver->find()->where(['id' => $model->driver2])->one();
-                                        return $dr['name'] . ' ' . $dr['lname'];
+                                        $driver2 = new app\models\Driver();
+                                        $dr2 = $driver2->find()->where(['driver_id' => $model->driver2])->one();
+                                        return $dr2['name'] . ' ' . $dr2['lname'];
                                     }],
                                         // 'truck2',
                                         // 'driver1',
