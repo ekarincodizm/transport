@@ -11,6 +11,24 @@
             return false;
         //ele.onKeyPress = vchar;
     }
+
+    //เมื่อเลือกคนขับ 1 ช่องเบี้ยเลี้ยงคนขับ 1 จะ คีย์ ได้
+    function select_driver1(driver1) {
+        if (driver1 != '') {
+            $("#allowance_driver1").prop("disabled", false);
+        } else {
+            $("#allowance_driver1").prop("disabled", true);
+        }
+    }
+
+    //เมื่อเลือกคนขับ 2 ช่องเบี้ยเลี้ยงคนขับ 2 จะ คีย์ ได้
+    function select_driver2(driver2) {
+        if (driver2 != '') {
+            $("#allowance_driver2").prop("disabled", false);
+        } else {
+            $("#allowance_driver2").prop("disabled", true);
+        }
+    }
 </script>
 
 <?php
@@ -51,7 +69,7 @@ $order_model = new \app\models\OrdersTransport();
                 -->
                 <div class="box box-default" style="padding: 5px;">
                     <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-book"></i> ใบสั่งงานเลขที่</div>
@@ -60,7 +78,7 @@ $order_model = new \app\models\OrdersTransport();
                             </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-building-o"></i> ผู้ว่าจ้าง</div>
@@ -77,9 +95,9 @@ $order_model = new \app\models\OrdersTransport();
                             </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <div class="input-group">
+                                <div class="input-group" style=" width: 100%;">
                                     <div class="input-group-addon"><i class="fa fa-calendar"></i> วันที่ไป</div>
                                     <?php
                                     echo DatePicker::widget([
@@ -100,9 +118,9 @@ $order_model = new \app\models\OrdersTransport();
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <div class="input-group">
+                                <div class="input-group" style=" width: 100%;">
                                     <div class="input-group-addon"><i class="fa fa-calendar"></i> วันที่กลับ</div>
                                     <?php
                                     echo DatePicker::widget([
@@ -126,7 +144,7 @@ $order_model = new \app\models\OrdersTransport();
                     </div>
 
                     <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <?php
                             $map_car = new \app\models\MapTruck();
                             $car = $map_car->get_map_truck();
@@ -146,14 +164,14 @@ $order_model = new \app\models\OrdersTransport();
                             </div>
                         </div>
 
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3"> 
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"> 
                             <?php
                             $drivers = $driver->find()->all();
                             ?>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-user"></i> คนขับ 1</div>
-                                    <select id="driver1" class="form-control">
+                                    <select id="driver1" class="form-control" onchange="select_driver1(this.value)">
                                         <option value="">== เลือกคนขับ1 ==</option>
                                         <?php
                                         foreach ($drivers as $driv1):
@@ -164,11 +182,11 @@ $order_model = new \app\models\OrdersTransport();
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-user"></i> คนขับ 2</div>
-                                    <select id="driver2" class="form-control">
+                                    <select id="driver2" class="form-control" onchange="select_driver2(this.value)">
                                         <option value="">== เลือกคนขับ2 ==</option>
                                         <?php
                                         foreach ($drivers as $driv2):
@@ -179,35 +197,55 @@ $order_model = new \app\models\OrdersTransport();
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-tint"></i> น้ำมันที่กำหนด</div>
+                                    <input type="text" id="oil_set" name="oil_set" class="form-control" value="<?php echo $model->oil_set ?>" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
+                                    <div class="input-group-addon">ลิตร</div>
+                                    <!--
+                                    <div class="input-group-addon btn btn-default" onclick="Save_before_release()"><i class="fa fa-save"></i> บันทึก</div>
+                                    -->
+                                </div>
+                            </div> 
+                        </div>
+
                     </div>
                 </div>
                 <!--
                     ###################### END #########################
                 -->
-                <div class="box box-default">
-                    <div class="box-header with-border">รายละเอียดก่อนปล่อยรถ</div>
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-tint"></i> น้ำมันที่กำหนด</div>
-                                        <input type="text" id="oil_set" name="oil_set" class="form-control" value="<?php echo $model->oil_set ?>" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
-                                        <div class="input-group-addon">ลิตร</div>
-                                        <div class="input-group-addon btn btn-default" onclick="Save_before_release()"><i class="fa fa-save"></i> บันทึก</div>
-                                    </div>
-                                </div> 
+
+                <div class="jumbotron" style="padding: 5px; margin-top: 0px; margin-bottom: 5px;">
+                    <label>เบี้ยเลี้ยง</label>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">เบี้ยเลี้ยงคนขับ(1)</div>
+                                    <input type="text" id="allowance_driver1" name="allowance_driver1" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled"/>
+                                    <div class="input-group-addon">บาท</div>
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6"> 
+                            <div class="input-group">
+                                <div class="input-group-addon">เบี้ยเลี้ยงคนขับ(2)</div>
+                                <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled"/>
+                                <div class="input-group-addon">บาท</div>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!--
                     ######################### #ใบสั่งงาน ######################
                 -->
 
                 <div class="panel panel-info">
-                    <div class="panel-heading">รายการใบสั่งงาน</div>
+                    <div class="panel-heading">รายละเอียดการขน</div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-4 col-md-4 col-lg-4">
@@ -229,7 +267,7 @@ $order_model = new \app\models\OrdersTransport();
                                 ?>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                ลูกค้า
+                                ลูกค้าต้นทาง
                                 <select id="cus_start" class="form-control">
                                     <option value="">== เลือกลูกค้า ==</option>
                                     <?php
@@ -241,8 +279,16 @@ $order_model = new \app\models\OrdersTransport();
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                ใบสั่งงาน 
-                                <input type="text" id="assign_id" name="assign_id" class="form-control" readonly="readonly" value="<?php echo $assign_id; ?>"/>
+                                ลูกค้าปลายทาง
+                                <select id="cus_end" class="form-control">
+                                    <option value="">== เลือกลูกค้า ==</option>
+                                    <?php
+                                    $customer_end = \app\models\Customer::find()->all();
+                                    foreach ($customer_end as $cusend):
+                                        ?>
+                                        <option value="<?php echo $cusend->cus_id; ?>"><?php echo $cusend->cus_id . '-' . $cusend->company; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -270,20 +316,6 @@ $order_model = new \app\models\OrdersTransport();
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                ลูกค้าปลายทาง
-                                <select id="cus_end" class="form-control">
-                                    <option value="">== เลือกลูกค้า ==</option>
-                                    <?php
-                                    $customer_end = \app\models\Customer::find()->all();
-                                    foreach ($customer_end as $cusend):
-                                        ?>
-                                        <option value="<?php echo $cusend->cus_id; ?>"><?php echo $cusend->cus_id . '-' . $cusend->company; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 col-md-4 col-lg-4">
                                 ประเภทสินค้า
                                 <select id="product_type" class="form-control">
                                     <option value=""> == ประเภทสินค้า ==</option>
@@ -295,8 +327,8 @@ $order_model = new \app\models\OrdersTransport();
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
                         </div>
+
 
                         <div class="jumbotron" style="padding: 5px; margin-top: 10px; margin-bottom: 5px;">
 
@@ -332,31 +364,7 @@ $order_model = new \app\models\OrdersTransport();
                             </div>
                         </div>
 
-                        <div class="jumbotron" style="padding: 5px; margin-top: 0px; margin-bottom: 5px;">
-                            <label>เบี้ยเลี้ยง</label>
-                            <div class="row">
-                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">เบี้ยเลี้ยงคนขับ(1)</div>
-                                            <input type="text" id="allowance_driver1" name="allowance_driver1" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
-                                            <div class="input-group-addon">บาท</div>
-                                        </div>
-                                    </div>    
-                                </div>
-                                <div class="col-sm-6 col-md-6 col-lg-6"> 
-                                    <div class="input-group">
-                                        <div class="input-group-addon">เบี้ยเลี้ยงคนขับ(2)</div>
-                                        <?php if (!empty($model->driver2)) { ?>
-                                            <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
-                                        <?php } else { ?>
-                                            <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" readonly="readonly"/>
-                                        <?php } ?>
-                                        <div class="input-group-addon">บาท</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12">

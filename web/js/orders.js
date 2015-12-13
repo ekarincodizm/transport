@@ -65,36 +65,15 @@ function Pertimes_Calculator() {
     $("#unit_price").prop("disabled", true);
 }
 
-//บันทึกน้ำมันที่กำหนด
-function Save_before_release() {
-    var url = $("#Url_save_before_release").val();
-    var order_id = $("#order_id").val();
-    var oil_set = $("#oil_set").val();
-    var data = {order_id: order_id, oil_set: oil_set};
-
-    if (oil_set == "") {
-        //alert("ช่องน้ำมันที่กำหนดต้องไม่เป็นค่าว่าง ..");
-        swal("แจ้งเตือน!", "ช่องน้ำมันที่กำหนดต้องไม่เป็นค่าว่าง ..!", "warning");
-        $("#oil_set").focus();
-        return false;
-    }
-
-    $.post(url, data, function (datas) {
-        swal("Success!", "บันทึกข้อมูลส่วนนี้แล้ว", "success");
-        $("#oil_set").val(datas.oil_set);
-        $("#oil_set_ofter").val(datas.oil_set);
-        compensate_calculus();
-    }, "json");
-}
-
 //##################### บันทึกใบสั่งงาน #################
 function save_assign() {
     var url = $("#Url_save_assign").val();
     var driver1 = $("#driver1").val();
     var driver2 = $("#driver2").val();
-
+    
     var assign_id = $("#assign_id").val();
-    var order_id = $("#order_id").val();
+    var car_id = $("#car_id").val();
+    var employer = $("#employer").val();
     var transport_date = $("#transport_date").val();
     var cus_start = $("#cus_start").val();
     var cus_end = $("#cus_end").val();
@@ -112,7 +91,8 @@ function save_assign() {
 
     var data = {
         assign_id: assign_id,
-        order_id: order_id,
+        employer: employer,
+        car_id: car_id,
         transport_date: transport_date,
         cus_start: cus_start,
         cus_end: cus_end,
@@ -132,6 +112,28 @@ function save_assign() {
     };
 
     //Validate 
+    
+    if (employer == "") {
+        $("#employer").focus();
+        return false;
+    }
+    
+    if (car_id == "") {
+        $("#car_id").focus();
+        return false;
+    }
+    
+     if (driver1 == "") {
+        $("#driver1").focus();
+        return false;
+    }
+    
+    if (oil_set == "") {
+        $("#oil_set").focus();
+        return false;
+    }
+    
+    
     if (transport_date == "") {
         $("#transport_date").focus();
         return false;
@@ -139,6 +141,11 @@ function save_assign() {
 
     if (cus_start == "") {
         $("#cus_start").focus();
+        return false;
+    }
+    
+    if (cus_end == "") {
+        $("#cus_end").focus();
         return false;
     }
 
@@ -152,11 +159,7 @@ function save_assign() {
         return false;
     }
 
-    if (cus_end == "") {
-        $("#cus_end").focus();
-        return false;
-    }
-
+   
     if (product_type == "") {
         $("#product_type").focus();
         return false;
@@ -167,13 +170,8 @@ function save_assign() {
         return false;
     }
 
-    if (oil_set == "") {
-        $("#oil_set").focus();
-        return false;
-    }
-
     if (type_calculus == "") {
-        $("#type_calculus").focus();
+        swal("แจ้งเตือน!", "ยังไม่ได้เลือกประเภทขนส่ง ..!", "warning");
         return false;
     }
 
