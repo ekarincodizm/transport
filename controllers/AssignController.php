@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class AssignController extends Controller
 {
+    public $layout = "admin-lte";
     public function behaviors()
     {
         return [

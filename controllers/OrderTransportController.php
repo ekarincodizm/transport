@@ -88,14 +88,14 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionUpdate($id) {
-        $model = $this->findModel($id);
-
+        //$model = $this->findModel($id);
+        $model = Assign::findOne($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('//assign/update', [
                         'model' => $model,
-                        'order_id' => $model->order_id,
+                        'assign_id' => $model->assign_id,
             ]);
         }
     }
@@ -156,7 +156,12 @@ class OrderTransportController extends Controller {
         }
         $columns = array(
             "assign_id" => $request->post('assign_id'),
-            "order_id" => $request->post('order_id'),
+            "order_date_start" => $request->post('order_date_start'),
+            "order_date_end" => $request->post('order_date_end'),
+            "employer" => $request->post('employer'),
+            "car_id" => $request->post('car_id'),
+            "driver1" => $request->post('driver1'),
+            "driver2" => $request->post('driver2'),
             "transport_date" => $request->post('transport_date'),
             "cus_start" => $request->post('cus_start'),
             "cus_end" => $request->post('cus_end'),
@@ -176,6 +181,48 @@ class OrderTransportController extends Controller {
 
         \Yii::$app->db->createCommand()
                 ->insert("assign", $columns)
+                ->execute();
+    }
+    
+    public function actionUpdate_assign() {
+        $request = \Yii::$app->request;
+        
+        $id = $request->post('id');
+        
+        $driver1 = $request->post('driver1');
+        $driver2 = $request->post('driver2');
+        if ($request->post('allowance_driver2') != '') {
+            $driver_2 = $driver2 . "-" . $request->post('allowance_driver2');
+        } else {
+            $driver_2 = "";
+        }
+        $columns = array(
+            //"assign_id" => $request->post('assign_id'),
+            "order_date_start" => $request->post('order_date_start'),
+            "order_date_end" => $request->post('order_date_end'),
+            "employer" => $request->post('employer'),
+            "car_id" => $request->post('car_id'),
+            "driver1" => $request->post('driver1'),
+            "driver2" => $request->post('driver2'),
+            "transport_date" => $request->post('transport_date'),
+            "cus_start" => $request->post('cus_start'),
+            "cus_end" => $request->post('cus_end'),
+            "changwat_start" => $request->post('changwat_start'),
+            "changwat_end" => $request->post('changwat_end'),
+            "product_type" => $request->post('product_type'),
+            "weigh" => $request->post('weigh'),
+            "oil_set" => $request->post('oil_set'),
+            "type_calculus" => $request->post('type_calculus'),
+            "unit_price" => $request->post('unit_price'),
+            "per_times" => $request->post('per_times'),
+            "income" => $request->post('income'),
+            "allowance_driver1" => $driver1 . "-" . $request->post('allowance_driver1'),
+            "allowance_driver2" => $driver_2,
+            //"create_date" => date("Y-m-d H:i:s")
+        );
+
+        \Yii::$app->db->createCommand()
+                ->update("assign", $columns,"id = $id")
                 ->execute();
     }
 
