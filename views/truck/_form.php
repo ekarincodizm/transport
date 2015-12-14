@@ -71,7 +71,7 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'period_price')->textInput() ?>
 
-    <?= $form->field($model, 'period')->textInput() ?>
+    <?= $form->field($model, 'period')->textInput(['placeholder' => 'กรอกตัวเลขจำนวนเต็ม เช่น(1,2,3,...99)']) ?>
 
     <?= $form->field($model, 'date_supply')->textInput(['placeholder' => 'กรอกตัวเลข 2 หลัก เช่น(01)']) ?>
 
