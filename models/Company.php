@@ -33,6 +33,7 @@ class Company extends \yii\db\ActiveRecord {
             [['companyname', 'address', 'contact', 'taxation_number', 'ceo'], 'required'],
             [['companyname', 'address', 'contact'], 'string', 'max' => 150],
             [['ceo'], 'string', 'max' => 100],
+            [['account_number'],'string','max'=>10,'length'=>10],
             [['taxation_number'],'string','max'=>13,'length'=>13],
             ];
     }
@@ -48,6 +49,7 @@ class Company extends \yii\db\ActiveRecord {
             'contact' => 'ที่ติดต่อ',
             'taxation_number' => 'เลขผู้เสียภาษีอากร',
             'logo' => 'โลโก้',
+            'account_number'=>'เลขบัญชี',
             'ceo' => 'รายชื่อผู้ลงนาม ในบิล/ใบแจ้งหนี้/ใบเสร็จ',
         ];
     }
