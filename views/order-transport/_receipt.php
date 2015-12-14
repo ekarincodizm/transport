@@ -52,7 +52,7 @@ $company = $company_model->find()->one();
     <tr>
         <td colspan="2" valign='top'>
             <?php $employer = $customer_model->find()->where(['cus_id' => $model->employer])->one() ?>
-            <b>ลูกค้า :</b> <?php echo $employer['company']; ?>
+            <b>ผู้ว่าจ้าง :</b> <?php echo $employer['company']; ?>
             <div id="line">.</div>
             <b>ที่อยู่ : </b> <?php echo $employer['address']; ?>
         </td>
@@ -62,7 +62,7 @@ $company = $company_model->find()->one();
             <b>วันที่ Invoice Date :</b>
         </td>
         <td valign='top' style=" text-align: right;">
-            <?php echo $model->order_id; ?>
+            <?php echo $model->assign_id; ?>
             <div id="line">.</div>
             <?php echo $config->thaidate($model->order_date_start); ?>
         </td>
@@ -77,28 +77,22 @@ $company = $company_model->find()->one();
         </tr>
     </thead>
     <tbody>
-        <?php
-        $sum = 0;
-        $i = 0;
-        foreach ($assigns as $rs): $i++;
-            $sum = $sum + $rs['income'];
-            ?>
             <tr>
-                <td style="text-align: center;" valign="top"><?php echo $i; ?></td>
+                <td style="text-align: center;" valign="top">1</td>
                 <td>
-                    - ค่าข่นส่งสินค้า <?php echo $producttype_model->find()->where(['id' => $rs['product_type']])->one()['product_type']; ?>
+                    - ค่าข่นส่งสินค้า <?php echo $producttype_model->find()->where(['id' => $model->product_type])->one()['product_type']; ?>
                     <div id="line">.</div>
-                    - ลุกค้า <?php echo $customer_model->find()->where(['cus_id' => $rs['cus_start']])->one()['company']; ?>
-                    ปลายทาง <?php echo $customer_model->find()->where(['cus_id' => $rs['cus_end']])->one()['company']; ?>
+                    - ขึ้นของ <?php echo $customer_model->find()->where(['cus_id' => $model->cus_start])->one()['company']; ?>
+                    ลงของ <?php echo $customer_model->find()->where(['cus_id' => $model->cus_end])->one()['company']; ?>
                     <div id="line">.</div>
-                    - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $rs['changwat_start']])->one()['changwat_name']; ?>
-                    - <?php echo $changwat_model->find()->where(['changwat_id' => $rs['changwat_end']])->one()['changwat_name']; ?>
+                    - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $model->changwat_start])->one()['changwat_name']; ?>
+                    - <?php echo $changwat_model->find()->where(['changwat_id' => $model->changwat_end])->one()['changwat_name']; ?>
                 </td>
-                <td style=" text-align: center;" valign='top'><?php echo $rs['weigh'] ?></td>
-                <td style=" text-align: right;" valign='top'><?php echo number_format($rs['unit_price'], 2) ?></td>
-                <td style=" text-align: right;" valign="top"><?php echo number_format($rs['income'], 2); ?></td>
+                <td style=" text-align: center;" valign='top'><?php echo $model->weigh; ?></td>
+                <td style=" text-align: right;" valign='top'><?php echo number_format($model->unit_price, 2) ?></td>
+                <td style=" text-align: right;" valign="top"><?php echo number_format($model->income, 2); ?></td>
             </tr>
-        <?php endforeach; ?>
+   
     </tbody>
     <tfoot>
         <tr>
@@ -106,12 +100,12 @@ $company = $company_model->find()->one();
                 รวมทั้งสิ้น
             </td>
             <td style=" text-align: right; font-weight: bold;" valign='bottom'>
-                <?php echo number_format($sum, 2); ?>
+                <?php echo number_format($model->income, 2); ?>
             </td>
         </tr>
         <tr>
             <td colspan="5" style=" text-align: right; font-weight: bold;">
-                <b>( <?php echo $thaibaht->convert($sum); ?> )</b>
+                <b>( <?php echo $thaibaht->convert($model->income); ?> )</b>
             </td>
         </tr>
 

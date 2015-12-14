@@ -16,9 +16,11 @@ $driver = new app\models\Driver();
 $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
+$car_model = new \app\models\MapTruck();
+$car = $car_model->find()->where(['car_id' => $model->car_id])->one();
 ?>
 <h3>
-    สรุปรายรับ - รายจ่าย รหัสปฏิบัติงาน <?php echo $order_id; ?>
+    สรุปรายรับ - รายจ่าย รหัสสั่งงาน <?php echo $model->assign_id; ?>
 </h3>
 <?php $employer = $customer_model->find()->where(['cus_id' => $model->employer])->one() ?>
         <b>ผู้ว่าจ้าง :</b> <?php echo $employer['company']; ?>  <br/>
@@ -33,13 +35,13 @@ $producttype_model = new app\models\ProductType();
     <tbody>
         <tr>
             <td style="text-align: center; font-weight: bold;">
-                ทะเบียนรถ <?php echo $truck_model->find()->where(['id' => $model->truck1])->one()['license_plate']; ?><br/>
-                ทะเบียนรถ-พ่วง <?php echo $truck_model->find()->where(['id' => $model->truck2])->one()['license_plate']; ?>
+                ทะเบียนรถ <?php echo $car['truck_1']; ?><br/>
+                ทะเบียนรถ-พ่วง <?php echo $car['truck_2']; ?>
             </td>
             <td style="text-align: center; font-weight: bold;">
                 <?php
-                $d1 = $driver->find()->where(['id' => $model->driver1])->one();
-                $d2 = $driver->find()->where(['id' => $model->driver2])->one();
+                $d1 = $driver->find()->where(['driver_id' => $model->driver1])->one();
+                $d2 = $driver->find()->where(['driver_id' => $model->driver2])->one();
                 ?>
                 คนขับ 1 <?php echo $d1['name'] . ' ' . $d1['lname']; ?><br/>
                 คนขับ 2 <?php echo $d2['name'] . ' ' . $d2['lname']; ?>
@@ -58,31 +60,26 @@ $producttype_model = new app\models\ProductType();
         </tr>
     </thead>
     <tbody>
-        <?php
-        $sumincome = 0;
-        $i = 0;
-        foreach ($assigns as $assign): $i++;
-            $sumincome = $sumincome + $assign['income'];
-            ?>
+
             <tr>
-                <td style="text-align:center;" valign="top"><?php echo $i; ?></td>
+                <td style="text-align:center;" valign="top">1</td>
                 <td>
-                    - ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign['product_type']])->one()->product_type; ?>
+                    - ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $model->product_type])->one()->product_type; ?>
                     <div id="line">.</div>
-                    - ลุกค้า <?php echo $customer_model->find()->where(['cus_id' => $assign['cus_start']])->one()['company']; ?>
-                    ปลายทาง <?php echo $customer_model->find()->where(['cus_id' => $assign['cus_end']])->one()['company']; ?>
+                    - ขึ้นของ <?php echo $customer_model->find()->where(['cus_id' =>$model->cus_start])->one()['company']; ?>
+                    ลงของ <?php echo $customer_model->find()->where(['cus_id' => $model->cus_end])->one()['company']; ?>
                     <div id="line">.</div>
-                    - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $assign['changwat_start']])->one()['changwat_name']; ?>
-                    - <?php echo $changwat_model->find()->where(['changwat_id' => $assign['changwat_end']])->one()['changwat_name']; ?>
+                    - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $model->changwat_start])->one()['changwat_name']; ?>
+                    - <?php echo $changwat_model->find()->where(['changwat_id' => $model->changwat_end])->one()['changwat_name']; ?>
                 </td>
-                <td style="text-align: right;" valign="top"> <?php echo number_format($assign['income'], 2); ?></td>
+                <td style="text-align: right;" valign="top"> <?php echo number_format($model->income, 2); ?></td>
             </tr>
-        <?php endforeach; ?>
+
     </tbody>
     <tfoot>
         <tr style="font-weight: bold;">
             <td colspan="2" style="text-align:center;"><b>รวม</b></td>
-            <td style="text-align: right;"><b><?php echo number_format($sumincome, 2); ?></b></td>
+            <td style="text-align: right;"><b><?php echo number_format($model->income, 2); ?></b></td>
         </tr>
     </tfoot>
 </table>
@@ -134,27 +131,20 @@ $producttype_model = new app\models\ProductType();
 
         <?php
         $sumallowance = 0;
-        $sumrow = 0;
-        $b = $a;
-        foreach ($assigns as $allowance): $b++;
-            $allowance_1 = trim(substr($allowance['allowance_driver1'], 6, 10));
-            $allowance_2 = trim(substr($allowance['allowance_driver2'], 6, 10));
+            $allowance_1 = trim(substr($model->allowance_driver1, 6, 10));
+            $allowance_2 = trim(substr($model->allowance_driver2, 6, 10));
             if (!empty($allowance_2)) {
                 $sumallowance = ($allowance_1 + $allowance_2);
             } else {
                 $sumallowance = $allowance_1;
             }
-
-            $sumrow = $sumrow + $sumallowance;
             ?>
             <tr>
-                <td style=" text-align: center; width: 5%;" valign="top"><?php echo $b; ?></td>
+                <td style=" text-align: center; width: 5%;" valign="top"><?php echo $a + 1; ?></td>
                 <td>
-                    - รหัสใบสั่งงาน <?php echo $allowance['assign_id'] ?>
-                    <div id="line"></div>
                     - เบี้ยเลี้ยง 1 
                     <?php
-                    $driver1 = $driver->find()->where(['driver_id' => substr($allowance['allowance_driver1'], 0, 5)])->one();
+                    $driver1 = $driver->find()->where(['driver_id' => substr($model->allowance_driver1, 0, 5)])->one();
                     echo $driver1['name'] . ' ' . $driver1['lname'];
                     echo " " . $allowance_1 . " .-";
                     ?>
@@ -162,7 +152,7 @@ $producttype_model = new app\models\ProductType();
                     <div id="line"></div>
                     - เบี้ยเลี้ยง 2 
                     <?php
-                    $driver2 = $driver->find()->where(['driver_id' => substr($allowance['allowance_driver2'], 0, 5)])->one();
+                    $driver2 = $driver->find()->where(['driver_id' => substr($model->allowance_driver2, 0, 5)])->one();
                     echo $driver2['name'] . ' ' . $driver2['lname'];
                     if ($allowance_2 != '') {
                         echo " " . $allowance_2 . " .-";
@@ -174,10 +164,10 @@ $producttype_model = new app\models\ProductType();
                 </td>
                 <td style=" text-align: right;" valign="top"><?php echo number_format((int)$sumallowance, 2) ?></td>
             </tr>
-        <?php endforeach; ?>
+
     </tbody>
     <tfoot>
-        <?php $sum_expense_all = ($sum_outgoing + $sum_expense_truck + $sumrow + $model->oil_price + $model->gas_price); ?>
+        <?php $sum_expense_all = ($sum_outgoing + $sum_expense_truck + $model->oil_price + $model->gas_price); ?>
         <tr style="font-weight: bold;">
             <td colspan="2" style="text-align:center;"><b>รวม</b></td>
             <td style="text-align: right;"><b><?php echo number_format($sum_expense_all, 2); ?></b></td>
@@ -191,7 +181,7 @@ $producttype_model = new app\models\ProductType();
         <table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
             <tr>
                 <th style="text-align: center; font-weight: normal; font-size: 16px; width: 60%;">รายรับ</th>
-                <th style="text-align: right; font-weight: normal; font-size: 16px;"><?php echo number_format($sumincome, 2); ?></th>
+                <th style="text-align: right; font-weight: normal; font-size: 16px;"><?php echo number_format($model->income, 2); ?></th>
             </tr>
             <tr>
                 <td style="text-align: center; font-weight: normal; font-size: 16px;">รายจ่าย</td>
@@ -199,7 +189,7 @@ $producttype_model = new app\models\ProductType();
             </tr>
             <tr>
                 <td style="text-align: center; font-weight: bold; font-size: 16px;">สุทธิ</td>
-                <td style="text-align: right; font-weight: bold; font-size: 16px;"><?php echo number_format($sumincome - $sum_expense_all, 2) ?></td>
+                <td style="text-align: right; font-weight: bold; font-size: 16px;"><?php echo number_format($model->income - $sum_expense_all, 2) ?></td>
             </tr>
         </table>
     </div>

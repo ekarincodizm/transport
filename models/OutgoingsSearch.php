@@ -10,24 +10,22 @@ use app\models\Outgoings;
 /**
  * OutgoingsSearch represents the model behind the search form about `app\models\Outgoings`.
  */
-class OutgoingsSearch extends Outgoings
-{
+class OutgoingsSearch extends Outgoings {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'price'], 'integer'],
-            [['order_id', 'detail', 'create_date'], 'safe'],
+            [['order_id', 'assign_id', 'detail', 'create_date'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class OutgoingsSearch extends Outgoings
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Outgoings::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -61,9 +58,10 @@ class OutgoingsSearch extends Outgoings
             'create_date' => $this->create_date,
         ]);
 
-        $query->andFilterWhere(['like', 'order_id', $this->order_id])
-            ->andFilterWhere(['like', 'detail', $this->detail]);
+        $query->andFilterWhere(['like', 'assign_id', $this->assign_id])
+                ->andFilterWhere(['like', 'detail', $this->detail]);
 
         return $dataProvider;
     }
+
 }

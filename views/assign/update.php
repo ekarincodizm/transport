@@ -89,8 +89,12 @@ $order_model = new \app\models\OrdersTransport();
                                         $employer = \app\models\Customer::find()->all();
                                         foreach ($employer as $employers):
                                             ?>
-                                            <option value="<?php echo $employers->cus_id; ?>" <?php if($model->employer = $employers->cus_id){ echo "selected";}?>><?php echo $employers->cus_id . '-' . $employers->company; ?></option>
-                                        <?php endforeach; ?>
+                                            <option value="<?php echo $employers->cus_id; ?>" <?php
+                                            if ($model->employer == $employers->cus_id) {
+                                                echo "selected";
+                                            }
+                                            ?>><?php echo $employers->cus_id . '-' . $employers->company; ?></option>
+                                                <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -158,8 +162,12 @@ $order_model = new \app\models\OrdersTransport();
                                         <?php
                                         foreach ($car as $cars):
                                             ?>
-                                            <option value="<?php echo $cars['car_id']; ?>" <?php if($model->car_id = $cars['car_id']){ echo "selected";}?>><?php echo "คันที่ " . $cars['car_id'] . " (" . $cars['truck_1'] . ') - (' . $cars['truck_2'] . ")"; ?></option>
-                                        <?php endforeach; ?>
+                                            <option value="<?php echo $cars['car_id']; ?>" <?php
+                                            if ($model->car_id == $cars['car_id']) {
+                                                echo "selected";
+                                            }
+                                            ?>><?php echo "คันที่ " . $cars['car_id'] . " (" . $cars['truck_1'] . ') - (' . $cars['truck_2'] . ")"; ?></option>
+                                                <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -177,8 +185,12 @@ $order_model = new \app\models\OrdersTransport();
                                         <?php
                                         foreach ($drivers as $driv1):
                                             ?>
-                                            <option value="<?php echo $driv1['driver_id']; ?>" <?php if($model->driver1 == $driv1['driver_id']){ echo "selected";}?>><?php echo $driv1['name'] . '-' . $driv1['lname']; ?></option>
-                                        <?php endforeach; ?>
+                                            <option value="<?php echo $driv1['driver_id']; ?>" <?php
+                                            if ($model->driver1 == $driv1['driver_id']) {
+                                                echo "selected";
+                                            }
+                                            ?>><?php echo $driv1['name'] . '-' . $driv1['lname']; ?></option>
+                                                <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -192,8 +204,12 @@ $order_model = new \app\models\OrdersTransport();
                                         <?php
                                         foreach ($drivers as $driv2):
                                             ?>
-                                            <option value="<?php echo $driv2['driver_id']; ?>" <?php if($model->driver2 == $driv2['driver_id']){ echo "selected";}?>><?php echo $driv2['name'] . '-' . $driv2['lname']; ?></option>
-                                        <?php endforeach; ?>
+                                            <option value="<?php echo $driv2['driver_id']; ?>" <?php
+                                            if ($model->driver2 == $driv2['driver_id']) {
+                                                echo "selected";
+                                            }
+                                            ?>><?php echo $driv2['name'] . '-' . $driv2['lname']; ?></option>
+                                                <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -227,7 +243,7 @@ $order_model = new \app\models\OrdersTransport();
                                     <div class="input-group-addon">เบี้ยเลี้ยงคนขับ(1)</div>
                                     <input type="text" id="allowance_driver1" name="allowance_driver1" class="form-control" 
                                            placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" 
-                                           value="<?php echo trim(substr($model->allowance_driver1,6,15));?>"/>
+                                           value="<?php echo trim(substr($model->allowance_driver1, 6, 15)); ?>"/>
                                     <div class="input-group-addon">บาท</div>
                                 </div>
                             </div>    
@@ -235,14 +251,14 @@ $order_model = new \app\models\OrdersTransport();
                         <div class="col-sm-6 col-md-6 col-lg-6"> 
                             <div class="input-group">
                                 <div class="input-group-addon">เบี้ยเลี้ยงคนขับ(2)</div>
-                                <?php if($model->driver2 != ''){ ?>
-                                <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" 
-                                       placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" 
-                                       value="<?php echo trim(substr($model->allowance_driver2,6,15));?>"/>
-                                <?php } else { ?>
-                                <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" 
-                                       placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled"/>
-                                <?php } ?>
+                                <?php if ($model->driver2 != '') { ?>
+                                    <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" 
+                                           placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" 
+                                           value="<?php echo trim(substr($model->allowance_driver2, 6, 15)); ?>"/>
+                                       <?php } else { ?>
+                                    <input type="text" id="allowance_driver2" name="allowance_driver2" class="form-control" 
+                                           placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled"/>
+                                       <?php } ?>
                                 <div class="input-group-addon">บาท</div>
                             </div>
                         </div>
@@ -284,8 +300,12 @@ $order_model = new \app\models\OrdersTransport();
                                     $customer = \app\models\Customer::find()->all();
                                     foreach ($customer as $cus):
                                         ?>
-                                        <option value="<?php echo $cus->cus_id ?>" <?php if($model->cus_start == $cus->cus_id){ echo "selected";}?>><?php echo $cus->cus_id . '-' . $cus->company; ?></option>
-                                    <?php endforeach; ?>
+                                        <option value="<?php echo $cus->cus_id ?>" <?php
+                                        if ($model->cus_start == $cus->cus_id) {
+                                            echo "selected";
+                                        }
+                                        ?>><?php echo $cus->cus_id . '-' . $cus->company; ?></option>
+                                            <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
@@ -296,8 +316,12 @@ $order_model = new \app\models\OrdersTransport();
                                     $customer_end = \app\models\Customer::find()->all();
                                     foreach ($customer_end as $cusend):
                                         ?>
-                                        <option value="<?php echo $cusend->cus_id; ?>" <?php if($model->cus_end == $cusend->cus_id){ echo "selected";}?>><?php echo $cusend->cus_id . '-' . $cusend->company; ?></option>
-                                    <?php endforeach; ?>
+                                        <option value="<?php echo $cusend->cus_id; ?>" <?php
+                                        if ($model->cus_end == $cusend->cus_id) {
+                                            echo "selected";
+                                        }
+                                        ?>><?php echo $cusend->cus_id . '-' . $cusend->company; ?></option>
+                                            <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
@@ -311,8 +335,12 @@ $order_model = new \app\models\OrdersTransport();
                                     $changwat = \app\models\Changwat::find()->all();
                                     foreach ($changwat as $ch1):
                                         ?>
-                                        <option value="<?php echo $ch1->changwat_id; ?>" <?php if($model->changwat_start == $ch1->changwat_id){ echo "selected";}?>><?php echo $ch1->changwat_name; ?></option>
-                                    <?php endforeach; ?>
+                                        <option value="<?php echo $ch1->changwat_id; ?>" <?php
+                                        if ($model->changwat_start == $ch1->changwat_id) {
+                                            echo "selected";
+                                        }
+                                        ?>><?php echo $ch1->changwat_name; ?></option>
+                                            <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
@@ -322,8 +350,12 @@ $order_model = new \app\models\OrdersTransport();
                                     <?php
                                     foreach ($changwat as $ch2):
                                         ?>
-                                        <option value="<?php echo $ch2->changwat_id; ?>" <?php if($model->changwat_end == $ch2->changwat_id){ echo "selected";}?>><?php echo $ch2->changwat_name; ?></option>
-                                    <?php endforeach; ?>
+                                        <option value="<?php echo $ch2->changwat_id; ?>" <?php
+                                        if ($model->changwat_end == $ch2->changwat_id) {
+                                            echo "selected";
+                                        }
+                                        ?>><?php echo $ch2->changwat_name; ?></option>
+                                            <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
@@ -334,8 +366,12 @@ $order_model = new \app\models\OrdersTransport();
                                     $product_type = \app\models\ProductType::find()->all();
                                     foreach ($product_type as $Ptype):
                                         ?>
-                                        <option value="<?php echo $Ptype['id'] ?>" <?php if($model->product_type == $Ptype['id']){ echo "selected";}?>><?php echo $Ptype->product_type; ?></option>
-                                    <?php endforeach; ?>
+                                        <option value="<?php echo $Ptype['id'] ?>" <?php
+                                        if ($model->product_type == $Ptype['id']) {
+                                            echo "selected";
+                                        }
+                                        ?>><?php echo $Ptype->product_type; ?></option>
+                                            <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
@@ -346,7 +382,7 @@ $order_model = new \app\models\OrdersTransport();
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-balance-scale"></i> น้ำหนัก</div>
-                                    <input type="text" id="weigh" name="weigh" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" value="<?php echo $model->weigh;?>" onkeyup="Income_Calculator(0);"/>
+                                    <input type="text" id="weigh" name="weigh" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" value="<?php echo $model->weigh; ?>" onkeyup="Income_Calculator(0);"/>
                                     <div class="input-group-addon">ตัน</div>
                                 </div>
                             </div> 
@@ -360,10 +396,14 @@ $order_model = new \app\models\OrdersTransport();
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon">
-                                                <?php $type_cal = $model->type_calculus;?>
-                                                <input type="radio" name="r1" id="r1" onclick="Unit_price_Calculator()" <?php if($type_cal == 0){ echo "checked";}?>/> น้ำหนัก ตันละ 
+                                                <?php $type_cal = $model->type_calculus; ?>
+                                                <input type="radio" name="r1" id="r1" onclick="Unit_price_Calculator()" <?php
+                                                if ($type_cal == 0) {
+                                                    echo "checked";
+                                                }
+                                                ?>/> น้ำหนัก ตันละ 
                                             </div>
-                                            <input type="text" id="unit_price" name="unit_price" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator(0);" value="<?php echo $model->unit_price;?>"/>
+                                            <input type="text" id="unit_price" name="unit_price" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator(0);" value="<?php echo $model->unit_price; ?>"/>
                                             <div class="input-group-addon">บาท</div>
                                         </div>
                                     </div>    
@@ -371,8 +411,12 @@ $order_model = new \app\models\OrdersTransport();
                                 <div class="col-sm-6 col-md-5 col-lg-5"> 
                                     <div class="input-group">
                                         <div class="input-group-addon">
-                                            <input type="radio" name="r1" id="r2" onclick="Pertimes_Calculator()" <?php if($type_cal == 1){ echo "checked";}?>/> ต่อเที่ยว เที่ยวละ</div>
-                                        <input type="text" id="per_times" name="per_times" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator(1);" value="<?php echo $model->per_times;?>"/>
+                                            <input type="radio" name="r1" id="r2" onclick="Pertimes_Calculator()" <?php
+                                            if ($type_cal == 1) {
+                                                echo "checked";
+                                            }
+                                            ?>/> ต่อเที่ยว เที่ยวละ</div>
+                                        <input type="text" id="per_times" name="per_times" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator(1);" value="<?php echo $model->per_times; ?>"/>
                                         <div class="input-group-addon">บาท</div>
                                     </div>
                                 </div>
@@ -385,8 +429,8 @@ $order_model = new \app\models\OrdersTransport();
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-money"></i> รายได้</div>
-                                    <input type="hidden" id="income" value="<?php echo $model->income;?>"/>
-                                    <input type="text" id="income_txt" name="income_txt" class="form-control" style="font-size: 20px; text-align: center; color: #ff0033;" readonly="readonly" value="<?php echo $model->income;?>"/>
+                                    <input type="hidden" id="income" value="<?php echo $model->income; ?>"/>
+                                    <input type="text" id="income_txt" name="income_txt" class="form-control" style="font-size: 20px; text-align: center; color: #ff0033;" readonly="readonly" value="<?php echo $model->income; ?>"/>
                                     <div class="input-group-addon">บาท</div>
                                 </div>
                             </div>

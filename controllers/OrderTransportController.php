@@ -35,14 +35,20 @@ class OrderTransportController extends Controller {
      * Lists all OrdersTransport models.
      * @return mixed
      */
-    public function actionIndex() {
-        //$searchModel = new OrderTransportSearch();
+    public function actionIndex($error = null) {
+//$searchModel = new OrderTransportSearch();
+        if ($error == "1") {
+            $error = "<i class='fa fa-warning'></i> ไม่สามารถ ลบ หรือ แก้ไข รายการนี้ได้ เนื่องจากมีการขนส่งของไปแล้ว ... !";
+        } else {
+            $error = "";
+        }
         $searchModel = new AssignSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'error' => $error,
         ]);
     }
 
@@ -52,15 +58,13 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        $config = new \app\models\Config_system();
-        $order_id = OrdersTransport::find()->where(['id' => $id])->one()->order_id;
-        $assign_model = new \app\models\Assign();
-        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
-        $assign_id = $config->autoId("assign", "assign_id", 5);
+//$config = new \app\models\Config_system();
+        $model = AssignSearch::findOne($id);
+//$assign_model = new \app\models\Assign();
+
         return $this->render('view', [
-                    'model' => $this->findModel($id),
-                    'assign_id' => $assign_id,
-                    'assign' => $assign,
+                    'model' => $model,
+                        //'assign_id' => $assign_id,
         ]);
     }
 
@@ -88,11 +92,14 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionUpdate($id) {
-        //$model = $this->findModel($id);
-        $model = Assign::findOne($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+//$model = $this->findModel($id);
+        $sql = "SELECT * FROM assign WHERE id = '$id' AND (oil != '' OR gas != '' OR now_mile != '')";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        if (!empty($rs)) {
+            $error = "1";
+            return $this->redirect(['index', 'error' => $error]);
         } else {
+            $model = Assign::findOne($id);
             return $this->render('//assign/update', [
                         'model' => $model,
                         'assign_id' => $model->assign_id,
@@ -107,12 +114,23 @@ class OrderTransportController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        //$this->findModel($id)->delete();
-        $columes = array("delete_flag" => '1');
-        Yii::$app->db->createCommand()
-                ->update("orders_transport", $columes, "id = '$id' ")
-                ->execute();
-        return $this->redirect(['index']);
+//$this->findModel($id)->delete();
+//$columes = array("delete_flag" => '1');
+//เช็คว่ารายการนี้ได้ขนส่งของจริงไหม ถ้า ขนส่งไปแล้วจะไม่สามารถลบได้ แต่ถ้าแค่ทำรายการ แต่รถยังไม่วิ่งจะยังลบหรือแก้ไขได้ อยู่
+
+        $sql = "SELECT * FROM assign WHERE id = '$id' AND (oil != '' OR gas != '' OR now_mile != '')";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        if (empty($rs)) {
+            Yii::$app->db->createCommand()
+                    ->delete("assign", "id = '$id' ")
+                    ->execute();
+            $error = "";
+        } else {
+            $error = "1";
+        }
+//return $this->actionIndex($error);
+
+        return $this->redirect(['index', 'error' => $error]);
     }
 
     /**
@@ -183,12 +201,12 @@ class OrderTransportController extends Controller {
                 ->insert("assign", $columns)
                 ->execute();
     }
-    
+
     public function actionUpdate_assign() {
         $request = \Yii::$app->request;
-        
+
         $id = $request->post('id');
-        
+
         $driver1 = $request->post('driver1');
         $driver2 = $request->post('driver2');
         if ($request->post('allowance_driver2') != '') {
@@ -197,7 +215,7 @@ class OrderTransportController extends Controller {
             $driver_2 = "";
         }
         $columns = array(
-            //"assign_id" => $request->post('assign_id'),
+//"assign_id" => $request->post('assign_id'),
             "order_date_start" => $request->post('order_date_start'),
             "order_date_end" => $request->post('order_date_end'),
             "employer" => $request->post('employer'),
@@ -218,18 +236,18 @@ class OrderTransportController extends Controller {
             "income" => $request->post('income'),
             "allowance_driver1" => $driver1 . "-" . $request->post('allowance_driver1'),
             "allowance_driver2" => $driver_2,
-            //"create_date" => date("Y-m-d H:i:s")
+                //"create_date" => date("Y-m-d H:i:s")
         );
 
         \Yii::$app->db->createCommand()
-                ->update("assign", $columns,"id = $id")
+                ->update("assign", $columns, "id = $id")
                 ->execute();
     }
 
     public function actionReport($id = null, $assign_id = null) {
-        //$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
-        //require $url;
-        //$order_id = OrdersTransport::find()->where(['id' => $id])->one();
+//$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
+//require $url;
+//$order_id = OrdersTransport::find()->where(['id' => $id])->one();
         $assign_model = new \app\models\Assign();
         $assign = $assign_model->find()->where(['assign_id' => $assign_id])->one();
         $model = $this->findModel($id);
@@ -265,7 +283,7 @@ class OrderTransportController extends Controller {
 
     public function actionSave_fuel() {
         $request = \Yii::$app->request;
-        $order_id = $request->post('order_id');
+        $assign_id = $request->post('assign_id');
         $columns = array(
             "oil" => $request->post('oil'),
             "oil_unit" => $request->post('oil_unit'),
@@ -281,13 +299,13 @@ class OrderTransportController extends Controller {
         );
 
         \Yii::$app->db->createCommand()
-                ->update("orders_transport", $columns, "order_id = '$order_id' ")
+                ->update("assign", $columns, "assign_id = '$assign_id' ")
                 ->execute();
     }
 
     public function actionSave_message() {
         $request = \Yii::$app->request;
-        $order_id = $request->post('order_id');
+        $assign_id = $request->post('assign_id');
         $message = $request->post('message');
 
         $columns = array(
@@ -295,7 +313,7 @@ class OrderTransportController extends Controller {
         );
 
         Yii::$app->db->createCommand()
-                ->update("orders_transport", $columns, "order_id = '$order_id' ")
+                ->update("assign", $columns, "assign_id = '$assign_id' ")
                 ->execute();
     }
 
@@ -306,74 +324,66 @@ class OrderTransportController extends Controller {
                 ->execute();
     }
 
-    //ใบแจ้งหนี้
+//ใบแจ้งหนี้
     public function actionBill($id = null) {
-        //$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
-        //require $url;
-        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
-        $assign_model = new \app\models\Assign();
-        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
-        $model = $this->findModel($id);
+//$url = Url::to('web/html2pdf_v4.03/html2pdf.class.php');
+//require $url;
+        $model = AssignSearch::findOne($id);
 
         $page = $this->renderPartial('bill', [
             'model' => $model,
-            'assign' => $assign
+                //'assign' => $assign
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
         $mpdf->WriteHTML($page);
         $mpdf->SetDisplayMode('fullpage');
-        $mpdf->Output($order_id . ".pdf", "I");
+        $mpdf->Output($model->assign_id . ".pdf", "I");
     }
 
-    //รับ - จ่าย
+//รับ - จ่าย
     public function actionIncom_outcome($id = null) {
-        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
-        $assign_model = new \app\models\Assign();
+        $model = AssignSearch::findOne($id);
+
         $outgoings_model = new \app\models\Outgoings();
         $expenses_model = new \app\models\ExpensesTruck();
-        $outgoings = $outgoings_model->find()->where(['order_id' => $order_id])->all();
-        $expenses = $expenses_model->find()->where(['order_id' => $order_id])->all();
-        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
-        $model = $this->findModel($id);
+        $outgoings = $outgoings_model->find()->where(['assign_id' => $model->assign_id])->all();
+        $expenses = $expenses_model->find()->where(['assign_id' => $model->assign_id])->all();
+
 
         $page = $this->renderPartial('_income_outcome', [
             'model' => $model,
-            'assigns' => $assign,
             'outgoings' => $outgoings,
             'expenses' => $expenses,
-            'order_id' => $order_id,
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
         $mpdf->WriteHTML($page);
         $mpdf->SetDisplayMode('fullpage');
-        $mpdf->Output($order_id . ".pdf", "I");
+        $mpdf->Output($model->assign_id . ".pdf", "I");
     }
 
-    //ใบเสร็จ
+//ใบเสร็จ
     public function actionReceipt($id = null) {
-        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
-        $assign_model = new \app\models\Assign();
-        //$outgoings_model = new \app\models\Outgoings();
-        //$expenses_model = new \app\models\ExpensesTruck();
-        //$outgoings = $outgoings_model->find()->where(['order_id' => $order_id])->all();
-        //$expenses = $expenses_model->find()->where(['order_id' => $order_id])->all();
-        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
-        $model = $this->findModel($id);
+        $model = AssignSearch::findOne($id);
 
         $page = $this->renderPartial('_receipt', [
             'model' => $model,
-            'assigns' => $assign,
-                //'outgoings' => $outgoings,
-                //'expenses' => $expenses,
-                //'order_id' => $order_id,
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
         $mpdf->WriteHTML($page);
         $mpdf->SetDisplayMode('fullpage');
-        $mpdf->Output($order_id . ".pdf", "I");
+        $mpdf->Output($model->assign_id . ".pdf", "I");
+    }
+
+    //ยืนยันการชำระเงิน 
+    public function actionConfirm_order() {
+        $id = Yii::$app->request->post('id');
+        $columns = array('flag' => 1);
+        Yii::$app->db->createCommand()
+                ->update("assign", $columns, "id = '$id' ")
+                ->execute();
     }
 
 }

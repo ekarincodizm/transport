@@ -115,12 +115,12 @@ class ExpensesTruckController extends Controller {
     }
 
     public function actionSave() {
-        $order_id = \Yii::$app->request->post('order_id');
+        $assign_id = \Yii::$app->request->post('assign_id');
         $detail = \Yii::$app->request->post('detail');
         $price = \Yii::$app->request->post('price');
         $truck_license = Yii::$app->request->post('truck_license');
         $columns = array(
-            "order_id" => $order_id,
+            "assign_id" => $assign_id,
             "truck_license" => $truck_license,
             "detail" => $detail,
             "price" => $price,
@@ -133,9 +133,9 @@ class ExpensesTruckController extends Controller {
     }
 
     public function actionLoad_data() {
-        $order_id = \Yii::$app->request->post('order_id');
+        $assign_id = \Yii::$app->request->post('assign_id');
         $Model = new ExpensesTruck();
-        $result = $Model->find()->where(["order_id" => $order_id])->all();
+        $result = $Model->find()->where(["assign_id" => $assign_id])->all();
 
         return $this->renderPartial('load', ["result" => $result]);
     }

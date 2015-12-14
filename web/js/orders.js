@@ -302,8 +302,8 @@ function update_assign() {
         swal("แจ้งเตือน!", "ยังไม่ได้เลือกประเภทขนส่ง ..!", "warning");
         return false;
     }
-    
-    if(unit_price == '' && per_times == ''){
+
+    if (unit_price == '' && per_times == '') {
         swal("แจ้งเตือน!", "ยังไม่ได้ใส่ราคาขนส่ง ..!", "warning");
         return false;
     }
@@ -318,7 +318,7 @@ function update_assign() {
 //########## บันทึกค้าเชื้อเพลิง #################//
 function save_fuel() {
     var url = $("#Url_save_fuel").val();
-    var order_id = $("#order_id").val();
+    var assign_id = $("#assign_id").val();
     var oil = $("#oil").val();
     var oil_unit = $("#oil_unit").val();
     var oil_price = $("#oil_price").val();
@@ -337,7 +337,7 @@ function save_fuel() {
         return false;
     }
     var data = {
-        order_id: order_id,
+        assign_id: assign_id,
         oil: oil,
         oil_unit: oil_unit,
         oil_price: oil_price,
@@ -364,8 +364,10 @@ function save_fuel() {
         $("#avg_oil").val(datas.avg_oil);
         $("#compensate").val(datas.compensate);
     }, "json");
-
-    $("#process_fuel_success").fadeIn(300).delay(1000).fadeOut(400);
+    
+    swal("Success...", "บันทึกข้อมูลในส่วนนี้แล้ว", "success");
+    
+    //$("#process_fuel_success").fadeIn(300).delay(1000).fadeOut(400);
 }
 
 function oil_calculus() {
@@ -425,12 +427,11 @@ function compensate_calculus() {
     }
 }
 
-
 /**#######ค่าใช้จ่ายอื่น ๆ #######**/
 function load_outgoings() {
     var url = $("#Url_outgoings").val();
-    var order_id = $("#order_id").val();
-    var data = {order_id: order_id};
+    var assign_id = $("#assign_id").val();
+    var data = {assign_id: assign_id};
     $.post(url, data, function (datas) {
         $("#tb_outgoings").html(datas);
     });
@@ -439,7 +440,7 @@ function load_outgoings() {
 function save_outgoings() {
     $("#l-ding").show();
     var url = $("#Url_save_outgoings").val();
-    var order_id = $("#order_id").val();
+    var assign_id = $("#assign_id").val();
     var detail = $("#detail").val();
     var price = $("#price").val();
     if (detail == '' || price == '') {
@@ -449,7 +450,7 @@ function save_outgoings() {
         return false;
     }
     var data = {
-        order_id: order_id,
+        assign_id: assign_id,
         detail: detail,
         price: price
     };
@@ -464,8 +465,8 @@ function save_outgoings() {
 /*########### ค่าใช้จ่ายเกี่ยวกับตัวรถ #############*/
 function load_expenses() {
     var url = $("#Url_expenses").val();
-    var order_id = $("#order_id").val();
-    var data = {order_id: order_id};
+    var assign_id = $("#assign_id").val();
+    var data = {assign_id: assign_id};
     $.post(url, data, function (datas) {
         $("#tb_expenses").html(datas);
     });
@@ -474,7 +475,7 @@ function load_expenses() {
 function save_expenses() {
     $("#e-ding").show();
     var url = $("#Url_save_expenses").val();
-    var order_id = $("#order_id").val();
+    var assign_id = $("#assign_id").val();
     var truck_license = $("#truck_license").val();
     var detail = $("#truck_detail").val();
     var price = $("#truck_price").val();
@@ -485,7 +486,7 @@ function save_expenses() {
         return false;
     }
     var data = {
-        order_id: order_id,
+        assign_id: assign_id,
         truck_license: truck_license,
         detail: detail,
         price: price
@@ -498,15 +499,16 @@ function save_expenses() {
     });
 }
 
-
 //บันทึกหมายเหตุ
-function save_message() {
+function save_messages() {
     var url = $("#Url_save_message").val();
-    var order_id = $("#order_id").val();
+    var assign_id = $("#assign_id").val();
     var message = $("#message").val();
-    var data = {message: message, order_id: order_id};
+    //alert(message);
+    var data = {message: message, assign_id: assign_id};
 
     $.post(url, data, function (success) {
-        $("#process_success").fadeIn(300).delay(1000).fadeOut(400);
+        swal("Success...", "บันทึกข้อมูลในส่วนนี้แล้ว", "success");
+        //$("#process_success").fadeIn(300).delay(1000).fadeOut(400);
     });
 }

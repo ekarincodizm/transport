@@ -31,7 +31,7 @@ class Outgoings extends \yii\db\ActiveRecord
         return [
             [['price'], 'integer'],
             [['create_date'], 'safe'],
-            [['order_id'], 'string', 'max' => 10],
+            [['order_id','assign_id'], 'string', 'max' => 10],
             [['detail'], 'string', 'max' => 255]
         ];
     }
@@ -44,6 +44,7 @@ class Outgoings extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'order_id' => 'Order ID',
+            'assign_id' => 'Assign_ID',
             'detail' => 'Detail',
             'price' => 'Price',
             'create_date' => 'Create Date',

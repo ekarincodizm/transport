@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
@@ -12,11 +13,19 @@ $this->title = 'ใบสั่งงาน';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="orders-transport-index">
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
 
     <p>
         <?= Html::a('<i class="fa fa-plus"></i> สร้างใบสั่งงาน', ['create'], ['class' => 'btn btn-default']) ?>
     </p>
+    <?php if (!empty($error)) { ?>
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <?php echo $error; ?>
+        </div>
+    <?php } ?>
 
     <?php
     $columns = [
@@ -34,7 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 $customer = new \app\models\Customer();
                 $cus = $customer->find()->where(['cus_id' => $model->employer])->one();
                 return $cus['company'];
-            }],
+            },
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter' => ArrayHelper::map(\app\models\Customer::find()->asArray()->all(), 'cus_id', 'company'),
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => ['allowClear' => true],
+                    ],
+                    'filterInputOptions' => ['placeholder' => 'ผู้ว่าจ้าง'],
+                ],
                 ['class' => '\kartik\grid\DataColumn',
                     'attribute' => 'order_date_start',
                     'label' => 'วันที่ไป',
@@ -67,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($model) {
                         $truck = new app\models\MapTruck();
                         $tr = $truck->find()->where(['car_id' => $model->car_id])->one();
-                        return "(" . $tr['truck_1'] . ') - (' . $tr['truck_2'] . ")";
+                        return $model->car_id . " (" . $tr['truck_1'] . ') - (' . $tr['truck_2'] . ")";
                     }],
                         /*
                           ['class' => '\kartik\grid\DataColumn',
@@ -105,6 +121,31 @@ $this->params['breadcrumbs'][] = $this->title;
                                         $dr2 = $driver2->find()->where(['driver_id' => $model->driver2])->one();
                                         return $dr2['name'] . ' ' . $dr2['lname'];
                                     }],
+                                        ['class' => '\kartik\grid\DataColumn',
+                                            'attribute' => 'imcome',
+                                            'label' => 'รายได้',
+                                            'mergeHeader' => true,
+                                            'hAlign' => 'right',
+                                            //'width' => '10%',
+                                            'format' => 'raw',
+                                            'value' => function ($model) {
+                                                return "<font style='color:blue;'>".number_format($model->income, 2)."</font>";
+                                            }],
+                                        ['class' => '\kartik\grid\DataColumn',
+                                            'attribute' => 'flag',
+                                            'label' => 'สถานะ',
+                                            'mergeHeader' => true,
+                                            //'hAlign' => 'center',
+                                            //'width' => '10%',
+                                            'format' => 'raw',
+                                            'value' => function ($model) {
+                                                if ($model->flag == 1) {
+                                                    $status = "<font style='color:green;'><i class='fa fa-check'></i> ชำระเงินแล้ว</font>";
+                                                } else {
+                                                    $status = "<font style='color:red;'><i class='fa fa-warning'></i> ค้างชำระเงิน</font>";
+                                                }
+                                                return $status;
+                                            }],
                                         // 'truck2',
                                         // 'driver1',
                                         // 'driver2',
@@ -128,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'responsive' => true,
                                         'pjax' => true, // pjax is set to always true for this demo
                                         'panel' => [
-                                            'type' => GridView::TYPE_DEFAULT,
+                                            'type' => GridView::TYPE_PRIMARY,
                                             'heading' => "<i class='fa fa-book'></i> " . $this->title,
                                         ]
                                     ]);
