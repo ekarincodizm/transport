@@ -12,6 +12,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 use yii\helpers\Url;
+use yii\data\ActiveDataProvider;
+use yii\helpers\Json;
 
 /**
  * OrderTransportController implements the CRUD actions for OrdersTransport model.
@@ -384,6 +386,62 @@ class OrderTransportController extends Controller {
         Yii::$app->db->createCommand()
                 ->update("assign", $columns, "id = '$id' ")
                 ->execute();
+    }
+
+    //ดึงข้อมูลรายการเพื่อออกบิลใบแจ้งหนี้
+    public function actionGet_bill_customer($cus_id = null) {
+        //$searchModel = new AssignSearch();
+
+        $query = Assign::find()->where(['employer' => $cus_id]);
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+                /*
+                  'sort' => [
+                  'defaultOrder' => [
+                  'created_at' => SORT_DESC,
+                  'title' => SORT_ASC,
+                  ]
+                  ],
+                 */
+        ]);
+
+        return $this->render('get_bill_customer', [
+                    //'searchModel' => $searchModel,
+                    'dataProvider' => $provider,
+                    'cus_id' => $cus_id,
+        ]);
+    }
+
+    public function actionPrint_bill_customer($Id = null,$cus_id = null) {
+        //$cus_id = Yii::$app->request->post('cus_id');
+        //$assign_id = Yii::$app->request->post('assign_id'); //รูปแบบ 2,3,4
+        
+        //$keys = json_encode($assign_id);
+        //foreach($keys as $key){
+         //$Id = str_replace("]","",str_replace("[", "", $keys));
+        //}
+        //$Id = implode(",", $IdVal);
+        
+        $customer_model = new \app\models\Customer();
+        $employer = $customer_model->find()->where(['cus_id' => $cus_id])->one();
+        
+        $sql = "SELECT * FROM assign WHERE id IN ($Id)";
+        
+        $assign = Yii::$app->db->createCommand($sql)->queryAll();
+        
+        $content = $this->renderPartial('print_bill_customer', [
+            'employer' => $employer,
+            'assigns' => $assign,
+        ]);
+
+        $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
+        $mpdf->WriteHTML($content);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->Output($employer['company'] . ".pdf", "I");
+        
     }
 
 }

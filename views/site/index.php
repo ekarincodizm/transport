@@ -112,7 +112,20 @@ $config = new \app\models\Config_system();
             </a>
         </div>
         
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-8">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+            <a href="javascript:popup_customer()"
+               data-toggle="tooltip" data-placement="top"
+               title="(ออกบิลใบแจ้งหนี้เรียกเก็บค่าขนส่งจากลูกค้า)">
+                <div class="thumbnail box-menu" id="btn">
+                    <img src="<?php echo Url::to('@web/web/images/bill-icon.png') ?>"/>
+                    <div class="caption">
+                        <h4>(ออกบิลใบแจ้งหนี้)</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                 <div class="thumbnail box-menu" id="btn">
                     <div class="caption">
                             <div id="txt" style="font-size:30px; font-weight: bold;"></div>
@@ -159,6 +172,28 @@ $config = new \app\models\Config_system();
             </div>
             <div class="modal-body">
                 <div id="list-driver"></div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!---- 
+    ############ Model Get รายชื่อพนักงาน #############
+-->
+<div class="modal-demo" id="popup-customer" style=" display: none; text-align: left;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="Custombox.close();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-building-o text-green"></i> เลือกลูกค้า(วางบิลลูกหนี้)</h4>
+            </div>
+            <div class="modal-body">
+                <div id="list-customer"></div>
             </div>
 
         </div>
@@ -229,6 +264,26 @@ $(window).scroll(function () {
         var data = {a: 1};
         $.post(url, data, function (result) {
             $("#list-driver").html(result);
+        });
+
+    }
+</script>
+
+<script type="text/javascript">
+    function popup_customer() {
+        //$("#popup-driver").modal();
+        Custombox.open({
+            target: '#popup-customer',
+            effect: 'fall',
+            width: 'full',
+            position: ['center', 'top']
+        });
+
+        $("#list-customer").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
+        var url = "<?php echo Url::to(['customer/get_customer']) ?>";
+        var data = {a: 1};
+        $.post(url, data, function (result) {
+            $("#list-customer").html(result);
         });
 
     }

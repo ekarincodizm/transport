@@ -167,7 +167,7 @@ $car = $car_model->find()->where(['car_id' => $model->car_id])->one();
 
     </tbody>
     <tfoot>
-        <?php $sum_expense_all = ($sum_outgoing + $sum_expense_truck + $model->oil_price + $model->gas_price); ?>
+        <?php $sum_expense_all = ($sum_outgoing + $sumallowance + $sum_expense_truck + $model->oil_price + $model->gas_price); ?>
         <tr style="font-weight: bold;">
             <td colspan="2" style="text-align:center;"><b>รวม</b></td>
             <td style="text-align: right;"><b><?php echo number_format($sum_expense_all, 2); ?></b></td>

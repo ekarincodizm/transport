@@ -171,5 +171,13 @@ class CustomerController extends Controller {
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($order_id . ".pdf", "I");
     }
+    
+    //ดึงข้อมูลลูกค้ามาแสดง
+    public function actionGet_customer(){
+        $model = CustomerSearch::find()->all();
+        return $this->renderPartial('list_customer', [
+            'model' => $model,
+        ]);
+    }
 
 }
