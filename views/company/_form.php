@@ -27,6 +27,7 @@ use kartik\form\ActiveForm;
 
     <?= $form->field($model, 'taxation_number')->textInput(['maxlength' => true]) ?>
     
+    <?= $form->field($model, 'account_number')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'ceo')->textInput(['maxlength' => true]) ?>
     <div class="row">
         <div class="col-sm-2 col-md-2 col-lg-2"></div>
