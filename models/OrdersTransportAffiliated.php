@@ -83,5 +83,4 @@ class OrdersTransportAffiliated extends \yii\db\ActiveRecord {
             'create_date' => 'วันที่บันทึกข้อมูล',
         ];
     }
-
 }

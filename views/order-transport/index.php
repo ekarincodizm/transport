@@ -9,7 +9,7 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\OrderTransportSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'ใบสั่งงาน';
+$this->title = 'ใบสั่งงาน(รถภายใน)';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="orders-transport-index">
@@ -18,6 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('<i class="fa fa-plus"></i> สร้างใบสั่งงาน', ['create'], ['class' => 'btn btn-default']) ?>
     </p>
+    <div class="box box-warning collapsed-box" style="padding: 5px;">
+        <div class="box-header with-border">
+            <i class="fa fa-info-circle"></i> อธิบาย
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+            </div>
+            <!-- /.box-tools -->
+        </div>
+        <div class="box-body" style=" padding: 2px;">
+            <i class="fa fa-eye"></i> = ดูข้อมูลใบงานและการคีย์ข้อมูลบิลค่าใช้จ่าย<br/>
+            <i class="fa fa-pencil"></i> = แก้ไขข้อมูลใบงานในกรณีที่ยังไม่มีการส่งของ<br/>
+            <i class="fa fa-trash"></i> = ลบข้อมูลใบงานในกรณีที่ยังไม่มีการส่งของ
+        </div>
+    </div>
     <?php if (!empty($error)) { ?>
         <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -129,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             //'width' => '10%',
                                             'format' => 'raw',
                                             'value' => function ($model) {
-                                                return "<font style='color:blue;'>".number_format($model->income, 2)."</font>";
+                                                return "<font style='color:blue;'>" . number_format($model->income, 2) . "</font>";
                                             }],
                                         ['class' => '\kartik\grid\DataColumn',
                                             'attribute' => 'flag',
