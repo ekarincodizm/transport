@@ -135,7 +135,8 @@ $annuities = new app\models\Annuities();
                                 <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
                                 <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> <span>ประเภทรถ</span></a></li>
                                 <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
-                                <li><a href="<?php echo Url::to(['company/view','id' => '1']); ?>"><i class="fa fa-university text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
+                                <li><a href="<?php echo Url::to(['account/index','id' => '1']); ?>"><i class="fa fa-university text-success"></i> <span>ข้อมูลบัญชีธนาคาร</span></a></li>
+                                <li><a href="<?php echo Url::to(['company/view','id' => '1']); ?>"><i class="fa fa-building text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
                                 <li><a href="<?php echo Url::to(['notifications/view', 'id' => '1']); ?>"><i class="fa fa-bell text-orange"></i> <span>ตั้งค่าการแจ้งเตือน</span></a></li>
                                 <li class="header"><i class="fa fa-book"></i> รายงาน</li>
                                 <li><a href="<?php echo Url::to(['report/report_year'])?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี,เดือน)</span></a></li>
