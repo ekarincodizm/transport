@@ -53,11 +53,11 @@ class OrdersTransportAffiliatedController extends Controller {
         $config = new \app\models\Config_system();
         $order_id = OrdersTransportAffiliated::find()->where(['id' => $id])->one()->order_id;
         $assign_model = new \app\models\AssignAffiliated();
-        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
-        $assign_id = $config->autoId("assign_affiliated", "assign_id", 5);
+        $assign = $assign_model->find()->where(['order_id' => $order_id])->one();
+        //$assign_id = $config->autoId("assign_affiliated", "assign_id", 5);
         return $this->render('view', [
                     'model' => $this->findModel($id),
-                    'assign_id' => $assign_id,
+                    //'assign_id' => $assign_id,
                     'assign' => $assign,
         ]);
     }
@@ -160,25 +160,61 @@ class OrdersTransportAffiliatedController extends Controller {
 
     public function actionSave_assign() {
         $request = \Yii::$app->request;
-        $columns = array(
-            "assign_id" => $request->post('assign_id'),
-            "order_id" => $request->post('order_id'),
-            "transport_date" => $request->post('transport_date'),
-            "cus_start" => $request->post('cus_start'),
-            "cus_end" => $request->post('cus_end'),
-            "changwat_start" => $request->post('changwat_start'),
-            "changwat_end" => $request->post('changwat_end'),
-            "product_type" => $request->post('product_type'),
-            "weigh" => $request->post('weigh'),
-            "type_calculus" => $request->post('type_calculus'),
-            "unit_price" => $request->post('unit_price'),
-            "per_times" => $request->post('per_times'),
-            "income" => $request->post('income'),
-            "create_date" => date("Y-m-d H:i:s")
+        $order_id = $request->post('order_id');
+        $sql = "select * from assign_affiliated where order_id = '$order_id' ";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        if (empty($rs)) {
+            $columns = array(
+                //"assign_id" => $request->post('assign_id'),
+                "order_id" => $order_id,
+                "transport_date" => $request->post('transport_date'),
+                "cus_start" => $request->post('cus_start'),
+                "cus_end" => $request->post('cus_end'),
+                "changwat_start" => $request->post('changwat_start'),
+                "changwat_end" => $request->post('changwat_end'),
+                "product_type" => $request->post('product_type'),
+                "weigh" => $request->post('weigh'),
+                "type_calculus" => $request->post('type_calculus'),
+                "unit_price" => $request->post('unit_price'),
+                "per_times" => $request->post('per_times'),
+                "income" => $request->post('income'),
+                "create_date" => date("Y-m-d H:i:s")
+            );
+            \Yii::$app->db->createCommand()
+                    ->insert("assign_affiliated", $columns)
+                    ->execute();
+        } else {
+            $columns = array(
+                //"assign_id" => $request->post('assign_id'),
+                //"order_id" => $order_id,
+                "transport_date" => $request->post('transport_date'),
+                "cus_start" => $request->post('cus_start'),
+                "cus_end" => $request->post('cus_end'),
+                "changwat_start" => $request->post('changwat_start'),
+                "changwat_end" => $request->post('changwat_end'),
+                "product_type" => $request->post('product_type'),
+                "weigh" => $request->post('weigh'),
+                "type_calculus" => $request->post('type_calculus'),
+                "unit_price" => $request->post('unit_price'),
+                "per_times" => $request->post('per_times'),
+                "income" => $request->post('income'),
+                //"create_date" => date("Y-m-d H:i:s")
+            );
+            \Yii::$app->db->createCommand()
+                    ->update("assign_affiliated", $columns, "order_id = '$order_id' ")
+                    ->execute();
+        }
+
+
+        $columns_order = array(
+            "income_total" => $request->post('income_total'),
+            "price_affiliated" => $request->post('price_affiliated'),
+            "price_employer" => $request->post('price_employer'),
+            "message" => $request->post('message')
         );
 
         \Yii::$app->db->createCommand()
-                ->insert("assign_affiliated", $columns)
+                ->update("orders_transport_affiliated", $columns_order, "order_id = '$order_id' ")
                 ->execute();
     }
 

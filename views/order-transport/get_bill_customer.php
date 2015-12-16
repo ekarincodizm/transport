@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $columns = [
         ['class' => 'yii\grid\SerialColumn'],
+        'id',
         [
             'class' => 'kartik\grid\CheckboxColumn',
             'headerOptions' => ['class' => 'kartik-sheet-style'],
@@ -162,19 +163,146 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                             ?>
 
+                            <!-- DT 2 -->
+                            <?php
+                            $columns2 = [
+                                ['class' => 'yii\grid\SerialColumn'],
+                                'id',
+                                [
+                                    'class' => 'kartik\grid\CheckboxColumn',
+                                    'headerOptions' => ['class' => 'kartik-sheet-style'],
+                                   
+                                //'pageSummary' => true,
+                                //'rowSelectedClass' => GridView::TYPE_INFO,
+                                ],
+                                //'id',
+                                'order_id',
+                                ['class' => '\kartik\grid\DataColumn',
+                                    'attribute' => 'order_date_start',
+                                    'label' => 'วันที่ไป',
+                                    'hAlign' => 'center',
+                                    'width' => '10%',
+                                    'format' => 'raw',
+                                    'mergeHeader' => true,
+                                    'value' => function ($model) {
+                                        $config = new \app\models\Config_system();
+                                        return $config->thaidate($model['order_date_start']);
+                                    }],
+                                ['class' => '\kartik\grid\DataColumn',
+                                    'attribute' => 'order_date_end',
+                                    'label' => 'วันที่กลับ',
+                                    'hAlign' => 'center',
+                                    'width' => '10%',
+                                    'format' => 'raw',
+                                    'mergeHeader' => true,
+                                    'value' => function ($model) {
+                                        $config = new \app\models\Config_system();
+                                        return $config->thaidate($model['order_date_end']);
+                                    }],
+                                /*
+                                  ['class' => '\kartik\grid\DataColumn',
+                                  'attribute' => 'car_id',
+                                  'label' => 'รถคันที่',
+                                  'mergeHeader' => true,
+                                  //'hAlign' => 'center',
+                                  //'width' => '10%',
+                                  //'format' => 'raw',
+                                  'value' => function ($model) {
+                                  $truck = new app\models\MapTruck();
+                                  $tr = $truck->find()->where(['car_id' => $model->car_id])->one();
+                                  return $model->car_id . " (" . $tr['truck_1'] . ') - (' . $tr['truck_2'] . ")";
+                                  }],
+                                 * 
+                                 */
+                                /*
+                                  ['class' => '\kartik\grid\DataColumn',
+                                  'attribute' => 'truck2',
+                                  'label' => 'ทะเบียน(พ่วง)',
+                                  'mergeHeader' => true,
+                                  'value' => function ($model) {
+                                  $truck = new app\models\Truck();
+                                  $tr = $truck->find()->where(['id' => $model->truck2])->one();
+                                  return $tr['license_plate'];
+                                  }],
+                                 * 
+                                 */
+                                'driver1',
+                                'driver2',
+                                ['class' => '\kartik\grid\DataColumn',
+                                    'attribute' => 'imcome',
+                                    'label' => 'รายได้',
+                                    'mergeHeader' => true,
+                                    'hAlign' => 'right',
+                                    //'width' => '10%',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        return "<font style='color:blue;'>".number_format($model['price_employer'], 2) . "</font>";
+                                    }],
+                                ['class' => '\kartik\grid\DataColumn',
+                                    'attribute' => 'flag',
+                                    'label' => 'สถานะ',
+                                    'mergeHeader' => true,
+                                    //'hAlign' => 'center',
+                                    //'width' => '10%',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        if ($model['flag'] == 1) {
+                                            $status = "<font style='color:green;'><i class='fa fa-check'></i> ชำระเงินแล้ว</font>";
+                                        } else {
+                                            $status = "<font style='color:red;'><i class='fa fa-warning'></i> ค้างชำระเงิน</font>";
+                                        }
+                                        return $status;
+                                    }],
+                                    // 'truck2',
+                                    // 'driver1',
+                                    // 'driver2',
+                                    // 'create_date',
+
+                                    /*
+                                      [
+                                      'class' => 'kartik\grid\ActionColumn',
+                                      'header' => 'ตัวเลือก',
+                                      'viewOptions' => ['title' => 'ดูข้อมูล', 'data-toggle' => 'tooltip'],
+                                      'updateOptions' => ['title' => 'แก้ไข', 'data-toggle' => 'tooltip'],
+                                      'deleteOptions' => ['title' => 'ลบ', 'data-toggle' => 'tooltip'],
+                                      'headerOptions' => ['class' => 'kartik-sheet-style'],
+                                      ],
+                                     * 
+                                     */
+                            ];
+                            echo GridView::widget([
+                                'dataProvider' => $dataProvider2,
+                                //'filterModel' => $searchModel,
+                                'columns' => $columns2,
+                                'options' => ['id' => 'assign_out'],
+                                'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
+                                //'containerOptions' => ['class' => 'hotel-pjax-container'],
+                                'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+                                'filterRowOptions' => ['class' => 'kartik-sheet-style'],
+                                'responsive' => true,
+                                'pjax' => true, // pjax is set to always true for this demo
+                                'panel' => [
+                                    'type' => GridView::TYPE_DANGER,
+                                    'heading' => "<i class='fa fa-book'></i> " . $this->title,
+                                ]
+                            ]);
+                            ?>
+
                         </div>
 
                         <?php
                         $this->registerJs("
-    $(document).ready(function(){
-    $('#print_bill').click(function(){
-        //var url = $('#url').val();
-        var cus_id = $('#cus_id').val();
-        var Id = $('#assign').yiiGridView('getSelectedRows');
-        var url = 'index.php?r=order-transport/print_bill_customer&Id=' + Id + '&cus_id=' + cus_id;
-        window.open(url);
-    });
-    });");
+        $(document).ready(function(){
+        $('#print_bill').click(function(){
+            //var url = $('#url').val();
+            var cus_id = $('#cus_id').val();
+            var Id = $('#assign').yiiGridView('getSelectedRows');
+            var Id2 = $('#assign_out').yiiGridView('getSelectedRows');
+            alert(Id2);
+            var url = 'index.php?r=order-transport/print_bill_customer&Id=' + Id + '&Id2=' + Id2 + '&cus_id=' + cus_id;
+            window.open(url);
+        });
+        });");
                         ?>
                         <input type="hidden" id="cus_id" value="<?php echo $cus_id; ?>"/>
                         <input type="hidden" id="url" value="<?php echo Url::to(['order-transport/print_bill_customer']) ?>"/>

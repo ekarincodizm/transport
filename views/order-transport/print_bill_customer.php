@@ -42,18 +42,18 @@ $company = $company_model->find()->one();
     <p>ใบวางบิล [Statement]</p>
     <p>ลูกค้า [Customer]</p><br/>
     <div style=" width: 100%; border: #000000 solid 1px; padding: 5px;">
-    ธนาคารกรุงเทพ สาขาเทสโก้โลตัส แม่สอด<br/>
-    บัญชีเลขที่ 303-7-02-307-8<br/>
-    หจ. ตงตง ทรานสปอร์ต
+        ธนาคารกรุงเทพ สาขาเทสโก้โลตัส แม่สอด<br/>
+        บัญชีเลขที่ 303-7-02-307-8<br/>
+        หจ. ตงตง ทรานสปอร์ต
     </div>
 </div>
 
 <br/>
 
 
-ลูกค้า : <?php echo $employer['company']?><br/>
-ที่อยู่ : <?php echo $employer['address']?><br/>
-โทร : <?php echo $employer['tel']?><br/>
+ลูกค้า : <?php echo $employer['company'] ?><br/>
+ที่อยู่ : <?php echo $employer['address'] ?><br/>
+โทร : <?php echo $employer['tel'] ?><br/>
 
 <?php foreach ($assigns as $assign): ?>
     <div style="float: right; text-align: right;">
@@ -71,13 +71,13 @@ $company = $company_model->find()->one();
         $cus_s = $customer_model->find()->where(['cus_id' => $assign['cus_start']])->one();
         echo $cus_s->company;
         ?>
-        
+
         <b>ปลายทาง : </b>
         <?php
         $cus_e = $customer_model->find()->where(['cus_id' => $assign['cus_end']])->one();
         echo $cus_e->company;
         ?> 
-        
+
     </div>
 
     <table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
@@ -96,6 +96,56 @@ $company = $company_model->find()->one();
         <tr style="font-weight: bold;">
             <td colspan="3" style="text-align:center;"><b>รวม</b></td>
             <td style="text-align: right;"><b><?php echo number_format($assign['income'], 2); ?></b></td>
+        </tr>
+
+    </table>
+    <br/>
+<?php endforeach; ?>
+
+
+
+<!-- จ้างรถวิ่ง -->
+<?php foreach ($assigns2 as $assign2): ?>
+    <div style="float: right; text-align: right;">
+        เลทที่ใบสั่งงาน <?php echo $assign2['order_id']; ?>
+    </div>
+
+    <div class="well" style=" border: #000000 solid 1px; padding: 5px; border-bottom: none;">
+        <b>วันที่ขน :</b>  <?php echo $config->thaidate($assign2['transport_date']); ?> <br/>
+        <b>เส้นทาง : </b>
+        <?php echo $changwat_model->find()->where(['changwat_id' => $assign2['changwat_start']])->one()->changwat_name; ?>
+        -
+        <?php echo $changwat_model->find()->where(['changwat_id' => $assign2['changwat_end']])->one()->changwat_name; ?>
+        <b>ต้นทาง : </b>
+        <?php
+        $cus_s = $customer_model->find()->where(['cus_id' => $assign2['cus_start']])->one();
+        echo $cus_s->company;
+        ?>
+
+        <b>ปลายทาง : </b>
+        <?php
+        $cus_e = $customer_model->find()->where(['cus_id' => $assign2['cus_end']])->one();
+        echo $cus_e->company;
+        ?> 
+
+    </div>
+
+    <table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
+        <tr>
+            <th>#</th>
+            <th style="text-align:center;">รายการ</th>
+            <th style="text-align:center;">น้ำหนัก(ตัน)</th>
+            <th style="text-align:center;">ราคา</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign2['product_type']])->one()->product_type; ?></td>
+            <td style="text-align: center;"><?php echo $assign2['weigh']; ?></td>
+            <td style="text-align: right;"> <?php echo number_format($assign2['income'], 2); ?></td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td colspan="3" style="text-align:center;"><b>รวม</b></td>
+            <td style="text-align: right;"><b><?php echo number_format($assign2['income'], 2); ?></b></td>
         </tr>
 
     </table>

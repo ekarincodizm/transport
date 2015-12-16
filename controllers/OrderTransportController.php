@@ -14,6 +14,7 @@ use kartik\mpdf\Pdf;
 use yii\helpers\Url;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Json;
+use yii\data\ArrayDataProvider;
 
 /**
  * OrderTransportController implements the CRUD actions for OrdersTransport model.
@@ -397,51 +398,69 @@ class OrderTransportController extends Controller {
             'query' => $query,
             'pagination' => [
                 'pageSize' => 10,
-            ],
-                /*
-                  'sort' => [
-                  'defaultOrder' => [
-                  'created_at' => SORT_DESC,
-                  'title' => SORT_ASC,
-                  ]
-                  ],
-                 */
+            ]
+        ]);
+
+
+        $employer = \app\models\OrdersTransportAffiliated::find()
+                ->select('orders_transport_affiliated.*')
+                ->join('INNER JOIN', 'assign_affiliated', 'assign_affiliated.order_id = orders_transport_affiliated.order_id')
+                ->where(['orders_transport_affiliated.employer' => $cus_id]);
+
+        $provider2 = new ActiveDataProvider([
+            'query' => $employer,
+            'pagination' => [
+                'pageSize' => 10,
+            ]
         ]);
 
         return $this->render('get_bill_customer', [
                     //'searchModel' => $searchModel,
                     'dataProvider' => $provider,
+                    'dataProvider2' => $provider2,
                     'cus_id' => $cus_id,
         ]);
     }
 
-    public function actionPrint_bill_customer($Id = null,$cus_id = null) {
+    public function actionPrint_bill_customer($Id = null, $Id2 = null, $cus_id = null) {
         //$cus_id = Yii::$app->request->post('cus_id');
         //$assign_id = Yii::$app->request->post('assign_id'); //รูปแบบ 2,3,4
-        
         //$keys = json_encode($assign_id);
         //foreach($keys as $key){
-         //$Id = str_replace("]","",str_replace("[", "", $keys));
+        //$Id = str_replace("]","",str_replace("[", "", $keys));
         //}
         //$Id = implode(",", $IdVal);
-        
+
         $customer_model = new \app\models\Customer();
         $employer = $customer_model->find()->where(['cus_id' => $cus_id])->one();
-        
-        $sql = "SELECT * FROM assign WHERE id IN ($Id)";
-        
+        if ($Id == '') {
+            $cus = "0";
+        } else {
+            $cus = $Id;
+        }
+        $sql = "SELECT * FROM assign WHERE id IN ($cus)";
         $assign = Yii::$app->db->createCommand($sql)->queryAll();
         
+        if($Id2 == ''){
+            $cus2 = "0";
+        } else {
+            $cus2 = $Id2;
+        }
+        
+        $sql2 = "SELECT o.*,a.income,a.transport_date,a.changwat_start,a.changwat_end,a.cus_start,a.cus_end,a.product_type,a.weigh "
+                . "FROM orders_transport_affiliated o INNER JOIN assign_affiliated a ON o.order_id = a.order_id WHERE o.id IN ($cus2)";
+        $assign2 = Yii::$app->db->createCommand($sql2)->queryAll();
+
         $content = $this->renderPartial('print_bill_customer', [
             'employer' => $employer,
             'assigns' => $assign,
+            'assigns2' => $assign2,
         ]);
 
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
         $mpdf->WriteHTML($content);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->Output($employer['company'] . ".pdf", "I");
-        
     }
 
 }
