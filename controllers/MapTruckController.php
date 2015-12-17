@@ -21,7 +21,7 @@ class MapTruckController extends Controller {
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                //'delete' => ['post'],
                 ],
             ],
         ];
@@ -66,6 +66,7 @@ class MapTruckController extends Controller {
         $truck2 = $model->get_truck_type2_noselect();
 
         return $this->render('create', [
+                    'error' => "",
                     'truck1' => $truck1,
                     'truck2' => $truck2,
         ]);
@@ -77,14 +78,29 @@ class MapTruckController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
+    public function actionUpdate($car_id = null) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->car_id]);
-        } else {
+        $truck = new MapTruck();
+        $truck1 = $truck->get_truck_type1_noselect();
+        $truck2 = $truck->get_truck_type2_noselect();
+        $model = $truck->find()->where(['car_id' => $car_id])->one();
+
+        $sql = "select * from assign where car_id = '$car_id' ";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+
+        if (empty($result)) {
             return $this->render('update', [
                         'model' => $model,
+                        'truck1' => $truck1,
+                        'truck2' => $truck2,
+            ]);
+        } else {
+            $error = "ไม่สามารถ แก้ไข หรือ ลบ ข้อมูลรถคันนี้ได้เนื่องจากรถคันนี้ได้มีการขนส่งสินค้าไปแล้ว ...!";
+            return $this->render('create', [
+                        //'model' => $model,
+                        'error' => $error,
+                        'truck1' => $truck1,
+                        'truck2' => $truck2,
             ]);
         }
     }
@@ -95,10 +111,45 @@ class MapTruckController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionDelete($car_id = null) {
+        $truck = new MapTruck();
+        $truck1 = $truck->get_truck_type1_noselect();
+        $truck2 = $truck->get_truck_type2_noselect();
+        //$model = $truck->find()->where(['car_id' => $car_id])->one();
 
-        return $this->redirect(['index']);
+        $sql = "select * from assign where car_id = '$car_id' ";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+
+        if (empty($result)) {
+
+            Yii::$app->db->createCommand()
+                    ->delete("map_truck", "car_id = '$car_id' ")
+                    ->execute();
+
+            Yii::$app->db->createCommand()
+                    ->delete("map_driver", "car_id = '$car_id' ")
+                    ->execute();
+
+            return $this->redirect(['create']);
+        } else {
+            $error = "ไม่สามารถ แก้ไข หรือ ลบ ข้อมูลรถคันนี้ได้เนื่องจากรถคันนี้ได้มีการขนส่งสินค้าไปแล้ว ...!";
+            return $this->render('create', [
+                        //'model' => $model,
+                        'error' => $error,
+                        'truck1' => $truck1,
+                        'truck2' => $truck2,
+            ]);
+        }
+    }
+
+    public function actionDetail($car_id = null) {
+
+        $truck = new MapTruck();
+        $model = $truck->find()->where(['car_id' => $car_id])->one();
+
+        return $this->render('detail', [
+                    'model' => $model,
+        ]);
     }
 
     /**
@@ -121,13 +172,26 @@ class MapTruckController extends Controller {
         $truck2 = Yii::$app->request->post('truck_2');
 
         $columns = array(
-            'truck_1' => $truck1, 
+            'truck_1' => $truck1,
             'truck_2' => $truck2,
             'create_date' => date('Y-m-d'),
             'status' => '0'
-            );
+        );
         Yii::$app->db->createCommand()
                 ->insert("map_truck", $columns)
+                ->execute();
+    }
+
+    public function actionSave_update() {
+        $truck1 = Yii::$app->request->post('truck_1');
+        $truck2 = Yii::$app->request->post('truck_2');
+        $car_id = Yii::$app->request->post('car_id');
+        $columns = array(
+            'truck_1' => $truck1,
+            'truck_2' => $truck2
+        );
+        Yii::$app->db->createCommand()
+                ->update("map_truck", $columns, "car_id = '$car_id'")
                 ->execute();
     }
 
@@ -163,4 +227,5 @@ class MapTruckController extends Controller {
                 ->execute();
     }
 
+   
 }

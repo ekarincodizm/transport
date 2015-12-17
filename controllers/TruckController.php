@@ -171,4 +171,14 @@ class TruckController extends Controller {
         ]);
     }
 
+    public function actionGet_detail_truck() {
+        $license_plate = Yii::$app->request->post('license_plate');
+        $truck = new Truck();
+        $t = $truck->find()->where(['license_plate' => $license_plate])->one();
+        $id = $t['id'];
+        return $this->renderPartial('detail', [
+                    'model' => $this->findModel($id),
+        ]);
+    }
+
 }

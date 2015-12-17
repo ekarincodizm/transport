@@ -679,7 +679,7 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                                                 <div class="input-group-addon">ทะเบียนรถ</div>
                                                 <select id="truck_license" class="form-control" style="border-radius: 0px;">
                                                     <option value="<?php echo $car_view->truck_1; ?>"><?php echo $car_view->truck_1; ?>(หัวลาก)</option>
-                                                    <?php if (!empty($car->truck_2)) { ?>
+                                                    <?php if (!empty($car_view->truck_2)) { ?>
                                                         <option value="<?php echo $car_view->truck_2; ?>"><?php echo $car_view->truck_2; ?>(พ่วง)</option>
                                                     <?php } ?>
                                                 </select>

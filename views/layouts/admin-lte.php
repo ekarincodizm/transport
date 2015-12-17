@@ -124,12 +124,12 @@ $annuities = new app\models\Annuities();
                             <button class="btn btn-info btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-windows"></i> เมนู
                             </button>
-                            <ul class="dropdown-menu pull-left" aria-labelledby="dropdownMenu2" style="width: 250px;" id="menu-task-bar">
+                            <ul class="dropdown-menu pull-left" aria-labelledby="dropdownMenu2" style="width: 350px;" id="menu-task-bar">
                                 <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
                                 <li><a href="<?php echo Url::to(['site/index']); ?>"><i class="fa fa-home"></i> <span>หน้าแรก</span></a></li>
                                 <li class="header"><i class="fa fa-cogs"></i> ตั้งค่าระบบ</li>
-                                <li class="active"><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> <span>ข้อมูลรถ</span></a></li>
-                                <li><a href="<?php echo Url::to(['map-truck/index']); ?>"><i class="fa fa-truck text-info"></i> <span>จับคู่รถ(ส่วนหั-ส่วนท้าย)</span></a></li>
+                                <li class="active"><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> <span>ข้อมูลรถ(ตามทะเบียน)</span></a></li>
+                                <li><a href="<?php echo Url::to(['map-truck/create']); ?>"><i class="fa fa-truck text-info"></i> <span>จับคู่รถ(ส่วนหัว-ส่วนท้าย)</span></a></li>
                                 <li><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users text-yellow"></i> <span>ข้อมูลคนขับ</span></a></li>
                                 <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> <span>ข้อมูลลูกค้า</span></a></li>
                                 <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
@@ -139,6 +139,8 @@ $annuities = new app\models\Annuities();
                                 <li><a href="<?php echo Url::to(['company/view','id' => '1']); ?>"><i class="fa fa-building text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
                                 <li><a href="<?php echo Url::to(['notifications/view', 'id' => '1']); ?>"><i class="fa fa-bell text-orange"></i> <span>ตั้งค่าการแจ้งเตือน</span></a></li>
                                 <li class="header"><i class="fa fa-book"></i> รายงาน</li>
+                                <li><a href="<?php echo Url::to(['report/report_month_select_car'])?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(เกี่ยวกับรถ)</span></a></li>
+                                <li><a href="<?php echo Url::to(['report/report_month_select_car_round'])?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(ตามรอบวิ่ง)</span></a></li>
                                 <li><a href="<?php echo Url::to(['report/report_year'])?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี,เดือน)</span></a></li>
                                 <li><a href="<?php echo Url::to(['report/report_period'])?>"><i class="fa fa-bar-chart text-danger"></i> <span>กำไร - ขาดทุน(ไตรมาส)</span></a></li>
                                 <li><a href="#"><i class="fa fa-bar-chart text-success"></i> <span>รับ - จ่าย(รายเดือน)</span></a></li>

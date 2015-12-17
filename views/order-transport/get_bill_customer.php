@@ -158,7 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'pjax' => true, // pjax is set to always true for this demo
                                 'panel' => [
                                     'type' => GridView::TYPE_PRIMARY,
-                                    'heading' => "<i class='fa fa-book'></i> " . $this->title,
+                                    'heading' => "<i class='fa fa-book'></i> " . $this->title."(รถภายใน)",
                                 ]
                             ]);
                             ?>
@@ -283,7 +283,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'pjax' => true, // pjax is set to always true for this demo
                                 'panel' => [
                                     'type' => GridView::TYPE_DANGER,
-                                    'heading' => "<i class='fa fa-book'></i> " . $this->title,
+                                    'heading' => "<i class='fa fa-book'></i> " . $this->title."(จ้างบริษัทรถร่วม)",
                                 ]
                             ]);
                             ?>
@@ -298,7 +298,7 @@ $this->params['breadcrumbs'][] = $this->title;
             var cus_id = $('#cus_id').val();
             var Id = $('#assign').yiiGridView('getSelectedRows');
             var Id2 = $('#assign_out').yiiGridView('getSelectedRows');
-            alert(Id2);
+            //alert(Id2);
             var url = 'index.php?r=order-transport/print_bill_customer&Id=' + Id + '&Id2=' + Id2 + '&cus_id=' + cus_id;
             window.open(url);
         });

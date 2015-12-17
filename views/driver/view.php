@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $config = new app\models\Config_system();
 $SalaryMasterModel = new \app\models\SalaryMaster();
+
 ?>
 
 <script type="text/javascript">
