@@ -141,9 +141,9 @@ $annuities = new app\models\Annuities();
                                 <li class="header"><i class="fa fa-book"></i> รายงาน</li>
                                 <li><a href="<?php echo Url::to(['report/report_month_select_car'])?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(เกี่ยวกับรถ)</span></a></li>
                                 <li><a href="<?php echo Url::to(['report/report_month_select_car_round'])?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(ตามรอบวิ่ง)</span></a></li>
+                                <li><a href="<?php echo Url::to(['report/report_month_all'])?>"><i class="fa fa-truck text-success"></i> <span>รับรับ - รายจ่ายค่าขนว่งประจำเดือน</span></a></li>
                                 <li><a href="<?php echo Url::to(['report/report_year'])?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี,เดือน)</span></a></li>
                                 <li><a href="<?php echo Url::to(['report/report_period'])?>"><i class="fa fa-bar-chart text-danger"></i> <span>กำไร - ขาดทุน(ไตรมาส)</span></a></li>
-                                <li><a href="#"><i class="fa fa-bar-chart text-success"></i> <span>รับ - จ่าย(รายเดือน)</span></a></li>
                                 <li style=" border-top: #000 solid 1px;">
 
                                 </li>

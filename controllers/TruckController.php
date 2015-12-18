@@ -47,8 +47,14 @@ class TruckController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
+        $model = $this->findModel($id);
+        $sql = "SELECT m.car_id FROM map_truck m WHERE (truck_1 = '$model->license_plate' OR truck_2 = '$model->license_plate') AND status = '0'";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        $car_id = $rs['car_id'];
+        
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+                    'car_id' => $car_id,
+                    'model' => $model,
         ]);
     }
 

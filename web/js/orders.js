@@ -475,6 +475,7 @@ function load_expenses() {
 function save_expenses() {
     $("#e-ding").show();
     var url = $("#Url_save_expenses").val();
+    var car_id = $("#car_id").val();
     var assign_id = $("#assign_id").val();
     var truck_license = $("#truck_license").val();
     var detail = $("#truck_detail").val();
@@ -486,6 +487,7 @@ function save_expenses() {
         return false;
     }
     var data = {
+        car_id: car_id,
         assign_id: assign_id,
         truck_license: truck_license,
         detail: detail,

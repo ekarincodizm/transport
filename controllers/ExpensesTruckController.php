@@ -115,11 +115,13 @@ class ExpensesTruckController extends Controller {
     }
 
     public function actionSave() {
+        $car_id = \Yii::$app->request->post('car_id');
         $assign_id = \Yii::$app->request->post('assign_id');
         $detail = \Yii::$app->request->post('detail');
         $price = \Yii::$app->request->post('price');
         $truck_license = Yii::$app->request->post('truck_license');
         $columns = array(
+            "car_id" => $car_id,
             "assign_id" => $assign_id,
             "truck_license" => $truck_license,
             "detail" => $detail,

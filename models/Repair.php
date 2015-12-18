@@ -29,7 +29,7 @@ class Repair extends \yii\db\ActiveRecord {
         return [
             [['detail','price','create_date'],'required'],
             [['detail'], 'string'],
-            [['price'], 'integer'],
+            [['price','car_id'], 'integer'],
             [['create_date'], 'safe'],
             [['truck_license'], 'string', 'max' => 20]
         ];
@@ -45,6 +45,7 @@ class Repair extends \yii\db\ActiveRecord {
             'detail' => 'รายละเอียดการซ่อม',
             'price' => 'จำนวนเงิน',
             'create_date' => 'วันที่',
+            'car_id' => 'คันที่',
         ];
     }
 

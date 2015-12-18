@@ -29,6 +29,7 @@ class TruckAct extends \yii\db\ActiveRecord {
         return [
             [['act_start', 'act_end'], 'required'],
             [['act_start', 'act_end', 'create_date'], 'safe'],
+            [['car_id'],'integer'],
             [['license_plate'], 'string', 'max' => 20]
         ];
     }

@@ -21,7 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $config = new app\models\Config_system();
 $SalaryMasterModel = new \app\models\SalaryMaster();
-
+$MapDrive = new \app\models\MapDriver();
+$MapTruck = new app\models\MapTruck();
+$car = $MapDrive->find()->where(['driver' => $model->driver_id,'active' => '1'])->one();
+$car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
 ?>
 
 <script type="text/javascript">
@@ -86,7 +89,13 @@ $SalaryMasterModel = new \app\models\SalaryMaster();
                                     echo "</font>";
                                     ?>
                                 </li>
-
+                                <li class="list-group-item">
+                                    <b>ขับประจำคันที่</b> 
+                                    <a class="pull-right">
+                                        <?php echo $car['car_id']; ?>
+                                        <?php echo "(".$car_map['truck_1'].' '.$car_map['truck_2'].")"?>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <!-- /.box-body -->
@@ -617,12 +626,17 @@ $this->registerJs(
         var employee = $("#employee").val();
         var month = $("#month").val();
         var year = $("#year").val();
-
+        var car_id = "<?php echo $car['car_id']?>";
+        if(salary == ''){
+            swal("แจ้งเตือน!", "ยังไม่ได้กำหนดเงินเดือนพนักงาน ...!", "warning");
+            return false;
+        }
         var data = {
             salary: salary,
             employee: employee,
             month: month,
-            year: year
+            year: year,
+            car_id: car_id
         };
 
         $.post(url, data, function (result) {

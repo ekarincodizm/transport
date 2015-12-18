@@ -14,14 +14,14 @@ $config = new app\models\Config_system();
 /* @var $this yii\web\View */
 /* @var $model app\models\Repair */
 
-$this->title = 'ทะเบียนรถ: ' . ' ' . $truck_license;
+$this->title = 'ทะเบียนรถ: ' . ' ' . $truck_license.' คันที่ '.$car_id;
 $this->params['breadcrumbs'][] = 'บันทึกรายการซ่อม: ' . $truck_license;
 ?>
 <div class="box box-primary">
     <div class="box-header with-border">
         <i class="fa fa-cogs"></i> <?php echo $this->title; ?>
         <div class="pull-right">
-            <a href="<?php echo Url::to(['repair/create', 'truck_license' => $truck_license]) ?>">
+            <a href="<?php echo Url::to(['repair/create', 'truck_license' => $truck_license,'car_id' => $car_id]) ?>">
                 <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> เพิ่มรายการซ่อม</button>
             </a>
         </div>
@@ -99,11 +99,12 @@ $this->params['breadcrumbs'][] = 'บันทึกรายการซ่อ�
         var truck_licenses = "<?php echo $truck_license; ?>";
         var month = $("#month").val();
         var year = $("#year").val();
-
+        var car_id = "<?php echo $car_id ?>";
         var data = {
             truck_licenses: truck_licenses,
             month: month,
-            year: year
+            year: year,
+            car_id: car_id
         };
 
         $.post(url, data, function (result) {

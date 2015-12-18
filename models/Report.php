@@ -674,7 +674,92 @@ class Report {
         $result = \Yii::$app->db->createCommand($query)->queryAll();
         return $result;
     }
+    
+    //ดึงข้อมูลรายงานรายรับ รายจ่าย ทั้งหมดของรถแต่ละคัน
+    function report_month_all($year = null,$month = null){
+        $sql = "SELECT a.car_id,t.truck_1,t.truck_2,d.driver,dv.`name`,dv.lname,
+                SUM(a.oil_set) AS oil_set,
+                                SUM(a.oil) AS oil,
+                                SUM(a.oil_unit) AS oil_unit,
+                                SUM(a.oil_price) AS oil_price,
+                                SUM(a.gas) AS gas,
+                                SUM(a.gas_unit) AS gas_unit,
+                                SUM(a.gas_price) AS gas_price,
+                                SUM(a.distance) AS distance,
+                                SUM(a.weigh) AS weigh,
+                                SUM(a.income) AS income,
+                                SUM(TRIM(SUBSTR(a.allowance_driver1,7,10))) AS allowance_driver1,
+                                SUM(TRIM(SUBSTR(a.allowance_driver2,7,10))) AS allowance_driver2
+                FROM assign a INNER JOIN map_truck t ON a.car_id = t.car_id
+                LEFT JOIN map_driver d ON t.car_id = d.car_id
+                LEFT JOIN driver dv ON d.driver = dv.driver_id
+                WHERE LEFT(a.order_date_start,4) = '$year'
+                AND SUBSTR(order_date_start,6,2) = '$month'
+                GROUP BY a.car_id";
+         $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+    
+    //หาค่ารอบของรถคันนั้น
+    function get_around($year = null,$month = null,$car_id = null){
+        $sql = "SELECT COUNT(*) AS TOTAL
+                FROM assign a INNER JOIN map_truck t ON a.car_id = t.car_id
+                LEFT JOIN map_driver d ON t.car_id = d.car_id
+                LEFT JOIN driver dv ON d.driver = dv.driver_id
+                WHERE LEFT(a.order_date_start,4) = '$year'
+                    AND SUBSTR(order_date_start,6,2) = '$month'
+                    AND a.car_id = '$car_id'";
+         $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['TOTAL'];
+    }
+    
+    //หาค่าใชช้จ่ายในการเดินทางของรถแต่ละคัน ใน เดือนนั้น ๆ 
+    function sum_get_outgoing($year = null,$month = null,$car_id = null){
+        $sql = "SELECT SUM(o.price) AS price
+                FROM assign a INNER JOIN outgoings o ON a.assign_id = o.assign_id
+                WHERE a.car_id = '$car_id' 
+                        AND YEAR(a.order_date_start) = '$year'
+                        AND SUBSTR(a.order_date_start,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
+    //ดึงรายการค่าใชช้จ่ายในการเดินทางของรถแต่ละคัน ใน เดือนนั้น ๆ 
+    function get_outgoing($year = null,$month = null,$car_id = null){
+        $sql = "SELECT o.detail,o.price,o.create_date
+                FROM assign a INNER JOIN outgoings o ON a.assign_id = o.assign_id
+                WHERE a.car_id = '$car_id' 
+                        AND YEAR(a.order_date_start) = '$year'
+                        AND SUBSTR(a.order_date_start,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+    
+    //ดึงค่าซ่อมรถทั้งหมดมาแสดง
+    function sum_expenses_truck(){
+        $sql = "SELECT SUM(Q1.price) AS price
+                FROM
+                (
+                                SELECT SUM(o.price) AS price
+                                FROM `repair` o 
+                                WHERE YEAR(o.create_date) = '2015'
+                                AND SUBSTR(o.create_date,6,2) = '12'
+                                                AND o.car_id = '2'
 
+                UNION 
+
+                SELECT SUM(o.price) AS price
+                                FROM expenses_truck o 
+                                WHERE YEAR(o.create_date) = '2015'
+                                AND SUBSTR(o.create_date,6,2) = '12'
+                                                AND o.car_id = '2'
+
+                ) Q1 ";
+        
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
 }
 
 /* 

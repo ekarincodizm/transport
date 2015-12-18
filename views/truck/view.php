@@ -18,6 +18,7 @@ $config = new app\models\Config_system();
 <div class="panel panel-primary">
     <div class="panel-heading" style="padding-bottom: 20px;">
         <i class="fa fa-windows"></i>
+        <?php echo " คันที่ ".$car_id; ?>
         <div class="pull-right">
             <a href="<?php echo yii\helpers\Url::to(['site/index']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
         </div>
@@ -32,7 +33,9 @@ $config = new app\models\Config_system();
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#detail" data-toggle="tab"><i class="fa fa-car text-primary"></i> ข้อมูลทั่วไป</a></li>
-                <li><a href="#history" data-toggle="tab" onclick="get_history('<?php echo $model->id ?>')"><i class="fa fa-truck text-green"></i> ประวัติการวิ่งรถ</a></li>
+                <!--
+                <li><a href="#history" data-toggle="tab" onclick="get_history('<?//php echo $model->id ?>')"><i class="fa fa-truck text-green"></i> ประวัติการวิ่งรถ</a></li>
+                -->
                 <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs text-gray"></i> ข้อมูลซ่อมบำรุง</a></a></li>
                 <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase text-yellow"></i> การต่อทะเบียน / พรบ.</a></a></li>
                 <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart text-orange"></i> ค่างวด</a></a></li>
@@ -403,6 +406,7 @@ $config = new app\models\Config_system();
         var act_start = $("#act_start").val();
         var act_end = $("#act_end").val();
         var act_price = $("#act_price").val()
+        var car_id = "<?php echo $car_id ?>";
         var url = "<?php echo Url::to(['truck-act/save']); ?>";
 
         if (act_price == '') {
@@ -411,6 +415,7 @@ $config = new app\models\Config_system();
         }
 
         var data = {
+            car_id: car_id,
             license_plate: license_plate,
             act_start: act_start,
             act_end: act_end,
@@ -449,8 +454,10 @@ $config = new app\models\Config_system();
         var annuities_year = $("#annuities_year").val();
         var date_supply = "<?php echo $model->date_supply; ?>";
         var period_price = "<?php echo $model->period_price; ?>";
+        var car_id = "<?php echo $car_id ?>";
         var url = "<?php echo Url::to(['annuities/save']); ?>";
         var data = {
+            car_id: car_id,
             license_plate: license_plate,
             day: date_supply,
             month: annuities_month,

@@ -331,24 +331,42 @@ class ReportController extends Controller {
                     'month' => $month,
         ]);
     }
-    
-    public function actionGet_sub_expense_round(){
+
+    public function actionGet_sub_expense_round() {
         $type = \Yii::$app->request->post('type');
         $assign_id = \Yii::$app->request->post('assign_id');
-        
+
         $expenses = new \app\models\Assign();
         $outgoing = new \app\models\Outgoings();
-        
-        if($type == 0){
+
+        if ($type == 0) {
             $result = $expenses->get_expense_truck_in_assignid($assign_id);
         } else {
             $result = $outgoing->get_expense_in_assignid($assign_id);
         }
-        
+
         return $this->renderPartial('load_sub_report_car_round', [
                     'result' => $result,
         ]);
     }
+
+    //รายงานรายรับ รายจ่ายประจำเดือน
+    public function actionReport_month_all() {
+        return $this->render('report_month_all');
+    }
+
+    public function actionLoad_report_month_all() {
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+        $report = new Report();
+        $result = $report->report_month_all($year, $month);
+        return $this->renderPartial('load_report_month_all', [
+                    'year' => $year,
+                    'month' => $month,
+                    'result' => $result,
+        ]);
+    }
+
 }
 
 /* 

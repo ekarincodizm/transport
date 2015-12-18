@@ -20,7 +20,6 @@ return [
 ];
 */
 
-/*
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=127.0.0.1;dbname=transport_db',
@@ -28,9 +27,8 @@ return [
     'password' => '1234',
     'charset' => 'utf8',
 ];
- */
-//Server พบพระ
-
+ 
+/*Server พบพระ
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=122.154.239.67;dbname=transport_db',
@@ -38,3 +36,4 @@ return [
     'password' => '01234',
     'charset' => 'utf8',
 ];
+*/

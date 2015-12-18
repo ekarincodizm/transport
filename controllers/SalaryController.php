@@ -131,6 +131,7 @@ class SalaryController extends Controller {
             "salary" => $request->post('salary'),
             "month" => $request->post('month'),
             "year" => $request->post('year'),
+            "car_id" => $request->post('car_id'),
             "date_salary" => date("Y-m-d")
         );
 

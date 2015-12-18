@@ -32,6 +32,7 @@ class Annuities extends \yii\db\ActiveRecord
         return [
             [['period'], 'integer'],
             [['create_date'], 'safe'],
+            [['car_id'],'integer'],
             [['license_plate'], 'string', 'max' => 10],
             [['month', 'year'], 'string', 'max' => 2]
         ];
