@@ -390,5 +390,13 @@ class OrdersTransportAffiliatedController extends Controller {
 
         echo Json::encode(['output' => '', 'selected' => '']);
     }
+    
+    public function actionConfirm_order(){
+        $id = Yii::$app->request->post('id');
+        $columns = array("flag" => '1');
+        Yii::$app->db->createCommand()
+                ->update("orders_transport_affiliated", $columns,"id = '$id' ")
+                ->execute();
+    }
 
 }

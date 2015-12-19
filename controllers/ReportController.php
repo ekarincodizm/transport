@@ -367,6 +367,76 @@ class ReportController extends Controller {
         ]);
     }
 
+    public function actionGet_sub_outgoing() {
+        $car_id = \Yii::$app->request->post('car_id');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+
+        $report = new \app\models\Report();
+
+        $result = $report->get_outgoing($year, $month, $car_id);
+
+        return $this->renderPartial('sub_outgoing', [
+                    'result' => $result,
+        ]);
+    }
+    
+     public function actionGet_sub_expenses_truck() {
+        $car_id = \Yii::$app->request->post('car_id');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+
+        $report = new \app\models\Report();
+
+        $result = $report->get_expenses_truck($year, $month, $car_id);
+
+        return $this->renderPartial('sub_outgoing', [
+                    'result' => $result,
+        ]);
+    }
+    
+     public function actionGet_sub_salary() {
+        $car_id = \Yii::$app->request->post('car_id');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+
+        $report = new \app\models\Report();
+
+        $result = $report->get_salary($year, $month, $car_id);
+
+        return $this->renderPartial('sub_outgoing', [
+                    'result' => $result,
+        ]);
+    }
+    
+    public function actionGet_annuities() {
+        $car_id = \Yii::$app->request->post('car_id');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+
+        $report = new \app\models\Report();
+
+        $result = $report->get_annuities($year, $month, $car_id);
+
+        return $this->renderPartial('sub_outgoing', [
+                    'result' => $result,
+        ]);
+    }
+    
+     public function actionGet_truck_act() {
+        $car_id = \Yii::$app->request->post('car_id');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+
+        $report = new \app\models\Report();
+
+        $result = $report->get_truck_act($year, $month, $car_id);
+
+        return $this->renderPartial('sub_outgoing', [
+                    'result' => $result,
+        ]);
+    }
+
 }
 
 /* 

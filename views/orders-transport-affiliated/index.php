@@ -77,6 +77,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'driver2',
                             'label' => 'คนขับ2',
                             'mergeHeader' => true,],
+                        ['class' => '\kartik\grid\DataColumn',
+                            'attribute' => 'flag',
+                            'label' => 'สถานะ',
+                            'format' => 'raw',
+                            'mergeHeader' => true,
+                            'value' => function ($model) {
+                                if ($model->flag == 1) {
+                                    $status = "<font style='color:green;'>จ่ายเงินแล้ว</font>";
+                                } else {
+                                    $status = "<font style='color:red;'>ค้างจ่าย</font>";
+                                }
+                                return $status;
+                            }
+                        ],
                         // 'truck2',
                         // 'driver1',
                         // 'driver2',
@@ -98,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
                         'filterRowOptions' => ['class' => 'kartik-sheet-style'],
                         'responsive' => true,
-                        'persistResize'=>false,
+                        'persistResize' => false,
                         'pjax' => true, // pjax is set to always true for this demo
                         'panel' => [
                             'type' => GridView::TYPE_PRIMARY,

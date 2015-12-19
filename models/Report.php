@@ -765,7 +765,7 @@ class Report {
         $sql = "SELECT *
                 FROM
                 (
-                SELECT o.detail,o.price
+                SELECT CONCAT(o.detail,' ทะเบียน ',o.truck_license) AS detail,o.price
                 FROM `repair` o 
                 WHERE YEAR(o.create_date) = '$year'
                       AND SUBSTR(o.create_date,6,2) = '$month'
@@ -773,7 +773,7 @@ class Report {
 
                 UNION 
 
-                SELECT o.detail,o.price
+                SELECT CONCAT(o.detail,' ทะเบียน ',o.truck_license) AS detail,o.price
                 FROM expenses_truck o 
                 WHERE YEAR(o.create_date) = '$year'
                       AND SUBSTR(o.create_date,6,2) = '$month'
@@ -785,7 +785,7 @@ class Report {
         return $result;
     }
     
-    //ค่าใช้จ่ายงวดรถ
+    //รวมค่าใช้จ่ายงวดรถ
     function sum_annuities($year = null,$month = null,$car_id = null){
         $sql = "SELECT SUM(a.period_price) AS price
                 FROM annuities a 
@@ -794,6 +794,17 @@ class Report {
                     AND SUBSTR(a.create_date,6,2) = '$month' ";
         $result = \Yii::$app->db->createCommand($sql)->queryOne();
         return $result['price'];
+    }
+    
+    //ค่าใช้จ่ายงวดรถ
+     function get_annuities($year = null,$month = null,$car_id = null){
+        $sql = "SELECT CONCAT('ค่างวดทะเบียน (',a.license_plate,')') AS detail,a.period_price AS price
+                FROM annuities a 
+                WHERE a.car_id = '$car_id'
+                        AND YEAR(a.create_date) = '$year'
+                    AND SUBSTR(a.create_date,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
     }
     
     //ค่าใช้ต่อประกัน/ภาษี
@@ -807,7 +818,18 @@ class Report {
         return $result['price'];
     }
     
-    //ค่าใช้จ่ายรวมพนักงาน
+     //รายการค่าใช้ต่อประกัน/ภาษี
+    function get_truck_act($year = null,$month = null,$car_id = null){
+        $sql = "SELECT CONCAT('ต่อประกัน/ภาษี ทะเบียน (',a.license_plate,')') AS detail,a.act_price AS price
+                FROM truck_act a 
+                WHERE a.car_id = '$car_id'
+                        AND YEAR(a.create_date) = '$year'
+                    AND SUBSTR(a.create_date,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+    
+    //รวมค่าใช้จ่ายรวมพนักงาน
     function sum_salary($year = null,$month = null,$car_id = null){
         $sql = "SELECT SUM(Q1.price) AS price
                 FROM
@@ -837,6 +859,38 @@ class Report {
                 ) Q1 ";
         $result = \Yii::$app->db->createCommand($sql)->queryOne();
         return $result['price'];
+    }
+    
+    //ค่าใช้จ่ายรวมพนักงาน
+    function get_salary($year = null,$month = null,$car_id = null){
+        $sql = "SELECT Q1.detail,Q1.price
+                FROM
+                (
+                SELECT  'เบี้ยเลี้ยง' AS detail,
+                        SUM((TRIM(SUBSTR(a.allowance_driver1,7,10)) + TRIM(SUBSTR(a.allowance_driver2,7,10)))) AS price
+                FROM assign a 
+                WHERE a.car_id = '$car_id'
+                        AND YEAR(a.order_date_start) = '$year'
+                    AND SUBSTR(a.order_date_start,6,2) = '$month'
+
+                UNION 
+
+                SELECT 'จ่ายพนักงาน' AS detail,SUM(d.price) AS price
+                FROM driver_income d 
+                WHERE d.car_id = '$car_id'
+                        AND YEAR(d.create_date) = '$year'
+                    AND SUBSTR(d.create_date,6,2) = '$month'
+
+                UNION
+
+                SELECT 'เงินเดือน ' AS detail,SUM(s.salary) AS price
+                FROM salary s 
+                WHERE s.car_id = '$car_id'
+                AND YEAR(s.date_salary) = '$year'
+                    AND SUBSTR(s.date_salary,6,2) = '$month'
+                ) Q1 ";
+        $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
     }
 }
 

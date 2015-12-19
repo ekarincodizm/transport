@@ -1,12 +1,12 @@
 <style type="text/css">
-    table thead tr th{ text-align: center;background: #999999; color: #FFF;}
-    table tbody tr td{ text-align: right;}
+    table thead tr th{ text-align: center;background: #999999; color: #FFF; font-weight: normal; white-space: nowrap;}
+    table tbody tr td{ text-align: right; white-space: nowrap;}
+    table tbody tr th{ white-space: nowrap;}
     table tfoot tr td{ text-align: right; font-weight: bold; background: #999999; color: #FFF;}
     #income{ background: #006633; color: yellow; font-weight: bold;}
     #outcome{ background: #cc0033; color: #ffffff; font-weight: bold;}
     #total{ background: #0000cc; font-weight: bold; color: #FFF;}
 </style>
-
 
 <?php
 
@@ -23,18 +23,18 @@ $config = new app\models\Config_system();
 $report = new \app\models\Report();
 $monthfull = $config->MonthFullKey();
 
-function get_driver($car_id = null){
+function get_driver($car_id = null) {
     $mapdriver = new \app\models\MapDriver();
-    $rs = $mapdriver->find()->where(['car_id' => $car_id,'active' => '1'])->one();
+    $rs = $mapdriver->find()->where(['car_id' => $car_id, 'active' => '1'])->one();
     $driver_id = $rs['driver'];
     $result = $mapdriver->get_driver($driver_id);
     return $result;
 }
 ?>
-<b>รายรับ รายจ่าย รายการขนส่งประจำเดือน <?php echo $monthfull[$month]." ".($year + 543); ?></b>
+<b>รายรับ รายจ่าย รายการขนส่งประจำเดือน <?php echo $monthfull[$month] . " " . ($year + 543); ?></b>
 
 <div class="table table-responsive">
-    <table class="table table-striped table-hover" id="report_year">
+    <table class="table table-striped table-hover table-bordered" id="report_year">
         <thead>
             <tr>
                 <th rowspan="2" valign="middle"><i class="fa fa-calendar"></i><br/>ทะเบียน</th>
@@ -67,6 +67,14 @@ function get_driver($car_id = null){
             $sum_outcome = 0; //รวมรายจ่าย
             foreach ($result as $rs):
                 $i++;
+                //Config 
+                $outgoing = $report->sum_get_outgoing($year, $month, $rs['car_id']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
+                $expenses_truck = $report->sum_expenses_truck($year, $month, $rs['car_id']); //ค่าใช้จ่ายเกี่ยวกับรถ 
+                $salary = $report->sum_salary($year, $month, $rs['car_id']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
+                $annuities = $report->sum_annuities($year, $month, $rs['car_id']); //ค่างวดรถ
+                $truck_act = $report->sum_truck_act($year, $month, $rs['car_id']); //ค่าต่อทะเบียน พรบ.
+                $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
+
                 $allowance_driver = ((int) $rs['allowance_driver1'] + (int) $rs['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
                 $sum_total_row = ($rs['income'] - $sum_expenses_row);
                 $sum_income = $sum_income + $rs['income'];
@@ -75,19 +83,19 @@ function get_driver($car_id = null){
                 <tr>
                     <th><?php echo $rs['truck_1'] . ' ' . $rs['truck_2'] ?></th>
                     <td><?php echo get_driver($rs['car_id']) ?></td>
-                    <td><?php echo $report->get_around($year,$month,$rs['car_id']) ?></td>
+                    <td style=" text-align: center;"><?php echo $report->get_around($year, $month, $rs['car_id']) ?></td>
                     <td><?php echo number_format($rs['distance']) ?></td>
                     <td><?php echo number_format($rs['oil']) ?></td>
                     <td><?php echo number_format($rs['gas']) ?></td>
                     <td id="income"><?php echo number_format($rs['income'], 2) ?></td>
-                    
+
                     <td><?php echo number_format($rs['oil_price'], 2) ?></td>
                     <td><?php echo number_format($rs['gas_price'], 2) ?></td>
-                    <td><?php echo number_format($report->sum_get_outgoing($year, $month, $rs['car_id']), 2) ?><i class="fa fa-eye"></i></td>
-                    <td><?php echo number_format($report->sum_expenses_truck($year, $month, $rs['car_id']), 2) ?><i class="fa fa-eye"></i></td>
-                    <td><?php echo number_format($report->sum_salary($year, $month, $rs['car_id']), 2) ?></td>
-                    <td><?php echo number_format($report->sum_annuities($year, $month, $rs['car_id']), 2) ?></td>
-                    <td><?php echo number_format($report->sum_truck_act($year, $month, $rs['car_id']), 2) ?></td>
+                    <td><?php echo number_format($outgoing, 2) ?> <a href="javascript:get_sub_outgoing('<?php echo $rs['car_id'] ?>')"><i class="fa fa-list text-green"></i></a></td>
+                    <td><?php echo number_format($expenses_truck, 2) ?> <a href="javascript:get_sub_expenses_truck('<?php echo $rs['car_id'] ?>')"><i class="fa fa-list text-green"></i></a></td>
+                    <td><?php echo number_format($salary, 2) ?> <a href="javascript:get_sub_salary('<?php echo $rs['car_id'] ?>')"><i class="fa fa-list text-green"></i></a></td>
+                    <td><?php echo number_format($annuities, 2) ?> <a href="javascript:get_sub_annuities('<?php echo $rs['car_id'] ?>')"><i class="fa fa-list text-green"></i></a></td>
+                    <td><?php echo number_format($truck_act, 2) ?> <a href="javascript:get_sub_truck_act('<?php echo $rs['car_id'] ?>')"><i class="fa fa-list text-green"></i></a></td>
                     <td id="outcome"><?php echo number_format($sum_expenses_row, 2) ?></td>
                     <td id="total" style=""><?php echo number_format($sum_total_row, 2) ?></td>
                 </tr>
@@ -102,8 +110,88 @@ function get_driver($car_id = null){
                 <td><?php echo number_format($sum_income - $sum_outcome, 2); ?></td>
             </tr>
         </tfoot>
-    </table> 
+    </table>
 
 </div>
 
+<!-- 
+    # Dialog get sub 
+-->
+<div class="modal fade" tabindex="-1" role="dialog" id="popup_sub_expenses">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">รายละเอียด</h4>
+            </div>
+            <div class="modal-body">
+                <div id="result_sub_report"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
+<script type="text/javascript">
+    function get_sub_outgoing(car_id) {
+        $("#popup_sub_expenses").modal();
+        var url = "<?php echo Url::to(['report/get_sub_outgoing']) ?>";
+        var year = "<?php echo $year ?>";
+        var month = "<?php echo $month ?>";
+        var data = {year: year, month: month, car_id: car_id};
+
+        $.post(url, data, function (result) {
+            $("#result_sub_report").html(result);
+        });
+    }
+    
+      function get_sub_expenses_truck(car_id) {
+        $("#popup_sub_expenses").modal();
+        var url = "<?php echo Url::to(['report/get_sub_expenses_truck']) ?>";
+        var year = "<?php echo $year ?>";
+        var month = "<?php echo $month ?>";
+        var data = {year: year, month: month, car_id: car_id};
+
+        $.post(url, data, function (result) {
+            $("#result_sub_report").html(result);
+        });
+    }
+    
+    function get_sub_salary(car_id) {
+        $("#popup_sub_expenses").modal();
+        var url = "<?php echo Url::to(['report/get_sub_salary']) ?>";
+        var year = "<?php echo $year ?>";
+        var month = "<?php echo $month ?>";
+        var data = {year: year, month: month, car_id: car_id};
+
+        $.post(url, data, function (result) {
+            $("#result_sub_report").html(result);
+        });
+    }
+    
+    function get_sub_annuities(car_id) {
+        $("#popup_sub_expenses").modal();
+        var url = "<?php echo Url::to(['report/get_annuities']) ?>";
+        var year = "<?php echo $year ?>";
+        var month = "<?php echo $month ?>";
+        var data = {year: year, month: month, car_id: car_id};
+
+        $.post(url, data, function (result) {
+            $("#result_sub_report").html(result);
+        });
+    }
+    
+    function get_sub_truck_act(car_id) {
+        $("#popup_sub_expenses").modal();
+        var url = "<?php echo Url::to(['report/get_truck_act']) ?>";
+        var year = "<?php echo $year ?>";
+        var month = "<?php echo $month ?>";
+        var data = {year: year, month: month, car_id: car_id};
+
+        $.post(url, data, function (result) {
+            $("#result_sub_report").html(result);
+        });
+    }
+</script>
