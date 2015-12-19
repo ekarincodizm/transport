@@ -659,13 +659,14 @@ $this->registerJs(
         var employee = $("#employee").val();
         var month_income = $("#month_income").val();
         var year_income = $("#year_income").val();
-
+        var car_id = "<?php echo $car['car_id']; ?>";
         if (price_income == '' || detail_income == '') {
             swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ ...!", "warning");
             return false;
         }
 
         var data = {
+            car_id: car_id,
             price_income: price_income,
             detail_income: detail_income,
             employee: employee,

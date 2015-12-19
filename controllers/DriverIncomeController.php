@@ -122,6 +122,7 @@ class DriverIncomeController extends Controller
     public function actionSave(){
         $request = \Yii::$app->request;
         $columns = array(
+            "car_id" => $request->post('car_id'),
             "employee" => $request->post('employee'),
             "detail" => $request->post('detail_income'),
             "price" => $request->post('price_income'),

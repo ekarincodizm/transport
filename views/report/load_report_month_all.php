@@ -22,6 +22,14 @@ use kartik\date\DatePicker;
 $config = new app\models\Config_system();
 $report = new \app\models\Report();
 $monthfull = $config->MonthFullKey();
+
+function get_driver($car_id = null){
+    $mapdriver = new \app\models\MapDriver();
+    $rs = $mapdriver->find()->where(['car_id' => $car_id,'active' => '1'])->one();
+    $driver_id = $rs['driver'];
+    $result = $mapdriver->get_driver($driver_id);
+    return $result;
+}
 ?>
 <b>รายรับ รายจ่าย รายการขนส่งประจำเดือน <?php echo $monthfull[$month]." ".($year + 543); ?></b>
 
@@ -66,7 +74,7 @@ $monthfull = $config->MonthFullKey();
                 ?>
                 <tr>
                     <th><?php echo $rs['truck_1'] . ' ' . $rs['truck_2'] ?></th>
-                    <td><?php echo $rs['name'] . ' ' . $rs['lname'] ?></td>
+                    <td><?php echo get_driver($rs['car_id']) ?></td>
                     <td><?php echo $report->get_around($year,$month,$rs['car_id']) ?></td>
                     <td><?php echo number_format($rs['distance']) ?></td>
                     <td><?php echo number_format($rs['oil']) ?></td>
@@ -77,9 +85,9 @@ $monthfull = $config->MonthFullKey();
                     <td><?php echo number_format($rs['gas_price'], 2) ?></td>
                     <td><?php echo number_format($report->sum_get_outgoing($year, $month, $rs['car_id']), 2) ?><i class="fa fa-eye"></i></td>
                     <td><?php echo number_format($report->sum_expenses_truck($year, $month, $rs['car_id']), 2) ?><i class="fa fa-eye"></i></td>
-                    <td><?//php echo number_format($rs['income_driver'], 2) ?></td>
-                    <td><?//php echo number_format($rs['truck_period'], 2) ?></td>
-                    <td><?//php echo number_format($rs['truck_act'], 2) ?></td>
+                    <td><?php echo number_format($report->sum_salary($year, $month, $rs['car_id']), 2) ?></td>
+                    <td><?php echo number_format($report->sum_annuities($year, $month, $rs['car_id']), 2) ?></td>
+                    <td><?php echo number_format($report->sum_truck_act($year, $month, $rs['car_id']), 2) ?></td>
                     <td id="outcome"><?php echo number_format($sum_expenses_row, 2) ?></td>
                     <td id="total" style=""><?php echo number_format($sum_total_row, 2) ?></td>
                 </tr>
