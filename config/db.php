@@ -31,19 +31,10 @@ return [
 <<<<<<< HEAD
  */
 //Server พบพระ
-
-=======
-*/ 
-/*Server พบพระ*/
->>>>>>> origin/master
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=122.154.239.67;dbname=transport_db',
     'username' => 'root',
     'password' => '01234',
     'charset' => 'utf8',
-<<<<<<< HEAD
 ];
-=======
-];
->>>>>>> origin/master
