@@ -17,6 +17,9 @@ $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
 $thaibaht = new app\models\Thaibaht();
+
+$company_model = new \app\models\Company();
+$company = $company_model->find()->one();
 ?>
 <!--
     #ข้อมูลใบปฏิบัติงาน
@@ -29,12 +32,12 @@ $thaibaht = new app\models\Thaibaht();
 </div>
 
 <div style="float: left; padding-top:50px;">
-    <font style=" font-size: 12px;">
-    <b><?php echo "ห้างหุ้นส่วนจํากัด ตงตง ทรานสปอร์ต"; ?></b><br/>
-    162 หมู่ที่3  ต.พบพระ<br/>
-    อ.พบพระ จ.ตาก 63160<br/>
-    โทรศัพท์ 081-8868090 แฟกซ์ 055-508914<br/>
-    เลขประจำตัวผู้เสียภาษี : 0633557000014
+     <font style=" font-size: 12px;">
+    <b><?php echo $company['companyname'] ?></b><br/>
+    <?php echo $company['address'] ?><br/>
+    <?php echo $company['contact'] ?><br/>
+    เลขประจำตัวผู้เสียภาษี <?php echo $company['taxation_number'] ?><br/>
+
     </font>
 </div>
 
@@ -60,9 +63,9 @@ $thaibaht = new app\models\Thaibaht();
             <b>วันที่ Invoice Date :</b>
         </td>
         <td valign='top' style=" text-align: right;">
-            <?php echo $model->order_id; ?>
+            <?php echo $model['assign_id']; ?>
             <div id="line">.</div>
-            <?php echo $config->thaidate($model->order_date_start); ?>
+            <?php echo $config->thaidate($model['order_date_start']); ?>
         </td>
     </tr>
     <thead>
@@ -75,28 +78,21 @@ $thaibaht = new app\models\Thaibaht();
         </tr>
     </thead>
     <tbody>
-        <?php
-        $sum = 0;
-        $i = 0;
-        foreach ($assigns as $rs): $i++;
-            $sum = $sum + $rs['income'];
-            ?>
             <tr>
-                <td style="text-align: center;" valign="top"><?php echo $i; ?></td>
+                <td style="text-align: center;" valign="top">1</td>
                 <td>
-                    - ค่าข่นส่งสินค้า <?php echo $producttype_model->find()->where(['id' => $rs['product_type']])->one()['product_type']; ?>
+                    - ค่าข่นส่งสินค้า <?php echo $producttype_model->find()->where(['id' => $model['product_type']])->one()['product_type']; ?>
                     <div id="line">.</div>
-                    - ลุกค้า <?php echo $customer_model->find()->where(['cus_id' => $rs['cus_start']])->one()['company']; ?>
-                    ปลายทาง <?php echo $customer_model->find()->where(['cus_id' => $rs['cus_end']])->one()['company']; ?>
+                    - ต้นทาง <?php echo $customer_model->find()->where(['cus_id' => $model['cus_start']])->one()['company']; ?>
+                    ปลายทาง <?php echo $customer_model->find()->where(['cus_id' => $model['cus_end']])->one()['company']; ?>
                     <div id="line">.</div>
-                    - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $rs['changwat_start']])->one()['changwat_name']; ?>
-                    - <?php echo $changwat_model->find()->where(['changwat_id' => $rs['changwat_end']])->one()['changwat_name']; ?>
+                    - เส้นทาง <?php echo $changwat_model->find()->where(['changwat_id' => $model['changwat_start']])->one()['changwat_name']; ?>
+                    - <?php echo $changwat_model->find()->where(['changwat_id' => $model['changwat_end']])->one()['changwat_name']; ?>
                 </td>
-                <td style=" text-align: center;" valign='top'><?php echo $rs['weigh']?></td>
-                <td style=" text-align: right;" valign='top'><?php echo number_format($rs['unit_price'],2)?></td>
-                <td style=" text-align: right;" valign="top"><?php echo number_format($rs['income'], 2); ?></td>
+                <td style=" text-align: center;" valign='top'><?php echo $model['weigh']?></td>
+                <td style=" text-align: right;" valign='top'><?php echo number_format($model['unit_price'],2)?></td>
+                <td style=" text-align: right;" valign="top"><?php echo number_format($model['income'], 2); ?></td>
             </tr>
-        <?php endforeach; ?>
     </tbody>
     <tfoot>
         <tr>
@@ -104,12 +100,12 @@ $thaibaht = new app\models\Thaibaht();
                 รวมทั้งสิ้น
             </td>
             <td style=" text-align: right; font-weight: bold;" valign='bottom'>
-                <?php echo number_format($sum, 2); ?>
+                <?php echo number_format($model['income'], 2); ?>
             </td>
         </tr>
         <tr>
             <td colspan="5" style=" text-align: right; font-weight: bold;">
-                <b>( <?php echo $thaibaht->convert($sum); ?> )</b>
+                <b>( <?php echo $thaibaht->convert($model['income']); ?> )</b>
             </td>
         </tr>
        

@@ -58,7 +58,9 @@ class Customer extends \yii\db\ActiveRecord {
     
     //ข้อมูลรายการการว่าจ้าง
     function get_history_transport($employer){
-        return OrdersTransport::find()->where(['employer' => $employer])->all();
+       $Assign = new AssignSearch();
+       return $Assign->find()->where(['employer' => $employer])->all();
+        //return OrdersTransport::find()->where(['employer' => $employer])->all();
     }
     
     //ค่าใช้จ่ายรวมในแต่ละใบปฏิบัติงานของลูกค้า

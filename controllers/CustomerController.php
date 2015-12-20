@@ -148,19 +148,11 @@ class CustomerController extends Controller {
     }
 
     //รายลัเอียดการขนส่งของแต่ละใบปฏิบัติงาน
-    public function actionDetail_transport($id = null) {
-        $order_id = OrdersTransport::find()->where(['id' => $id])->one()['order_id'];
-        $assign_model = new \app\models\Assign();
-        //$outgoings_model = new \app\models\Outgoings();
-        //$expenses_model = new \app\models\ExpensesTruck();
-        //$outgoings = $outgoings_model->find()->where(['order_id' => $order_id])->all();
-        //$expenses = $expenses_model->find()->where(['order_id' => $order_id])->all();
-        $assign = $assign_model->find()->where(['order_id' => $order_id])->all();
-        $model = OrdersTransport::findOne($id);
-
+    public function actionDetail_transport($assign_id = null) {
+        $Assign_modail = new \app\models\Assign();
+        $assign = $Assign_modail->find()->where(['assign_id' => $assign_id])->one();
         $page = $this->renderPartial('detail_transport', [
-            'model' => $model,
-            'assigns' => $assign,
+            'model' => $assign,
                 //'outgoings' => $outgoings,
                 //'expenses' => $expenses,
                 //'order_id' => $order_id,
@@ -169,7 +161,7 @@ class CustomerController extends Controller {
         $mpdf = new \mPDF('th', 'A4-P', '0', 'THSaraban');
         $mpdf->WriteHTML($page);
         $mpdf->SetDisplayMode('fullpage');
-        $mpdf->Output($order_id . ".pdf", "I");
+        $mpdf->Output($assign['assign_id'] . ".pdf", "I");
     }
     
     //ดึงข้อมูลลูกค้ามาแสดง
