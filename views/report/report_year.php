@@ -47,6 +47,7 @@ $this->registerJs('
 ?>
 <script type="text/javascript">
     function load_report_year() {
+        $("#report_year").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> กรุณารอสักครู่ ...</center><br/><br/>');
         var url = "<?php echo Url::to(['report/load_report_year']) ?>";
         var year = $("#year_report").val();
         var data = {year: year};

@@ -15,210 +15,29 @@ class Report {
 
     //กำไรขาดทุน รายปี
     function Report_year($year = null) {
-        $query = "SELECT m.id,m.month_th,
-		SUM(Q1.TOTAL) AS around,
-		SUM(Q1.distance) AS distance,
-		SUM(Q1.oil) AS oil,
-		SUM(Q1.income) AS income,
-		SUM(Q1.oil_price) AS oil_price,
-		SUM(Q1.gas) AS gas,
-		SUM(Q1.gas_price) AS gas_price,
-		SUM(Q1.expenses_around) AS expenses_around,/*ค่าใช้จ่ายระหว่างการเดินทาง*/
-		SUM(Q1.fix_truck) AS fix_truck,
-		SUM(Q1.income_driver) AS income_driver,/*จ่ายพนักงาน*/
-		SUM(Q1.truck_period) AS truck_period,
-		SUM(Q1.truck_act) AS truck_act
-        FROM 
-        (
-                SELECT 
-                                SUBSTR(o.order_date_start,6,2) AS MONTH,
-                                COUNT(*) AS TOTAL,
-                                SUM(o.distance) AS distance,
-                                SUM(o.oil) AS oil,
+        $query = "
+            SELECT m.month_th,Q1.*
+            FROM month m 
+            LEFT JOIN 
+            (
+            SELECT SUBSTR(order_date_start,6,2) AS MONTH,
+                SUM(a.oil_set) AS oil_set,
+                                SUM(a.oil) AS oil,
+                                SUM(a.oil_unit) AS oil_unit,
+                                SUM(a.oil_price) AS oil_price,
+                                SUM(a.gas) AS gas,
+                                SUM(a.gas_unit) AS gas_unit,
+                                SUM(a.gas_price) AS gas_price,
+                                SUM(a.distance) AS distance,
+                                SUM(a.weigh) AS weigh,
                                 SUM(a.income) AS income,
-                                SUM(o.oil_price) AS oil_price,
-                                SUM(o.gas) AS gas,
-                                SUM(o.gas_price) AS gas_price,
-                                (SUM(a.expenses_around) + IFNULL(SUM(u.price),0)) AS expenses_around,
-                                0 AS fix_truck,
-                                0 AS income_driver,
-                                0 AS truck_period,
-                                0 AS truck_act
-                FROM orders_transport o 
-                        INNER JOIN 
-                        (
-                        SELECT a.order_id,SUM(a.income) AS income,(TRIM(SUBSTR(a.allowance_driver1,7,10)) + TRIM(SUBSTR(a.allowance_driver2,7,10))) AS expenses_around
-                        FROM assign a GROUP BY a.order_id
-                        ) a 
-        ON o.order_id = a.order_id
-        LEFT JOIN outgoings u ON o.order_id = u.order_id
-                WHERE YEAR(o.order_date_start) = '$year'
-                GROUP BY SUBSTR(o.order_date_start,6,2)
-        /*
-                AND SUBSTR(o.order_date_start,6,2) = '11'
-        */
-                UNION 
-
-                SELECT 
-                        SUBSTR(o.order_date_start,6,2) AS MONTH,
-                        COUNT(*) AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        SUM(o.income_total) AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        0 AS expenses_around,
-                        0 AS fix_truck,
-                        0 AS income_driver,
-                        0 AS truck_period,
-                        0 AS truck_act
-                FROM orders_transport_affiliated o 
-                WHERE YEAR(o.order_date_start) = '$year'
-                GROUP BY SUBSTR(o.order_date_start,6,2)
-        /*
-                AND SUBSTR(o.order_date_start,6,2) = '11'
-        */
-
-        UNION 
-
-                SELECT 
-                        SUBSTR(o.create_date,6,2) AS MONTH,
-                        0 AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        0 AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        SUM(o.price) AS expenses_around,
-                        0 AS fix_truck,
-                        0 AS income_driver,
-                        0 AS truck_period,
-                        0 AS truck_act
-                FROM expenses_truck o 
-                WHERE YEAR(o.create_date) = '$year'
-                GROUP BY SUBSTR(o.create_date,6,2)
-        /*
-                AND SUBSTR(o.create_date,6,2) = '11'
-        */
-        UNION 
-
-                SELECT 
-                        SUBSTR(o.create_date,6,2) AS MONTH,
-                        0 AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        0 AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        0 AS expenses_around,
-                        SUM(o.price) AS fix_truck,
-                        0 AS income_driver,
-                        0 AS truck_period,
-                        0 AS truck_act
-                FROM `repair` o 
-                WHERE YEAR(o.create_date) = '$year'
-                GROUP BY SUBSTR(o.create_date,6,2)
-        /*
-                AND SUBSTR(o.create_date,6,2) = '11'
-        */
-        /*จ่ายพนักงาน เงินเดือนและรายได้*/
-        UNION 
-
-                SELECT 
-                        SUBSTR(o.date_salary,6,2) AS MONTH,
-                        0 AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        0 AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        0 AS expenses_around,
-                        0 AS fix_truck,
-                        SUM(o.salary) AS income_driver,
-                        0 AS truck_period,
-                        0 AS truck_act
-                FROM salary o 
-                WHERE YEAR(o.date_salary) = '$year'
-                GROUP BY SUBSTR(o.date_salary,6,2)
-        /*
-                AND SUBSTR(o.date_salary,6,2) = '11'
-        */
-        UNION 
-
-                SELECT 
-                        SUBSTR(o.create_date,6,2) AS MONTH,
-                        0 AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        0 AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        0 AS expenses_around,
-                        0 AS fix_truck,
-                        SUM(o.price) AS income_driver,
-                        0 AS truck_period,
-                        0 AS truck_act
-                FROM driver_income o 
-                WHERE YEAR(o.create_date) = '$year'
-                GROUP BY SUBSTR(o.create_date,6,2)
-        /*
-                AND SUBSTR(o.create_date,6,2) = '11'
-        */
-        /*ค่างวด*/
-        UNION 
-
-                SELECT 
-                        SUBSTR(o.create_date,6,2) AS MONTH,
-                        0 AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        0 AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        0 AS expenses_around,
-                        0 AS fix_truck,
-                        0 AS income_driver,
-                        SUM(o.period_price) AS truck_period,
-                        0 AS truck_act
-                FROM annuities o 
-                WHERE YEAR(o.create_date) = '$year'
-                GROUP BY SUBSTR(o.create_date,6,2)
-        /*
-                AND o.`month` = '11'
-        */
-        /*ต่อภาษี*/
-        UNION 
-
-                SELECT 
-                        SUBSTR(o.create_date,6,2) AS MONTH,
-                        0 AS TOTAL,
-                        0 AS distance,
-                        0 AS oil,
-                        0 AS income,
-                        0 AS oil_price,
-                        0 AS gas,
-                        0 AS gas_price,
-                        0 AS expenses_around,
-                        0 AS fix_truck,
-                        0 AS income_driver,
-                        0 AS truck_period,
-                        SUM(o.act_price) AS truck_act
-                FROM truck_act o 
-                WHERE YEAR(o.create_date) = '$year'
-                GROUP BY SUBSTR(o.create_date,6,2)
-                /*AND SUBSTR(o.create_date,6,2) = '11'
-                */
-        ) Q1
-
-        RIGHT JOIN `month` m ON m.id = Q1.`MONTH`
-
-        GROUP BY m.id";
+                                SUM(TRIM(SUBSTR(a.allowance_driver1,7,10))) AS allowance_driver1,
+                                SUM(TRIM(SUBSTR(a.allowance_driver2,7,10))) AS allowance_driver2
+                FROM assign a INNER JOIN map_truck t ON a.car_id = t.car_id
+                WHERE LEFT(a.order_date_start,4) = '$year'
+                GROUP BY SUBSTR(order_date_start,6,2)
+                ) Q1 
+                ON m.id = Q1.MONTH ";
 
         $result = \Yii::$app->db->createCommand($query)->queryAll();
         return $result;
@@ -674,6 +493,99 @@ class Report {
         $result = \Yii::$app->db->createCommand($query)->queryAll();
         return $result;
     }
+    
+    //หาค่ารอบของเดือน
+    function get_around_month($year = null,$month = null){
+        $sql = "SELECT COUNT(*) AS TOTAL
+                    FROM assign a 
+                    WHERE LEFT(a.order_date_start,4) = '$year'
+                    AND SUBSTR(a.order_date_start,6,2) = '$month' ";
+         $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['TOTAL'];
+    }
+    
+     //หาค่าใชช้จ่ายในการเดินทางเดือนนั้น ๆ 
+    function sum_get_outgoing_month($year = null,$month = null){
+        $sql = "SELECT SUM(o.price) AS price
+                FROM assign a INNER JOIN outgoings o ON a.assign_id = o.assign_id
+                WHERE YEAR(a.order_date_start) = '$year'
+                        AND SUBSTR(a.order_date_start,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
+    //ดึงจำนวนค่าซ่อมรถทั้งหมดมาแสดง
+    function sum_expenses_truck_month($year = null,$month = null){
+        $sql = "SELECT SUM(Q1.price) AS price
+                FROM
+                (
+                SELECT SUM(o.price) AS price
+                FROM `repair` o 
+                WHERE YEAR(o.create_date) = '$year'
+                      AND SUBSTR(o.create_date,6,2) = '$month'
+
+                UNION 
+
+                SELECT SUM(o.price) AS price
+                FROM expenses_truck o 
+                WHERE YEAR(o.create_date) = '$year'
+                      AND SUBSTR(o.create_date,6,2) = '$month'
+
+                ) Q1 ";
+        
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
+    //รวมค่าใช้จ่ายรวมพนักงานในเดือนนั้น ๆ 
+    function sum_salary_month($year = null,$month = null){
+        $sql = "SELECT SUM(Q1.price) AS price
+                FROM
+                (
+                SELECT 
+                        SUM((TRIM(SUBSTR(a.allowance_driver1,7,10)) + TRIM(SUBSTR(a.allowance_driver2,7,10)))) AS price
+                FROM assign a 
+                WHERE YEAR(a.order_date_start) = '$year'
+                    AND SUBSTR(a.order_date_start,6,2) = '$month'
+
+                UNION 
+
+                SELECT SUM(d.price) AS price
+                FROM driver_income d 
+                WHERE YEAR(d.create_date) = '$year'
+                    AND SUBSTR(d.create_date,6,2) = '$month'
+
+                UNION
+
+                SELECT SUM(s.salary) AS price
+                FROM salary s 
+                WHERE YEAR(s.date_salary) = '$year'
+                    AND SUBSTR(s.date_salary,6,2) = '$month'
+                ) Q1 ";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
+    //รวมค่าใช้จ่ายงวดรถ
+    function sum_annuities_month($year = null,$month = null){
+        $sql = "SELECT SUM(a.period_price) AS price
+                FROM annuities a 
+                WHERE YEAR(a.create_date) = '$year'
+                    AND SUBSTR(a.create_date,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
+    //ค่าใช้ต่อประกัน/ภาษี
+    function sum_truck_act_month($year = null,$month = null){
+        $sql = "SELECT SUM(a.act_price) AS price
+                FROM truck_act a 
+                WHERE YEAR(a.create_date) = '$year'
+                    AND SUBSTR(a.create_date,6,2) = '$month' ";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['price'];
+    }
+    
     
     //ดึงข้อมูลรายงานรายรับ รายจ่าย ทั้งหมดของรถแต่ละคัน
     function report_month_all($year = null,$month = null){

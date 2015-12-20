@@ -1,12 +1,12 @@
 <style type="text/css">
-    table thead tr th{ text-align: center;background: #999999; color: #FFF;}
-    table tbody tr td{ text-align: right;}
+    table thead tr th{ text-align: center;background: #999999; color: #FFF; font-weight: normal; white-space: nowrap;}
+    table tbody tr td{ text-align: right; white-space: nowrap;}
+    table tbody tr th{ white-space: nowrap;}
     table tfoot tr td{ text-align: right; font-weight: bold; background: #999999; color: #FFF;}
     #income{ background: #006633; color: yellow; font-weight: bold;}
     #outcome{ background: #cc0033; color: #ffffff; font-weight: bold;}
-    #total{ background: #0000cc; font-weight: bold;}
+    #total{ background: #0000cc; font-weight: bold; color: #FFF;}
 </style>
-
 
 <?php
 
@@ -20,13 +20,14 @@ use kartik\date\DatePicker;
 /* @var $model app\models\Truck */
 
 $config = new app\models\Config_system();
+$report = new \app\models\Report();
+$monthfull = $config->MonthFullKey();
+
 ?>
-<b>สรุปยอด (กำไร - ขาดทุก) ปี พ.ศ. <?php echo ($year + 543) ?></b>
-<?php
-echo $chart;
-?>
+<b>รายรับ รายจ่าย รายการขนส่งประจำปี <?php echo ($year + 543); ?></b>
+<?php echo $chart;?>
 <div class="table table-responsive">
-    <table class="table table-striped table-hover" id="report_year">
+    <table class="table table-striped table-hover table-bordered" id="report_year">
         <thead>
             <tr>
                 <th rowspan="2" valign="middle"><i class="fa fa-calendar"></i><br/>เดือน</th>
@@ -43,50 +44,51 @@ echo $chart;
                 <th>น้ำมัน</th>
                 <th>แก๊ส</th>
                 <th>คชจ.การเดินทาง</th>
-                <th>ซ่อมรถ</th>
-                <th>จ่ายพนักงาน</th>
-                <th>ค่างวด</th>
+                <th>คชจ.ซ่อมรถ</th>
+                <th>คชจ.พนักงาน</th>
+                <th>ค่างวดรถ</th>
                 <th>ภาษี/พรบ.</th>
             </tr>
         </thead>
         <tbody>
-
             <?php
-            $sum_expenses_row = 0;
-            $sum_total_row = 0;
-            $sum_income = 0;
-            $sum_outcome = 0;
-            foreach ($report as $rs):
-                $sum_expenses_row = ($rs['oil_price'] + $rs['gas_price'] + $rs['expenses_around'] + $rs['fix_truck'] + $rs['income_driver'] + $rs['truck_period'] + $rs['truck_act']);
-                $sum_total_row = ($rs['income'] - $sum_expenses_row);
+            $i = 0;
+            $sum_expenses_row = 0; //รวมรายจ่าย
+            $sum_total_row = 0; //คงเหลือ
+            $sum_income = 0; //รวมรายรับ
+            $sum_outcome = 0; //รวมรายจ่าย
+            foreach ($result as $rs):
+                $i++;
+                //Config 
+                $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
+                $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
+                $salary = $report->sum_salary_month($year, $rs['MONTH']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
+                $annuities = $report->sum_annuities_month($year, $rs['MONTH']); //ค่างวดรถ
+                $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
+                $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
 
+                $allowance_driver = ((int) $rs['allowance_driver1'] + (int) $rs['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
+                $sum_total_row = ($rs['income'] - $sum_expenses_row);
                 $sum_income = $sum_income + $rs['income'];
                 $sum_outcome = $sum_outcome + $sum_expenses_row;
-                if (substr($sum_total_row, 0, 1) == '-') {
-                    $style = "color:red;";
-                } else {
-                    $style = "color:white";
-                }
                 ?>
                 <tr>
-                    <th>
-                        <a href="<?php echo Url::to(['report/report_month', 'year' => $year, 'month' => $rs['id']]) ?>" target="_bank">
-                            <?php echo $rs['month_th'] ?></a>
-                    </th>
-                    <td><?php echo number_format($rs['around']) ?></td>
+                    <th><?php echo $rs['month_th'] ?></th>
+                    <td style=" text-align: center;"><?php echo $report->get_around_month($year, $rs['MONTH']) ?></td>
                     <td><?php echo number_format($rs['distance']) ?></td>
                     <td><?php echo number_format($rs['oil']) ?></td>
                     <td><?php echo number_format($rs['gas']) ?></td>
                     <td id="income"><?php echo number_format($rs['income'], 2) ?></td>
+
                     <td><?php echo number_format($rs['oil_price'], 2) ?></td>
                     <td><?php echo number_format($rs['gas_price'], 2) ?></td>
-                    <td><?php echo number_format($rs['expenses_around'], 2) ?></td>
-                    <td><?php echo number_format($rs['fix_truck'], 2) ?></td>
-                    <td><?php echo number_format($rs['income_driver'], 2) ?></td>
-                    <td><?php echo number_format($rs['truck_period'], 2) ?></td>
-                    <td><?php echo number_format($rs['truck_act'], 2) ?></td>
+                    <td><?php echo number_format($outgoing, 2) ?></td>
+                    <td><?php echo number_format($expenses_truck, 2) ?></td>
+                    <td><?php echo number_format($salary, 2) ?></td>
+                    <td><?php echo number_format($annuities, 2) ?></td>
+                    <td><?php echo number_format($truck_act, 2) ?></td>
                     <td id="outcome"><?php echo number_format($sum_expenses_row, 2) ?></td>
-                    <td id="total" style="<?php echo $style; ?>"><?php echo number_format($sum_total_row, 2) ?></td>
+                    <td id="total" style=""><?php echo number_format($sum_total_row, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -99,8 +101,7 @@ echo $chart;
                 <td><?php echo number_format($sum_income - $sum_outcome, 2); ?></td>
             </tr>
         </tfoot>
-    </table> 
+    </table>
 
 </div>
-
 

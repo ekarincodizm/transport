@@ -39,10 +39,11 @@ class ReportController extends Controller {
         $report = new Report();
         $result = $report->Report_year($year);
         $chart = $this->actionChart_year($year);
+
         return $this->renderPartial('load_report_year', [
-                    'report' => $result,
+                    'result' => $result,
                     'year' => $year,
-                    'chart' => $chart,
+                     'chart' => $chart,
         ]);
     }
 
@@ -63,9 +64,21 @@ class ReportController extends Controller {
         $sum_income = 0;
         $sum_outcome = 0;
         $income_month = 0;
+        $allowance_driver = 0;
+        //$value_income[] = 0;
+        //$value_outcome[] = 0;
         foreach ($result as $rs):
-            $sum_expenses_row = ($rs['oil_price'] + $rs['gas_price'] + $rs['expenses_around'] + $rs['fix_truck'] + $rs['income_driver'] + $rs['truck_period'] + $rs['truck_act']);
+
+            $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
+            $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
+            $salary = $report->sum_salary_month($year, $rs['MONTH']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
+            $annuities = $report->sum_annuities_month($year, $rs['MONTH']); //ค่างวดรถ
+            $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
+            $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
+
+            $allowance_driver = ((int) $rs['allowance_driver1'] + (int) $rs['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
             $sum_total_row = ($rs['income'] - $sum_expenses_row);
+
             $income_month = $rs['income'];
             if (empty($income_month)) {
                 $income = 0;
@@ -380,8 +393,8 @@ class ReportController extends Controller {
                     'result' => $result,
         ]);
     }
-    
-     public function actionGet_sub_expenses_truck() {
+
+    public function actionGet_sub_expenses_truck() {
         $car_id = \Yii::$app->request->post('car_id');
         $year = \Yii::$app->request->post('year');
         $month = \Yii::$app->request->post('month');
@@ -394,8 +407,8 @@ class ReportController extends Controller {
                     'result' => $result,
         ]);
     }
-    
-     public function actionGet_sub_salary() {
+
+    public function actionGet_sub_salary() {
         $car_id = \Yii::$app->request->post('car_id');
         $year = \Yii::$app->request->post('year');
         $month = \Yii::$app->request->post('month');
@@ -408,7 +421,7 @@ class ReportController extends Controller {
                     'result' => $result,
         ]);
     }
-    
+
     public function actionGet_annuities() {
         $car_id = \Yii::$app->request->post('car_id');
         $year = \Yii::$app->request->post('year');
@@ -422,8 +435,8 @@ class ReportController extends Controller {
                     'result' => $result,
         ]);
     }
-    
-     public function actionGet_truck_act() {
+
+    public function actionGet_truck_act() {
         $car_id = \Yii::$app->request->post('car_id');
         $year = \Yii::$app->request->post('year');
         $month = \Yii::$app->request->post('month');
