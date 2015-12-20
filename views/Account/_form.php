@@ -1,9 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-/*use yii\widgets\ActiveForm;*/
 use kartik\form\ActiveForm;
-/*use kartik\date\DatePicker;*/
+/*use yii\widgets\ActiveForm;/*
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Account */
@@ -13,8 +12,6 @@ use kartik\form\ActiveForm;
 <div class="account-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'id')->textInput() ?>
 
     <?= $form->field($model, 'account_number')->textInput(['maxlength' => true]) ?>
 
@@ -27,7 +24,7 @@ use kartik\form\ActiveForm;
     <?= $form->field($model, 'status')->dropDownList(['1'=>'Active','2'=>'Inactive']); ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'สร้างบัญชี' : 'แก้ไขบัญชี', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

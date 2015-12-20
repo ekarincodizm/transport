@@ -1,13 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+//use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Account */
-
+$account=new app\models\Account();
 $this->title = $model->account_number;
-$this->params['breadcrumbs'][] = ['label' => 'Accounts', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'บัญชีทั้งหมด', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="account-view">
@@ -15,25 +16,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('แก้ไข', ['update', 'id' => $model->id, 'account_number' => $model->account_number], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('ลบ', ['delete', 'id' => $model->id, 'account_number' => $model->account_number], [
+        <?= Html::a('แก้ไขบัญชี', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?=
+        Html::a('ลอบบัญชี', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'คุณต้องการจะลบรายการนี้ใช่มั้ย',
+                'confirm' => 'คุณต้องการลบรายการนี้จริงใช่มั้ย',
                 'method' => 'post',
             ],
-        ]) ?>
+        ])
+        ?>
     </p>
 
-    <?= DetailView::widget([
+    <?=
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'id',
             'account_number',
             'account_name',
             'saving_type',
             'bank_name',
-            'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => $account->get_status($model->status),
+                'displayOnly' => true
+            ],
         ],
-    ]) ?>
+    ])
+    ?>
 
 </div>

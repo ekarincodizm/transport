@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AccountSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'เพิ่มบัญชีธนาคาร';
+$this->title = 'บัญชีทั้งหมด';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="account-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('เพิ่มบัญชีธนาคารใหม่', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('เพิ่มบัญชีใหม่', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
+
             'account_number',
             'account_name',
             ['label'=>'ประเภทบัญชี',
@@ -51,6 +51,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $arr[$data->status];
                 }
             ],
+            /*'account_name',
+            'saving_type',
+            'bank_name',*/
+            // 'status',
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

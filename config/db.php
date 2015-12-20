@@ -27,8 +27,10 @@ return [
     'password' => '123456',
     'charset' => 'utf8',
 ];
+<<<<<<< HEAD
  */
 //Server พบพระ
+
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=122.154.239.67;dbname=transport_db',

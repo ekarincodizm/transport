@@ -14,7 +14,6 @@ use yii\filters\VerbFilter;
  */
 class AccountController extends Controller
 {
-    public $layout = "admin-lte";
     public function behaviors()
     {
         return [
@@ -45,13 +44,12 @@ class AccountController extends Controller
     /**
      * Displays a single Account model.
      * @param integer $id
-     * @param string $account_number
      * @return mixed
      */
-    public function actionView($id, $account_number)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id, $account_number),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -65,7 +63,7 @@ class AccountController extends Controller
         $model = new Account();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id, 'account_number' => $model->account_number]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -77,15 +75,14 @@ class AccountController extends Controller
      * Updates an existing Account model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
-     * @param string $account_number
      * @return mixed
      */
-    public function actionUpdate($id, $account_number)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($id, $account_number);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id, 'account_number' => $model->account_number]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -97,12 +94,11 @@ class AccountController extends Controller
      * Deletes an existing Account model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
-     * @param string $account_number
      * @return mixed
      */
-    public function actionDelete($id, $account_number)
+    public function actionDelete($id)
     {
-        $this->findModel($id, $account_number)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -111,13 +107,12 @@ class AccountController extends Controller
      * Finds the Account model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @param string $account_number
      * @return Account the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $account_number)
+    protected function findModel($id)
     {
-        if (($model = Account::findOne(['id' => $id, 'account_number' => $account_number])) !== null) {
+        if (($model = Account::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
