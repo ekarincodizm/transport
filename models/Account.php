@@ -30,8 +30,8 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'account_number'], 'required'],
-            [['id', 'saving_type', 'bank_name', 'status'], 'integer'],
+            [['account_number'], 'required'],
+            [['saving_type', 'bank_name', 'status'], 'integer'],
             [['account_number'], 'string', 'max' => 10],
             [['account_name'], 'string', 'max' => 100]
         ];
