@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cbc354c2857adeeba878bc650433153c",
+    "hash": "042adee75e9eeded7ed41392cb1f7ee6",
     "content-hash": "9d9642a14ee4ba0b5ff89625aeef8a33",
     "packages": [
         {
@@ -437,16 +437,16 @@
         },
         {
             "name": "kartik-v/dependent-dropdown",
-            "version": "v1.4.3",
+            "version": "v1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/dependent-dropdown.git",
-                "reference": "03b086d7ec51fc773aab064d7204adbbaa807ec4"
+                "reference": "a13970aec78e8eaae5cb9f1168df20d443f95113"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/dependent-dropdown/zipball/03b086d7ec51fc773aab064d7204adbbaa807ec4",
-                "reference": "03b086d7ec51fc773aab064d7204adbbaa807ec4",
+                "url": "https://api.github.com/repos/kartik-v/dependent-dropdown/zipball/a13970aec78e8eaae5cb9f1168df20d443f95113",
+                "reference": "a13970aec78e8eaae5cb9f1168df20d443f95113",
                 "shasum": ""
             },
             "type": "library",
@@ -475,7 +475,7 @@
                 "option",
                 "select"
             ],
-            "time": "2015-07-14 09:54:25"
+            "time": "2015-12-16 18:15:01"
         },
         {
             "name": "kartik-v/mpdf",
@@ -1352,12 +1352,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "abb84cce09229cdb9fa7f1916d3162d3cba49918"
+                "reference": "ffc59cef18864d773c79f3b2da2f34c948ff5648"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/abb84cce09229cdb9fa7f1916d3162d3cba49918",
-                "reference": "abb84cce09229cdb9fa7f1916d3162d3cba49918",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/ffc59cef18864d773c79f3b2da2f34c948ff5648",
+                "reference": "ffc59cef18864d773c79f3b2da2f34c948ff5648",
                 "shasum": ""
             },
             "require": {
@@ -1392,7 +1392,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-12-14 14:14:40"
+            "time": "2015-12-16 19:38:06"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
