@@ -20,11 +20,11 @@ use kartik\form\ActiveForm;
 
     <?= $form->field($model, 'account_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'saving_type')->textInput() ?>
+    <?= $form->field($model, 'saving_type')->dropDownList(['1'=>'ออมทรัพย์','2'=>'กระแสรายวัน']); ?>
 
-    <?= $form->field($model, 'bank_name')->textInput() ?>
+    <?= $form->field($model, 'bank_name')->dropDownList(['1'=>'ธนาคารออมสิน','2'=>'ธนาคารกรุงไทย','3'=>'ธนาคารกรุงศรีอยุธยา']); ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(['1'=>'Active','2'=>'Inactive']); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

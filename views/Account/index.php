@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AccountSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Accounts';
+$this->title = 'เพิ่มบัญชีธนาคาร';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="account-index">
@@ -24,14 +24,33 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            //'id',
             'account_number',
             'account_name',
-            'saving_type',
-            'bank_name',
-            // 'status',
-
+            ['label'=>'ประเภทบัญชี',
+                'attribute'=>'saving_type',
+                'filter'=>array("1"=>"ออมทรัพย์","2"=>"กระแสรายวัน"),
+                'value'=>function($data){
+                $arr=array("1"=>"ออมทรัพย์","2"=>"กระแสรายวัน");
+                return $arr[$data->saving_type];
+                }
+            ],
+            ['label'=>'ธนาคาร',
+                'attribute'=>'bank_name',
+                'filter'=>array("1"=>"ธนาคารออมสิน","2"=>"ธนาคารกรุงไทย","3"=>"ธนาคารกรุงศรีอยุธยา"),
+                'value'=>function($data){
+                $arr=array("1"=>"ธนาคารออมสิน","2"=>"ธนาคารกรุงไทย","3"=>"ธนาคารกรุงศรีอยุธยา");
+                return $arr[$data->bank_name];
+                }
+            ],
+            ['label'=>'สถานะการใช้งาน',
+                'attribute'=>'status',
+                'filter'=>array("1"=>"Active","2"=>"Inactive"),
+                'value'=>function($data){
+                $arr=array("1"=>"Active","2"=>"Inactive");
+                return $arr[$data->status];
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
