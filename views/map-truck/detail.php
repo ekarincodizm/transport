@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\MapTruck */
 
-$this->title = 'แก้ไขรถคันที่ ' . $model['car_id'];
+$this->title = 'ข้อมูลรถคันที่ ' . $model['car_id'];
 $this->params['breadcrumbs'][] = ['label' => 'รถ', 'url' => ['create']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,24 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <i class="fa fa-windows"></i> <?= Html::encode($this->title) ?>
     </div>
     <div class="panel-body">
-        <div class="well">
-            <label>หัวลาก</label>
-            <select id="truck_1" class="form-control" required="required">
-                <option value="<?php echo $model['truck_1'] ?>"><?php echo $model['truck_1'] ?></option>
-                <?php foreach ($truck1 as $t1): ?>
-                    <option value="<?php echo $t1['license_plate'] ?>"><?php echo $t1['license_plate'] ?></option>
-                <?php endforeach; ?>
-            </select>
-            <label>พ่วง</label>
-            <select id="truck_2" class="form-control" required="required">
-                <option value="<?php echo $model['truck_2'] ?>"><?php echo $model['truck_2'] ?></option>
-                <?php foreach ($truck2 as $t2): ?>
-                    <option value="<?php echo $t2['license_plate'] ?>"><?php echo $t2['license_plate'] ?></option>
-                <?php endforeach; ?>
-            </select>
-            <br/>
-            <button type="button" class="btn btn-warning" onclick="save()"><i class="fa fa-save"></i> แก้ไขข้อมูล</button>
-        </div>
+        
 
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">

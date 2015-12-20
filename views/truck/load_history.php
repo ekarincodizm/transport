@@ -21,6 +21,7 @@ function get_driver($driver_id = null) {
     <thead>
         <tr>
             <th>#</th>
+            <th>รถคันที่</th>
             <th>รหัสปฏิบัติงาน</th>
             <th>วันที่(ไป - กลับ)</th>
             <th>คนขับ</th>
@@ -32,20 +33,21 @@ function get_driver($driver_id = null) {
         <?php
         $i = 0;
         foreach ($history as $rs): $i++;
-            $order_id = $order->find()->where(['order_id' => $rs['order_id']])->one()['id'];
+            //$order_id = $order->find()->where(['order_id' => $rs['order_id']])->one()['id'];
             ?>
             <tr>
                 <td><?php echo $i; ?></td>
+                <td><?php echo $rs['car_id']; ?></td>
                 <td>
-    <?php echo $rs['order_id'] ?>
-                    <a href="<?php echo Url::to(['order-transport/incom_outcome', 'id' => $order_id]) ?>" target="_blank"><i class="fa fa-eye"></i></a>
+                    <?php echo $rs['assign_id'] ?>
+                    <a href="<?php echo Url::to(['order-transport/incom_outcome', 'id' => $rs['assign_id']]) ?>" target="_blank"><i class="fa fa-eye"></i></a>
                 </td>
                 <td><?php echo $config->thaidate($rs['order_date_start']) . ' - ' . $config->thaidate($rs['order_date_end']) ?></td>
                 <td><?php echo get_driver($rs['driver1']) . ' ' . get_driver($rs['driver2']) ?></td>
                 <td><?php echo $customer->find()->where(['cus_id' => $rs['employer']])->one()['company']; ?></td>
                 <td style=" text-align: right;"><?php echo number_format((int) $rs['income'], 2) ?></td>
             </tr>
-<?php endforeach; ?>
+        <?php endforeach; ?>
     </tbody>
 </table>
 

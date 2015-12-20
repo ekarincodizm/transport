@@ -96,7 +96,7 @@ class OrderTransportController extends Controller {
      */
     public function actionUpdate($id) {
 //$model = $this->findModel($id);
-        $sql = "SELECT * FROM assign WHERE id = '$id' AND (oil != '' OR gas != '' OR now_mile != '')";
+        $sql = "SELECT * FROM assign WHERE id = '$id' AND (oil != '' AND now_mile != '')";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         if (!empty($rs)) {
             $error = "1";

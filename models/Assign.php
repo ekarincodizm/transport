@@ -137,5 +137,23 @@ class Assign extends \yii\db\ActiveRecord {
     public function getProductType() {
         return $this->hasOne(ProductType::className(), ['id' => 'product_type']);
     }
+    
+    //ดึงรายการค่าใช้จ่ายของรถขณะรถวิ่งตามรหัสสั่งงาน
+    public function get_expense_truck_in_assignid($assign_id = null) {
+        $sql = "SELECT CONCAT(e.detail,' (ทะเบียน ',e.truck_license,')') AS detail,price
+            FROM expenses_truck e 
+            WHERE e.assign_id = '$assign_id' ";
+        $rs = Yii::$app->db->createCommand($sql)->queryAll();
+        return $rs;
+    }
+    
+    //ดึงค่าใช้จ่ายรวมของรถขณะรถวิ่งตามรหัสสั่งงาน
+    public function sum_expense_truck_in_assignid($assign_id = null) {
+        $sql = "SELECT SUM(e.price) AS price
+            FROM expenses_truck e 
+            WHERE e.assign_id = '$assign_id' ";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        return $rs['price'];
+    }
 
 }

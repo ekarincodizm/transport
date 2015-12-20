@@ -68,10 +68,13 @@ class Truck extends \yii\db\ActiveRecord {
 
     //ประวัติการวิ่งรถ
     function get_history($id) {
-        $sql = "SELECT o.*,SUM(a.income) AS income
-                FROM orders_transport o INNER JOIN assign a ON o.order_id = a.order_id
-                WHERE (o.truck1 = '$id' OR o.truck2 = '$id')
-		GROUP BY o.order_id
+        $truck = new Truck();
+        $license = $truck->find()->where(['id' => $id])->one();
+        $licenses_plate = $license['license_plate'];
+        $sql = "SELECT o.assign_id,o.order_date_start,o.order_date_end,o.car_id,o.employer,o.driver1,o.driver2,SUM(o.income) AS income
+                FROM assign o INNER JOIN map_truck m ON o.car_id = m.car_id
+                WHERE (m.truck_1 = '$licenses_plate' OR m.truck_2 = '$licenses_plate')
+		GROUP BY o.assign_id
                 ORDER BY o.id DESC ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
@@ -91,7 +94,7 @@ class Truck extends \yii\db\ActiveRecord {
                     UNION
 
                     (
-                    SELECT e.id,e.create_date,e.detail,e.price,e.order_id,'1' AS type
+                    SELECT e.id,e.create_date,e.detail,e.price,e.assign_id AS order_id,'1' AS type
                                     FROM expenses_truck e
                                     WHERE e.truck_license = '$lincense_plate' 
                                         AND LEFT(e.create_date,4) = '$year'
@@ -118,7 +121,7 @@ class Truck extends \yii\db\ActiveRecord {
                     UNION
 
                     (
-                    SELECT e.id,e.create_date,e.detail,e.price,e.order_id,'1' AS type
+                    SELECT e.id,e.create_date,e.detail,e.price,e.assign_id AS order_id,'1' AS type
                                     FROM expenses_truck e
                                     WHERE e.truck_license = '$lincense_plate' 
                                         AND LEFT(e.create_date,4) = '$year'
@@ -126,9 +129,9 @@ class Truck extends \yii\db\ActiveRecord {
                                     ORDER BY e.id DESC
                     )
 
-	UNION
+                    UNION
 
-	   (
+                    (
                     SELECT e.id,e.create_date,'ค่าต่อทะเบียน/พรบ./ภาษีประจำปี' AS detail,e.act_price AS price,'0' AS order_id,'0' AS type
                                     FROM truck_act e
                                     WHERE e.license_plate = '$lincense_plate' 
@@ -137,40 +140,40 @@ class Truck extends \yii\db\ActiveRecord {
                                     ORDER BY e.id DESC
                     )
                     
-UNION 
+                    UNION 
 
-(
-                    SELECT e.id,e.create_date,CONCAT('จ่ายค่างวดรถ งวดวันที่ ',e.`day`,'/',e.`month`,'/',e.`year`) AS detail,e.period_price AS price,'0' AS order_id,'0' AS type
-                                    FROM annuities e
-                                    WHERE e.license_plate = '$lincense_plate' 
-                                        AND LEFT(e.create_date,4) = '$year'
-                                        AND SUBSTR(e.create_date,6,2) = '$month'
-                                    ORDER BY e.id DESC
-)
+                    (
+                        SELECT e.id,e.create_date,CONCAT('จ่ายค่างวดรถ งวดวันที่ ',e.`day`,'/',e.`month`,'/',e.`year`) AS detail,e.period_price AS price,'0' AS order_id,'0' AS type
+                        FROM annuities e
+                        WHERE e.license_plate = '$lincense_plate' 
+                             AND LEFT(e.create_date,4) = '$year'
+                             AND SUBSTR(e.create_date,6,2) = '$month'
+                        ORDER BY e.id DESC
+                    )
 
-UNION 
+                    UNION 
 
-(
-    SELECT o.id,o.order_date_start AS create_date,'เติมน้ำมัน ' AS detail,o.oil_price AS price,o.order_id,'0' AS type
-    FROM orders_transport o INNER JOIN truck t ON o.truck1 = t.id
-    WHERE t.license_plate = '$lincense_plate' 
-        AND o.oil_price != ''
-        AND LEFT(o.order_date_start,4) = '$year'
-        AND SUBSTR(o.order_date_start,6,2) = '$month'
-    ORDER BY o.id DESC
-)
+                    (
+                        SELECT o.id,o.order_date_start AS create_date,'เติมน้ำมัน ' AS detail,o.oil_price AS price,o.assign_id AS order_id,'0' AS type
+                        FROM assign o INNER JOIN map_truck t ON o.car_id = t.car_id
+                        WHERE t.truck_1 = '$lincense_plate' 
+                            AND o.oil_price != ''
+                            AND LEFT(o.order_date_start,4) = '$year'
+                            AND SUBSTR(o.order_date_start,6,2) = '$month'
+                        ORDER BY o.id DESC
+                    )
 
-UNION 
+                    UNION 
 
-(
-    SELECT o.id,o.order_date_start AS create_date,'เติมแก๊ส ' AS detail,o.gas_price AS price,o.order_id,'0' AS type
-    FROM orders_transport o INNER JOIN truck t ON o.truck1 = t.id
-    WHERE t.license_plate = '$lincense_plate' 
-        AND o.gas_price != ''
-        AND LEFT(o.order_date_start,4) = '$year'
-        AND SUBSTR(o.order_date_start,6,2) = '$month'
-    ORDER BY o.id DESC
-)
+                    (
+                        SELECT o.id,o.order_date_start AS create_date,'เติมแก๊ส ' AS detail,o.gas_price AS price,o.assign_id AS order_id,'0' AS type
+                        FROM assign o INNER JOIN map_truck t ON o.car_id = t.car_id
+                        WHERE t.truck_1 = '$lincense_plate' 
+                            AND o.gas_price != ''
+                            AND LEFT(o.order_date_start,4) = '$year'
+                            AND SUBSTR(o.order_date_start,6,2) = '$month'
+                        ORDER BY o.id DESC
+                    )
 
                     ORDER BY create_date ASC ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();

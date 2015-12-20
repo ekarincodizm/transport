@@ -12,11 +12,13 @@ use yii\helpers\Url;
 
 $this->title = 'พนักงานขับรถ';
 $this->params['breadcrumbs'][] = $this->title;
+
+$car_model = new app\models\MapDriver();
 ?>
 
 <!--
 <div class="driver-index">
-<?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
+<?php // echo $this->render('_search', ['model' => $searchModel]);     ?>
     
 
 <?php
@@ -100,7 +102,7 @@ $notify = $notification->find()->one();
             <div class="col-xs-12">
                 <font style="color:#ff0000; margin-bottom: 10px;" class="pull-right">
                 * หมายเหตุ ใบขับขี่จะแจ้งเตือนก่อนหมดอายุ <label <?php echo $notify['driver_license'] ?> วัน
-                </font>
+                    </font>
             </div>
             <?php foreach ($driver as $rs): ?>
                 <div class="col-xs-6 col-sm-6 col-md-4">
@@ -114,7 +116,10 @@ $notify = $notification->find()->one();
                                 <img src="<?php echo Url::to('@web/web/images/No_image.jpg') ?>" class="img-circle" style="max-width: 125px;"/>
                             <?php } ?>
                             <br/>
-                            <p style=" color: #6600ff; font-weight: bold; font-size: 16px;"><?php echo $rs['name'] . ' - ' . $rs['lname']; ?></p>
+                            <p style="color: #6600ff; font-weight: bold; font-size: 16px;"><?php echo $rs['name'] . ' - ' . $rs['lname']; ?></p>
+                            <?php
+                            echo $car_model->get_car_driver($rs['driver_id']);
+                            ?>
                         </div>
                         <div class="box-footer">
                             <div class="row">

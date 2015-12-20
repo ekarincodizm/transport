@@ -1,4 +1,6 @@
-
+<?php 
+    use yii\helpers\Url;
+?>
 <table class="table table-striped table-bordered" id="tb_map_truck">
     <thead>
         <tr>
@@ -34,9 +36,9 @@
                     <?php } ?>
                 </td>
                 <td style="text-align: center;">
-                    <a href=""><i class="fa fa-eye"></i></a>&nbsp;
-                    <a href=""><i class="fa fa-edit"></i></a>&nbsp;
-                    <a href=""><i class="fa fa-trash"></i></a>
+                    <a href="<?php echo Url::to(['map-truck/detail','car_id' => $rs['car_id']])?>"><i class="fa fa-eye"></i></a>&nbsp;
+                    <a href="<?php echo Url::to(['map-truck/update','car_id' => $rs['car_id']])?>"><i class="fa fa-edit"></i></a>&nbsp;
+                    <a href="<?php echo Url::to(['map-truck/delete','car_id' => $rs['car_id']])?>"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>

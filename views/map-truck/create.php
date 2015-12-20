@@ -7,9 +7,17 @@ use yii\helpers\Url;
 /* @var $model app\models\MapTruck */
 
 $this->title = 'จับคู่รถ';
-$this->params['breadcrumbs'][] = ['label' => 'รถ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'รถ', 'url' => ['create']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php if (!empty($error)) { ?>
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="fa fa-warning"></i> <?php echo $error; ?>
+    </div>
+<?php } ?>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <i class="fa fa-windows"></i> <?= Html::encode($this->title) ?>
@@ -98,7 +106,8 @@ $this->registerJs('
         var data = {truck_1: truck_1, truck_2: truck_2};
 
         $.post(url, data, function (result) {
-            get_map_truck();
+            window.location.reload();
+            //get_map_truck();
         });
     }
 

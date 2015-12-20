@@ -47,7 +47,11 @@ class RepairController extends Controller {
      * @return mixed
      */
     public function actionView($truck_license) {
+        $sql = "SELECT m.car_id FROM map_truck m WHERE (truck_1 = '$truck_license' OR truck_2 = '$truck_license') AND status = '0'";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        $car_id = $rs['car_id'];
         return $this->render('repair', [
+                    "car_id" => $car_id,
                     "truck_license" => $truck_license,
         ]);
     }
@@ -70,10 +74,12 @@ class RepairController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($truck_license = null) {
+    public function actionCreate($truck_license = null,$car_id = null) {
         $model = new Repair();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->car_id = $car_id;
+            $model->save();
             return $this->redirect(['view', 'truck_license' => $truck_license]);
         } else {
             return $this->render('create', [

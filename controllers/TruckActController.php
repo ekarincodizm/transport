@@ -118,6 +118,7 @@ class TruckActController extends Controller {
     public function actionSave() {
         $license_plate = Yii::$app->request->post('license_plate');
         $columns = array(
+                "car_id" => Yii::$app->request->post('car_id'),
                 "license_plate" => $license_plate,
                 "act_start" => Yii::$app->request->post('act_start'),
                 "act_end" => Yii::$app->request->post('act_end'),

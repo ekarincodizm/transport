@@ -47,8 +47,14 @@ class TruckController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
+        $model = $this->findModel($id);
+        $sql = "SELECT m.car_id FROM map_truck m WHERE (truck_1 = '$model->license_plate' OR truck_2 = '$model->license_plate') AND status = '0'";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        $car_id = $rs['car_id'];
+        
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+                    'car_id' => $car_id,
+                    'model' => $model,
         ]);
     }
 
@@ -168,6 +174,16 @@ class TruckController extends Controller {
 
         return $this->renderPartial('load_price', [
                     'model' => $price,
+        ]);
+    }
+
+    public function actionGet_detail_truck() {
+        $license_plate = Yii::$app->request->post('license_plate');
+        $truck = new Truck();
+        $t = $truck->find()->where(['license_plate' => $license_plate])->one();
+        $id = $t['id'];
+        return $this->renderPartial('detail', [
+                    'model' => $this->findModel($id),
         ]);
     }
 

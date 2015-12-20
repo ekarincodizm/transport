@@ -50,4 +50,22 @@ class Outgoings extends \yii\db\ActiveRecord
             'create_date' => 'Create Date',
         ];
     }
+    
+     //ดึงรายการค่าใช้จ่ายของรถขณะรถวิ่งตามรหัสสั่งงาน
+    public function get_expense_in_assignid($assign_id = null) {
+        $sql = "SELECT *
+            FROM outgoings o
+            WHERE o.assign_id = '$assign_id' ";
+        $rs = Yii::$app->db->createCommand($sql)->queryAll();
+        return $rs;
+    }
+    
+    //ดึงค่าใช้จ่ายรวมของรถขณะรถวิ่งตามรหัสสั่งงาน
+    public function sum_expense_in_assignid($assign_id = null) {
+        $sql = "SELECT SUM(o.price) AS price
+            FROM outgoings o
+            WHERE o.assign_id = '$assign_id' ";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        return $rs['price'];
+    }
 }

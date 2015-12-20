@@ -129,7 +129,8 @@ class AnnuitiesController extends Controller {
         $month = Yii::$app->request->post('month');
         $day = Yii::$app->request->post('day');
         $period_price = Yii::$app->request->post('period_price');
-
+        $car_id = Yii::$app->request->post('car_id');
+        
         $sql = "SELECT * FROM annuities WHERE license_plate = '$license_plate' AND month = '$month' AND year = '$year' ";
         $result = Yii::$app->db->createCommand($sql)->queryOne();
 
@@ -143,6 +144,7 @@ class AnnuitiesController extends Controller {
                 "year" => $year,
                 "month" => $month,
                 "period_price" => $period_price,
+                "car_id" => $car_id,
                 "create_date" => date("Y-m-d")
             );
 

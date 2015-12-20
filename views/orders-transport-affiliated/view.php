@@ -43,12 +43,16 @@ $order_model = new \app\models\OrdersTransportAffiliated();
             <div class="box-header with-border">
                 <i class="fa fa-book"></i> ใบสั่งงาน(จ้างบริษัทรถร่วม)
                 <div class="box-tools pull-right">
-                    <a href="<?php echo Url::to(['bill', 'id' => $model->id]) ?>" target="_bank">
-                        <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-newspaper-o"></i> ออกบิลใบแจ้งหนี้</button></a>
+                    <?php if ($model->flag == '0') { ?>
+                        <a href="<?php echo Url::to(['bill', 'id' => $model->id]) ?>" target="_bank">
+                            <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-newspaper-o"></i> ออกบิลใบแจ้งหนี้</button></a>
+                            <button type="button" class="btn btn-info btn-box-tool" style=" color: #FFF;" onclick="confirm_order('<?php echo $model->id ?>')"><i class="fa fa-check-circle"></i> ยืนยันการชำระเงิน</button>
+                    <?php } else { ?>
+                        <a href="<?php echo Url::to(['receipt', 'id' => $model->id]) ?>" target="_bank">
+                            <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-file-text-o"></i> ออกใบเสร็จ</button></a>
+                    <?php } ?>
                     <a href="<?php echo Url::to(['incom_outcome', 'id' => $model->id]) ?>" target="_bank">
                         <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-file-text-o"></i> รายละเอียด(รับ - จ่าย)</button></a>
-                    <a href="<?php echo Url::to(['receipt', 'id' => $model->id]) ?>" target="_bank">
-                        <button type="button" class="btn btn-default btn-box-tool"><i class="fa fa-file-text-o"></i> ออกใบเสร็จ</button></a>
                 </div>
 
             </div>
@@ -283,7 +287,7 @@ $order_model = new \app\models\OrdersTransportAffiliated();
                                 </div>
                             </div> 
 
-                            <input type="hidden" id="type_calculus" value="<?php echo $assign['type_calculus']?>"/>
+                            <input type="hidden" id="type_calculus" value="<?php echo $assign['type_calculus'] ?>"/>
                             <div class="row">
                                 <div class="col-sm-12 col-md-1 col-lg-1">
                                     <label>คิดตาม</label>
@@ -293,9 +297,13 @@ $order_model = new \app\models\OrdersTransportAffiliated();
                                         <div class="input-group">
                                             <div class="input-group-addon">
                                                 <input type="radio" name="r1" id="r1" onclick="Unit_price_Calculator_affiliated()"
-                                                       <?php if($assign['type_calculus'] == '0'){ echo "checked";}?>/> น้ำหนัก ตันละ 
+                                                <?php
+                                                if ($assign['type_calculus'] == '0') {
+                                                    echo "checked";
+                                                }
+                                                ?>/> น้ำหนัก ตันละ 
                                             </div>
-                                            <input type="text" id="unit_price" name="unit_price" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator_affiliated(0);" disabled="disabled" value="<?php echo $assign['unit_price']?>"/>
+                                            <input type="text" id="unit_price" name="unit_price" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" onkeyup="Income_Calculator_affiliated(0);" disabled="disabled" value="<?php echo $assign['unit_price'] ?>"/>
                                             <div class="input-group-addon">บาท</div>
                                         </div>
                                     </div>    
@@ -304,8 +312,12 @@ $order_model = new \app\models\OrdersTransportAffiliated();
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <input type="radio" name="r1" id="r2" onclick="Pertimes_Calculator_affiliated()"
-                                                   <?php if($assign['type_calculus'] == '1'){ echo "checked";}?>/> ต่อเที่ยว เที่ยวละ</div>
-                                        <input type="text" id="per_times" name="per_times" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled" onkeyup="Income_Calculator_affiliated(1);" value="<?php echo $assign['per_times']?>"/>
+                                            <?php
+                                            if ($assign['type_calculus'] == '1') {
+                                                echo "checked";
+                                            }
+                                            ?>/> ต่อเที่ยว เที่ยวละ</div>
+                                        <input type="text" id="per_times" name="per_times" class="form-control" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();" disabled="disabled" onkeyup="Income_Calculator_affiliated(1);" value="<?php echo $assign['per_times'] ?>"/>
                                         <div class="input-group-addon">บาท</div>
                                     </div>
                                 </div>
@@ -316,14 +328,14 @@ $order_model = new \app\models\OrdersTransportAffiliated();
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-dollar"></i> รวม</div>
-                                    <input type="hidden" id="income" value="<?php echo $assign['income']?>"/>
-                                    <input type="text" id="income_txt" name="income_txt" class="form-control" style="font-size: 20px; text-align: center; color: #ff0033;" readonly="readonly" value="<?php echo $assign['income']?>"/>
+                                    <input type="hidden" id="income" value="<?php echo $assign['income'] ?>"/>
+                                    <input type="text" id="income_txt" name="income_txt" class="form-control" style="font-size: 20px; text-align: center; color: #ff0033;" readonly="readonly" value="<?php echo $assign['income'] ?>"/>
                                     <div class="input-group-addon">บาท</div>
                                 </div>
                             </div>
                         </div>
                         <br/>
-                        
+
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="input-group">
@@ -340,7 +352,7 @@ $order_model = new \app\models\OrdersTransportAffiliated();
                             <div class="row">
 
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <input type="hidden" id="income_total" name="income_total" value="<?php echo $model->income_total;?>"/>
+                                    <input type="hidden" id="income_total" name="income_total" value="<?php echo $model->income_total; ?>"/>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-money"></i> รายได้คงเหลือ</div>             
                                         <input type="text" id="income_total_txt" name="income_total_txt" class="form-control" style="font-size: 20px; text-align: center; color: #ff0033;" value="0" readonly="readonly"/>
@@ -351,7 +363,7 @@ $order_model = new \app\models\OrdersTransportAffiliated();
                         </div>
 
                     </div>
-                    
+
                 </div>
                 <hr/>
 
@@ -387,17 +399,17 @@ $order_model = new \app\models\OrdersTransportAffiliated();
     function delete_assign(id) {
         //var r = confirm("คุณแน่ใจหรือไม่ ...?");
         swal({title: "คุณแน่ใจหรือไม่ ...?", text: "คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่!", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "ใช่, ต้องการลบ!", closeOnConfirm: false},
-                function () {
-                    var url = "<?php echo Url::to(['orders-transport-affiliated/delete_assign']) ?>";
-                    var data = {id: id};
+        function () {
+            var url = "<?php echo Url::to(['orders-transport-affiliated/delete_assign']) ?>";
+            var data = {id: id};
 
-                    $.post(url, data, function (success) {
-                        swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success");
-                        window.location.reload();
-                        return false;
-                    });
+            $.post(url, data, function (success) {
+                swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success");
+                window.location.reload();
+                return false;
+            });
 
-                });
+        });
         /*
          if (r == true) {
          var url = "<?//php echo Url::to(['order-transport/delete_assign']) ?>";
@@ -409,6 +421,17 @@ $order_model = new \app\models\OrdersTransportAffiliated();
          });
          }
          */
+    }
+
+    function confirm_order(id) {
+        var url = "<?php echo Url::to(['orders-transport-affiliated/confirm_order']) ?>";
+        var data = {id: id};
+
+        $.post(url, data, function (success) {
+            swal("Success", "ยืนยันการชำระเงินแล้ว...", "success");
+            window.location.reload();
+            return false;
+        });
     }
 </script>
 
