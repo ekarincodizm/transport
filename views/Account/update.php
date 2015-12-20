@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Account */
 
-$this->title = 'แก้ไขบัญชี: ' . ' ' . $model->account_number;
+$this->title = 'Update Account: ' . ' ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Accounts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'account_number' => $model->account_number]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'แก้ไขบัญชี';
 ?>
 <div class="account-update">
