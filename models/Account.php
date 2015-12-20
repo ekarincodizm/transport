@@ -52,4 +52,12 @@ class Account extends \yii\db\ActiveRecord
             'status' => 'สถานะของบัญชี',
         ];
     }
+    function get_status($status) {
+        if ($status=1){
+            $statusview="Active";
+        }  else {
+            $statusview="Inactive";
+        } 
+        return $statusview;
+    }
 }
