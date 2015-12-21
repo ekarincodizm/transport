@@ -30,6 +30,12 @@ function get_driver($car_id = null) {
     $result = $mapdriver->get_driver($driver_id);
     return $result;
 }
+
+function Affiliated_truck($truck_id = null) {
+    $Affiliated = new \app\models\AffiliatedTruck();
+    $result = $Affiliated->find()->where(['id' => $truck_id])->one();
+    return $result['license_plate'];
+}
 ?>
 <b>รายรับ รายจ่าย รายการขนส่งประจำเดือน <?php echo $monthfull[$month] . " " . ($year + 543); ?></b>
 
@@ -100,14 +106,30 @@ function get_driver($car_id = null) {
                     <td id="total" style=""><?php echo number_format($sum_total_row, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
+            <?php
+            $sumincom_out_transport = 0;
+            foreach ($order_out as $o):
+                $sumincom_out_transport = $sumincom_out_transport + $o['income_total'];
+                ?>
+                <tr>
+                    <td colspan="6" style=" text-align: left;">
+                        จ้างรถร่วมวิ่ง ทะเบียน(<?php echo Affiliated_truck($o['truck1']) . ' ' . Affiliated_truck($o['truck2']) ?>) 
+                        คนขับ (<?php echo $o['driver1'] . ' ' . $o['driver2'] ?>)
+                    </td>
+                    <td style="text-align: right;" id="income"><?php echo number_format($o['income_total'], 2) ?></td>
+                    <td colspan="7"></td>
+                    <td id="outcome">0</td>
+                    <td style="text-align: right;" id="total"><?php echo number_format($o['income_total'], 2) ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="6" style=" text-align: center;">รวม</td>
-                <td><?php echo number_format($sum_income, 2); ?></td>
+                <td><?php echo number_format(($sum_income + $sumincom_out_transport), 2); ?></td>
                 <td colspan="7"></td>
                 <td><?php echo number_format($sum_outcome, 2); ?></td>
-                <td><?php echo number_format($sum_income - $sum_outcome, 2); ?></td>
+                <td><?php echo number_format(($sum_income + $sumincom_out_transport) - $sum_outcome, 2); ?></td>
             </tr>
         </tfoot>
     </table>
@@ -146,8 +168,8 @@ function get_driver($car_id = null) {
             $("#result_sub_report").html(result);
         });
     }
-    
-      function get_sub_expenses_truck(car_id) {
+
+    function get_sub_expenses_truck(car_id) {
         $("#popup_sub_expenses").modal();
         var url = "<?php echo Url::to(['report/get_sub_expenses_truck']) ?>";
         var year = "<?php echo $year ?>";
@@ -158,7 +180,7 @@ function get_driver($car_id = null) {
             $("#result_sub_report").html(result);
         });
     }
-    
+
     function get_sub_salary(car_id) {
         $("#popup_sub_expenses").modal();
         var url = "<?php echo Url::to(['report/get_sub_salary']) ?>";
@@ -170,7 +192,7 @@ function get_driver($car_id = null) {
             $("#result_sub_report").html(result);
         });
     }
-    
+
     function get_sub_annuities(car_id) {
         $("#popup_sub_expenses").modal();
         var url = "<?php echo Url::to(['report/get_annuities']) ?>";
@@ -182,7 +204,7 @@ function get_driver($car_id = null) {
             $("#result_sub_report").html(result);
         });
     }
-    
+
     function get_sub_truck_act(car_id) {
         $("#popup_sub_expenses").modal();
         var url = "<?php echo Url::to(['report/get_truck_act']) ?>";

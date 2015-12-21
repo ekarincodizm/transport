@@ -37,13 +37,13 @@ class ReportController extends Controller {
     public function actionLoad_report_year() {
         $year = \Yii::$app->request->post('year');
         $report = new Report();
-        $result = $report->Report_year($year);
+        $result = $report->Report_year_table($year);
         $chart = $this->actionChart_year($year);
 
         return $this->renderPartial('load_report_year', [
                     'result' => $result,
                     'year' => $year,
-                     'chart' => $chart,
+                    'chart' => $chart,
         ]);
     }
 
@@ -57,7 +57,7 @@ class ReportController extends Controller {
         $labels = "รวมทั้งปี";
         $report = new Report();
 
-        $result = $report->Report_year($year);
+        $result = $report->Report_year_table($year);
 
         $sum_expenses_row = 0;
         $sum_total_row = 0;
@@ -68,7 +68,8 @@ class ReportController extends Controller {
         //$value_income[] = 0;
         //$value_outcome[] = 0;
         foreach ($result as $rs):
-
+            $sub = $report->Subreport_year($year, $rs['MONTH']);
+            $income_out_transport = $report->sum_income_out_transport_month($year, $rs['MONTH']);
             $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
             $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
             $salary = $report->sum_salary_month($year, $rs['MONTH']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
@@ -76,10 +77,10 @@ class ReportController extends Controller {
             $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
             $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
 
-            $allowance_driver = ((int) $rs['allowance_driver1'] + (int) $rs['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
-            $sum_total_row = ($rs['income'] - $sum_expenses_row);
+            $allowance_driver = ((int) $sub['allowance_driver1'] + (int) $sub['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
+            $sum_total_row = (($sub['income'] + $income_out_transport) - $sum_expenses_row);
 
-            $income_month = $rs['income'];
+            $income_month = ($sub['income'] + $income_out_transport);
             if (empty($income_month)) {
                 $income = 0;
             } else {
@@ -94,7 +95,7 @@ class ReportController extends Controller {
             $value_income[] = (int) $income;
             $value_outcome[] = (int) $outcome;
 
-            $sum_income = $sum_income + $rs['income']; //รายได้รวมทุกเดือน
+            $sum_income = $sum_income + ($sub['income'] + $income_out_transport); //รายได้รวมทุกเดือน
             $sum_outcome = $sum_outcome + $sum_expenses_row; //รายจ่ายรวมทุกเดือน
         endforeach;
 
@@ -369,14 +370,18 @@ class ReportController extends Controller {
     }
 
     public function actionLoad_report_month_all() {
+        $order_model = new \app\models\OrdersTransportAffiliated();
         $year = \Yii::$app->request->post('year');
         $month = \Yii::$app->request->post('month');
         $report = new Report();
         $result = $report->report_month_all($year, $month);
+
+        $order_out = $order_model->find()->where(['YEAR(create_date)' => $year, 'SUBSTR(create_date,6,2)' => $month])->all();
         return $this->renderPartial('load_report_month_all', [
                     'year' => $year,
                     'month' => $month,
                     'result' => $result,
+                    'order_out' => $order_out,
         ]);
     }
 

@@ -16,7 +16,9 @@ $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
 $company_model = new app\models\Company();
+$account_model = new \app\models\Account();
 $company = $company_model->find()->one();
+$account = $account_model->find()->where(['status' => 1])->one();
 ?>
 <!--
     #ข้อมูลใบปฏิบัติงาน
@@ -42,9 +44,9 @@ $company = $company_model->find()->one();
     <p>ใบวางบิล [Statement]</p>
     <p>ลูกค้า [Customer]</p><br/>
     <div style=" width: 100%; border: #000000 solid 1px; padding: 5px;">
-        ธนาคารกรุงเทพ สาขาเทสโก้โลตัส แม่สอด<br/>
-        บัญชีเลขที่ 303-7-02-307-8<br/>
-        หจ. ตงตง ทรานสปอร์ต
+        <?php echo $account['bank_name']?><br/>
+        บัญชีเลขที่ <?php echo $account['account_number']?><br/>
+        <?php echo $account['account_name']?>
     </div>
 </div>
 

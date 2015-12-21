@@ -393,7 +393,7 @@ class OrderTransportController extends Controller {
     public function actionGet_bill_customer($cus_id = null) {
         //$searchModel = new AssignSearch();
 
-        $query = Assign::find()->where(['employer' => $cus_id]);
+        $query = Assign::find()->where(['employer' => $cus_id,'flag' => '0']);
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -405,7 +405,7 @@ class OrderTransportController extends Controller {
         $employer = \app\models\OrdersTransportAffiliated::find()
                 ->select('orders_transport_affiliated.*')
                 ->join('INNER JOIN', 'assign_affiliated', 'assign_affiliated.order_id = orders_transport_affiliated.order_id')
-                ->where(['orders_transport_affiliated.employer' => $cus_id]);
+                ->where(['orders_transport_affiliated.employer' => $cus_id,'flag' => '0']);
 
         $provider2 = new ActiveDataProvider([
             'query' => $employer,

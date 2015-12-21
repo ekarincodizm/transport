@@ -20,6 +20,7 @@ $this->title = "ตงตงทรานสปอร์ต";
 $driver_model = new \app\models\Driver();
 $truck_act = new \app\models\TruckAct();
 $annuities = new app\models\Annuities();
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

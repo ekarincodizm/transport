@@ -15,9 +15,11 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Url;
-
-$this->title = 'ตงตงทรานสปอร์ต';
+use app\models\CompanySearch;
+$co = CompanySearch::find()->one();
+$this->title = $co->companyname;
 $config = new \app\models\Config_system();
+
 ?>
 
 <div class="row" id="text-color">
@@ -38,10 +40,10 @@ $config = new \app\models\Config_system();
                 </ul>
             </div>
         </div>
-        <h1 style="margin: 5px 0px;">
+        <h2 style="margin: 5px 0px;">
             <img src="<?php echo Url::to('@web/web/images/City-Truck-icon.png') ?>"/>
             <?php echo $this->title; ?>
-        </h1>
+        </h2>
     </div>
 </div>
 

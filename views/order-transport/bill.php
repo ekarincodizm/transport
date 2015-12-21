@@ -19,6 +19,9 @@ $producttype_model = new app\models\ProductType();
 $thaibaht = new app\models\Thaibaht();
 $company_model = new \app\models\Company();
 $company = $company_model->find()->one();
+
+$account_model = new \app\models\Account();
+$account = $account_model->find()->where(['status' => 1])->one();
 ?>
 <!--
     #ข้อมูลใบปฏิบัติงาน
@@ -63,9 +66,9 @@ $company = $company_model->find()->one();
             <?php echo $config->thaidate($model->order_date_start); ?>
         </div>
         <div style=" text-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
-            ธนาคารกรุงเทพ สาขาเทสโก้โลตัส แม่สอด<br/>
-            บัญชีเลขที่ 303-7-02-307-8<br/>
-            หจ. ตงตง ทรานสปอร์ต
+            <?php echo $account['bank_name'] ?><br/>
+            บัญชีเลขที่ <?php echo $account['account_number'] ?><br/>
+            <?php echo $account['account_name'] ?>
         </div>
     </div>
 </div>

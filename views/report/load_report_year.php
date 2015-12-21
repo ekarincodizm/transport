@@ -22,10 +22,9 @@ use kartik\date\DatePicker;
 $config = new app\models\Config_system();
 $report = new \app\models\Report();
 $monthfull = $config->MonthFullKey();
-
 ?>
 <b>รายรับ รายจ่าย รายการขนส่งประจำปี <?php echo ($year + 543); ?></b>
-<?php echo $chart;?>
+<?php echo $chart; ?>
 <div class="table table-responsive">
     <table class="table table-striped table-hover table-bordered" id="report_year">
         <thead>
@@ -59,6 +58,10 @@ $monthfull = $config->MonthFullKey();
             $sum_outcome = 0; //รวมรายจ่าย
             foreach ($result as $rs):
                 $i++;
+                $sub = $report->Subreport_year($year, $rs['MONTH']);
+                //รายได้จากการจ้างขน
+                $income_out_transport = $report->sum_income_out_transport_month($year, $rs['MONTH']);
+                //$income_out_transport = 0;
                 //Config 
                 $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
                 $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
@@ -67,21 +70,21 @@ $monthfull = $config->MonthFullKey();
                 $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
                 $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
 
-                $allowance_driver = ((int) $rs['allowance_driver1'] + (int) $rs['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
-                $sum_total_row = ($rs['income'] - $sum_expenses_row);
-                $sum_income = $sum_income + $rs['income'];
+                $allowance_driver = ((int) $sub['allowance_driver1'] + (int) $sub['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
+                $sum_total_row = ($sub['income'] - $sum_expenses_row);
+                $sum_income = $sum_income + ($sub['income'] + $income_out_transport);
                 $sum_outcome = $sum_outcome + $sum_expenses_row;
                 ?>
                 <tr>
                     <th><?php echo $rs['month_th'] ?></th>
                     <td style=" text-align: center;"><?php echo $report->get_around_month($year, $rs['MONTH']) ?></td>
-                    <td><?php echo number_format($rs['distance']) ?></td>
-                    <td><?php echo number_format($rs['oil']) ?></td>
-                    <td><?php echo number_format($rs['gas']) ?></td>
-                    <td id="income"><?php echo number_format($rs['income'], 2) ?></td>
+                    <td><?php echo number_format($sub['distance']) ?></td>
+                    <td><?php echo number_format($sub['oil']) ?></td>
+                    <td><?php echo number_format($sub['gas']) ?></td>
+                    <td id="income"><?php echo number_format(($sub['income'] + $income_out_transport), 2) ?></td>
 
-                    <td><?php echo number_format($rs['oil_price'], 2) ?></td>
-                    <td><?php echo number_format($rs['gas_price'], 2) ?></td>
+                    <td><?php echo number_format($sub['oil_price'], 2) ?></td>
+                    <td><?php echo number_format($sub['gas_price'], 2) ?></td>
                     <td><?php echo number_format($outgoing, 2) ?></td>
                     <td><?php echo number_format($expenses_truck, 2) ?></td>
                     <td><?php echo number_format($salary, 2) ?></td>
