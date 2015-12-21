@@ -26,7 +26,7 @@ $account = $account_model->find()->where(['status' => 1])->one();
 -->
 <div style=" position: absolute; left: 50px; top: 30px;">
     <div style="width: 80px;">
-        <img src="<?php echo Url::to('@web/web/images/logo.jpg', true) ?>"/>
+        <img src="<?php echo Url::to('@web/web/uploads/logo/'.$company['logo'], true) ?>"/>
     </div>
 </div>
 

@@ -49,7 +49,8 @@ class MapTruck extends \yii\db\ActiveRecord {
         $sql = "SELECT *
                 FROM truck t 
                 WHERE t.type_id = '1' AND t.license_plate NOT IN
-                (SELECT m.truck_1 FROM map_truck m WHERE m.status != '1') ";
+                (SELECT m.truck_1 FROM map_truck m WHERE m.status != '1') 
+                AND t.status != '1'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
@@ -59,7 +60,8 @@ class MapTruck extends \yii\db\ActiveRecord {
         $sql = "SELECT *
                 FROM truck t 
                 WHERE t.type_id = '2' AND t.license_plate NOT IN
-                (SELECT m.truck_2 FROM map_truck m WHERE m.status != '1') ";
+                (SELECT m.truck_2 FROM map_truck m WHERE m.status != '1') 
+                AND t.status != '1'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }

@@ -186,5 +186,25 @@ class TruckController extends Controller {
                     'model' => $this->findModel($id),
         ]);
     }
+    
+    public function actionSet_flag(){
+        $id = \Yii::$app->request->post('id');
+        $car_id = \Yii::$app->request->post('car_id');
+        $columns = array("status" => '1');
+        \Yii::$app->db->createCommand()
+                ->update("truck", $columns,"id = '$id' ")
+                ->execute();
+        
+        $columns_map = array("status" => '1');
+        \Yii::$app->db->createCommand()
+                ->update("map_truck", $columns_map,"car_id = '$car_id' ")
+                ->execute();
+        
+        $columns_map_driver = array("active" => '0');
+        \Yii::$app->db->createCommand()
+                ->update("map_driver", $columns_map_driver,"car_id = '$car_id' ")
+                ->execute();
+        
+    }
 
 }

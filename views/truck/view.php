@@ -18,7 +18,7 @@ $config = new app\models\Config_system();
 <div class="panel panel-primary">
     <div class="panel-heading" style="padding-bottom: 20px;">
         <i class="fa fa-windows"></i>
-        <?php echo " คันที่ ".$car_id; ?>
+        <?php echo " คันที่ " . $car_id; ?>
         <div class="pull-right">
             <a href="<?php echo yii\helpers\Url::to(['site/index']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
         </div>
@@ -36,15 +36,23 @@ $config = new app\models\Config_system();
                 <!--
                 <li><a href="#history" data-toggle="tab" onclick="get_history('<?//php echo $model->id ?>')"><i class="fa fa-truck text-green"></i> ประวัติการวิ่งรถ</a></li>
                 -->
-                <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs text-gray"></i> ข้อมูลซ่อมบำรุง</a></a></li>
-                <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase text-yellow"></i> การต่อทะเบียน / พรบ.</a></a></li>
-                <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart text-orange"></i> ค่างวด</a></a></li>
-                <li><a href="#price" data-toggle="tab" onclick="get_price()"><i class="fa fa-calendar text-red"></i> ค่าใช้จ่ายรวม(เดือน)</a></a></li>
+                
+                <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs text-gray"></i> ข้อมูลซ่อมบำรุง</a></li>
+                <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase text-yellow"></i> การต่อทะเบียน / พรบ.</a></li>
+         
+                <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart text-orange"></i> ค่างวด</a></li>
+                <li><a href="#price" data-toggle="tab" onclick="get_price()"><i class="fa fa-calendar text-red"></i> ค่าใช้จ่ายรวม(เดือน)</a></li>
+                <?php if($model->status == '0'){ ?>
+                <li><a href="javascript:set_flag()"><i class="fa fa-ban text-red"></i> จำหน่าย</a></li>
+                <?php } else { ?>
+                <li><a style=" color: #ff3300;"><i class="fa fa-remove"></i>สถานะ ถูกจำหน่าย</a></li>
+                <?php } ?>
             </ul>
             <div class="tab-content">
                 <div class="active tab-pane" id="detail">
                     <div class="box box-default">
                         <div class="box-header with-border">
+                            <?php if($model->status == '0'){ ?>
                             <p class="pull-right">
                                 <?= Html::a('<i class="fa fa-pencil"></i> แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                                 <?=
@@ -56,6 +64,7 @@ $config = new app\models\Config_system();
                                     ],
                                 ])
                                 ?>
+                            <?php } ?>
                             </p>
                         </div>
                         <div class="box-body">
@@ -408,13 +417,13 @@ $config = new app\models\Config_system();
         var act_price = $("#act_price").val()
         var car_id = "<?php echo $car_id ?>";
         var url = "<?php echo Url::to(['truck-act/save']); ?>";
-        
+
         if (act_price == '') {
             $("#act_price").focus();
             return false;
         }
-        
-        if(car_id == ''){
+
+        if (car_id == '') {
             swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
             return false;
         }
@@ -469,8 +478,8 @@ $config = new app\models\Config_system();
             year: annuities_year,
             period_price: period_price
         };
-        
-         if(car_id == ''){
+
+        if (car_id == '') {
             swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
             return false;
         }
@@ -503,5 +512,28 @@ $config = new app\models\Config_system();
         $.post(url, data, function (result) {
             $("#load_price").html(result);
         });
+    }
+
+    function set_flag() {
+        swal({title: "Are you sure?",
+            text: "คุณต้องการจำหน่ายรถทะเบียนนี้ ใช่ หรือ ไม่!",
+            type: "warning", showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes!",
+            closeOnConfirm: false},
+                function () {
+                    var url = "<?php echo Url::to(['truck/set_flag']) ?>";
+                    var id = "<?php echo $model->id ?>";
+                    var car_id = "<?php echo $car_id ?>";
+                    var data = {
+                        id: id,
+                        car_id: car_id
+                    };
+                    $.post(url, data, function (result) {
+                        swal("Success!", "ทำรายการสำเร็จ.", "success");
+                        window.location.reload();
+                    });
+                    
+                });
     }
 </script>

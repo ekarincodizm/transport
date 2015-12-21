@@ -20,6 +20,9 @@ $this->title = "ตงตงทรานสปอร์ต";
 $driver_model = new \app\models\Driver();
 $truck_act = new \app\models\TruckAct();
 $annuities = new app\models\Annuities();
+
+$company_model = new \app\models\Company();
+$company = $company_model->find()->one();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -27,6 +30,11 @@ $annuities = new app\models\Annuities();
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?php 
+            $logo = $company['logo'];
+        ?>
+        <link rel="icon" sizes="192x192" href="<?php echo Url::to('@web/web/uploads/logo/'.$logo) ?>">
+
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
