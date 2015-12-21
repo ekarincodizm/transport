@@ -20,7 +20,6 @@ $this->title = "ตงตงทรานสปอร์ต";
 $driver_model = new \app\models\Driver();
 $truck_act = new \app\models\TruckAct();
 $annuities = new app\models\Annuities();
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -41,9 +40,9 @@ $annuities = new app\models\Annuities();
                 m = checkTime(m);
                 s = checkTime(s);
                 var clock = h + "<br/>" + m + ":" + s;
-                
+
                 $("#txt").html(clock);
-                
+
                 var t = setTimeout(startTime, 500);
             }
             function checkTime(i) {
@@ -127,24 +126,56 @@ $annuities = new app\models\Annuities();
                             </button>
                             <ul class="dropdown-menu pull-left" aria-labelledby="dropdownMenu2" style="width: 350px;" id="menu-task-bar">
                                 <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-                                <li><a href="<?php echo Url::to(['site/index']); ?>"><i class="fa fa-home"></i> <span>หน้าแรก</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '1') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('1')"><a href="<?php echo Url::to(['site/index']); ?>"><i class="fa fa-home"></i> <span>หน้าแรก</span></a></li>
                                 <li class="header"><i class="fa fa-cogs"></i> ตั้งค่าระบบ</li>
-                                <li class="active"><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> <span>ข้อมูลรถ(ตามทะเบียน)</span></a></li>
-                                <li><a href="<?php echo Url::to(['map-truck/create']); ?>"><i class="fa fa-truck text-info"></i> <span>จับคู่รถ(ส่วนหัว-ส่วนท้าย)</span></a></li>
-                                <li><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users text-yellow"></i> <span>ข้อมูลคนขับ</span></a></li>
-                                <li><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> <span>ข้อมูลลูกค้า</span></a></li>
-                                <li><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
-                                <li><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> <span>ประเภทรถ</span></a></li>
-                                <li><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
-                                <li><a href="<?php echo Url::to(['account/index','id' => '1']); ?>"><i class="fa fa-university text-success"></i> <span>ข้อมูลบัญชีธนาคาร</span></a></li>
-                                <li><a href="<?php echo Url::to(['company/view','id' => '1']); ?>"><i class="fa fa-building text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
-                                <li><a href="<?php echo Url::to(['notifications/view', 'id' => '1']); ?>"><i class="fa fa-bell text-orange"></i> <span>ตั้งค่าการแจ้งเตือน</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '2') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('2')"><a href="<?php echo Url::to(['truck/index']); ?>"><i class="fa fa-car text-red"></i> <span>ข้อมูลรถ(ตามทะเบียน)</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '3') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('3')"><a href="<?php echo Url::to(['map-truck/create']); ?>"><i class="fa fa-truck text-info"></i> <span>จับคู่รถ(ส่วนหัว-ส่วนท้าย)</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '4') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('4')"><a href="<?php echo Url::to(['driver/index']); ?>"><i class="fa fa-users text-yellow"></i> <span>ข้อมูลคนขับ</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '5') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('5')"><a href="<?php echo Url::to(['customer/index']); ?>"><i class="fa fa-building text-aqua"></i> <span>ข้อมูลลูกค้า</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '6') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('6')"><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '7') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('7')"><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-bus text-green"></i> <span>ประเภทรถ</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '8') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('8')"><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '9') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('9')"><a href="<?php echo Url::to(['account/index']); ?>"><i class="fa fa-university text-success"></i><span>ข้อมูลบัญชีธนาคาร</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '10') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('10')"><a href="<?php echo Url::to(['company/view', 'id' => '1']); ?>"><i class="fa fa-building text-success"></i> <span>ข้อมูลบริษัท</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '11') {
+                    echo "class = 'active' ";
+                } ?> onclick="set_menu('11')"><a href="<?php echo Url::to(['notifications/view', 'id' => '1']); ?>"><i class="fa fa-bell text-orange"></i> <span>ตั้งค่าการแจ้งเตือน</span></a></li>
                                 <li class="header"><i class="fa fa-book"></i> รายงาน</li>
-                                <li><a href="<?php echo Url::to(['report/report_month_select_car'])?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(เกี่ยวกับรถ)</span></a></li>
-                                <li><a href="<?php echo Url::to(['report/report_month_select_car_round'])?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(ตามรอบวิ่ง)</span></a></li>
-                                <li><a href="<?php echo Url::to(['report/report_month_all'])?>"><i class="fa fa-truck text-success"></i> <span>รับรับ - รายจ่ายค่าขนว่งประจำเดือน</span></a></li>
-                                <li><a href="<?php echo Url::to(['report/report_year'])?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี,เดือน)</span></a></li>
-                                <li><a href="<?php echo Url::to(['report/report_period'])?>"><i class="fa fa-bar-chart text-danger"></i> <span>กำไร - ขาดทุน(ไตรมาส)</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '12') {
+                                    echo "class = 'active' ";
+                                } ?> onclick="set_menu('12')"><a href="<?php echo Url::to(['report/report_month_select_car']) ?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(เกี่ยวกับรถ)</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '13') {
+                                    echo "class = 'active' ";
+                                } ?> onclick="set_menu('13')"><a href="<?php echo Url::to(['report/report_month_select_car_round']) ?>"><i class="fa fa-truck text-yellow"></i> <span>บัญชีค่าใช้จ่ายของรถประจำเดือน(ตามรอบวิ่ง)</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '14') {
+                                    echo "class = 'active' ";
+                                } ?> onclick="set_menu('14')"><a href="<?php echo Url::to(['report/report_month_all']) ?>"><i class="fa fa-truck text-success"></i> <span>รับรับ - รายจ่ายค่าขนว่งประจำเดือน</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '15') {
+                                    echo "class = 'active' ";
+                                } ?> onclick="set_menu('15')"><a href="<?php echo Url::to(['report/report_year']) ?>"><i class="fa fa-bar-chart text-yellow"></i> <span>กำไร - ขาดทุน(ปี,เดือน)</span></a></li>
+                                <li <?php if (Yii::$app->session['menu'] == '16') {
+                                    echo "class = 'active' ";
+                                } ?> onclick="set_menu('16')"><a href="<?php echo Url::to(['report/report_period']) ?>"><i class="fa fa-bar-chart text-danger"></i> <span>กำไร - ขาดทุน(ไตรมาส)</span></a></li>
                                 <li style=" border-top: #000 solid 1px;">
 
                                 </li>
@@ -157,11 +188,11 @@ $annuities = new app\models\Annuities();
                     <div class="col-md-9 col-lg-9" id="noti">
                         <section class="content-header" style="margin: 0px;padding: 0px; border-radius: 0px;">
                             <h4 style="margin: 0px; font-size: 14px;" class="navicator">
-                                <?=
-                                Breadcrumbs::widget([
-                                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                                ])
-                                ?>
+<?=
+Breadcrumbs::widget([
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+])
+?>
                             </h4>
                         </section>
                     </div>
@@ -176,7 +207,7 @@ $annuities = new app\models\Annuities();
                                     <a href="<?php echo Url::to(['truck-act/notification']) ?>">
                                         <i class="fa fa-bell-o text-red"></i> พรบ/ภาษี
                                         <span class="label label-warning pull-right">
-                                            <?php echo $truck_act->notification_act(); ?>
+<?php echo $truck_act->notification_act(); ?>
                                         </span>
                                     </a>
                                 </li>
@@ -210,17 +241,26 @@ $annuities = new app\models\Annuities();
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
-    <?php
-    $this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
-    //$this->endBody();
-    ?>
+<?php
+$this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
+//$this->endBody();
+?>
 
-    <?php $this->endBody() ?>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
 
 <script type="text/javascript">
+
+    function set_menu(id) {
+        var url = "<?php echo Url::to(['site/set_menu']) ?>";
+        var data = {id: id};
+
+        $.post(url, data, function (success) {
+            //window.location.reload();
+        });
+    }
     $(document).ready(function () {
         var width = $(window).width();
         if (width <= 768) {

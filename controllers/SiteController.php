@@ -87,4 +87,9 @@ class SiteController extends Controller {
         return $this->render('about');
     }
 
+    public function actionSet_menu() {
+        $id = Yii::$app->request->post('id');
+        Yii::$app->session['menu'] = $id;
+    }
+
 }

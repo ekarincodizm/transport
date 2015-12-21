@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <li><a href="#period3" data-toggle="tab" onclick="load_report_period_3('3')"> ไตรมาส 3</a></a></li>
             <li><a href="#period4" data-toggle="tab" onclick="load_report_period_4('4')"> ไตรมาส 4</a></a></li>
         </ul>
-        <div class="tab-content">
+        <div class="tab-content" id="loadding_progass">
             <div class="active tab-pane" id="period1"></div>
             <div class="tab-pane" id="period2"></div>
             <div class="tab-pane" id="period3"></div>
@@ -71,7 +71,7 @@ $this->registerJs('
         var data = {
             year: year
         };
-        
+        $("#chart").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> loading ...</center><br/><br/>');
         $.post(url, data, function (result) {
             //alert(result);
             $("#chart").html(result);
@@ -88,7 +88,7 @@ $this->registerJs('
         };
         
         
-        
+         $("#period1").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> กรุณารอสักครู่ ...</center><br/><br/>');
         $.post(url, data, function (result) {
             //alert(result);
             $("#period1").html(result);
@@ -102,7 +102,7 @@ $this->registerJs('
             year: year,
             period: period
         };
-
+        $("#period2").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> กรุณารอสักครู่ ...</center><br/><br/>');
         $.post(url, data, function (result) {
             //alert(result);
             $("#period2").html(result);
@@ -116,7 +116,7 @@ $this->registerJs('
             year: year,
             period: period
         };
-
+        $("#period3").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> กรุณารอสักครู่ ...</center><br/><br/>');
         $.post(url, data, function (result) {
             //alert(result);
             $("#period3").html(result);
@@ -130,7 +130,7 @@ $this->registerJs('
             year: year,
             period: period
         };
-
+        $("#period4").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> กรุณารอสักครู่ ...</center><br/><br/>');
         $.post(url, data, function (result) {
             //alert(result);
             $("#period4").html(result);

@@ -187,12 +187,12 @@ class ReportController extends Controller {
         $period = \Yii::$app->request->post('period');
 
         $report = new Report();
-        $result = $report->Report_period($year, $period);
+        $result = $report->Report_period($period);
 
         return $this->renderPartial('load_report_period', [
-                    'report' => $result,
+                    'result' => $result,
                     'year' => $year,
-                        //'chart' => $chart,
+                     //'chart' => $chart,
         ]);
     }
 
@@ -224,19 +224,32 @@ class ReportController extends Controller {
     public function actionGet_period($year = null, $period = null) {
         $report = new Report();
 
-        $result = $report->Report_period($year, $period);
+        $result = $report->Report_period($period);
 
-        $sum_expenses_row = 0;
-        $sum_total_row = 0;
-        $sum_income = 0;
-        $sum_outcome = 0;
-        //$income_month = 0;
+        $i = 0;
+        $sum_expenses_row = 0; //รวมรายจ่าย
+        $sum_total_row = 0; //คงเหลือ
+        $sum_income = 0; //รวมรายรับ
+        $sum_outcome = 0; //รวมรายจ่าย
+        $allowance_driver = 0;
         foreach ($result as $rs):
-            $sum_expenses_row = ($rs['oil_price'] + $rs['gas_price'] + $rs['expenses_around'] + $rs['fix_truck'] + $rs['income_driver'] + $rs['truck_period'] + $rs['truck_act']);
-            $sum_total_row = ($rs['income'] - $sum_expenses_row);
+            $i++;
+            $sub = $report->Subreport_year($year, $rs['MONTH']);
+            //รายได้จากการจ้างขน
+            $income_out_transport = $report->sum_income_out_transport_month($year, $rs['MONTH']);
+            //$income_out_transport = 0;
+            //Config 
+            $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
+            $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
+            $salary = $report->sum_salary_month($year, $rs['MONTH']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
+            $annuities = $report->sum_annuities_month($year, $rs['MONTH']); //ค่างวดรถ
+            $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
+            $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
 
-            $sum_income = $sum_income + $rs['income']; //รายได้รวมทุกเดือน
-            $sum_outcome = $sum_outcome + $sum_expenses_row; //รายจ่ายรวมทุกเดือน
+            $allowance_driver = ((int) $sub['allowance_driver1'] + (int) $sub['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
+            $sum_total_row = ($sub['income'] - $sum_expenses_row);
+            $sum_income = $sum_income + ($sub['income'] + $income_out_transport);
+            $sum_outcome = $sum_outcome + $sum_expenses_row;
         endforeach;
 
 
