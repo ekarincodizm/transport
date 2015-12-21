@@ -182,6 +182,7 @@ function save_assign() {
     }
 
     $.post(url, data, function (success) {
+        swal("Success", "สร้างใบงานเสร็จแล้ว ..!", "success");
         window.location.reload();
     });
 

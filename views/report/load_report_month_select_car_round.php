@@ -122,8 +122,8 @@ $outgoing = new \app\models\Outgoings();
                 <td colspan="8" style=" text-align: center;">รวม</td>
                 <td><?php echo number_format($sum_oil, 2); ?></td>
                 <td><?php echo number_format($sum_gas, 2); ?></td>
-                <td><?php echo number_format($sum_allowance_driver, 2); ?></td>
                 <td><?php echo number_format($sum_expense, 2); ?></td>
+                <td><?php echo number_format($sum_allowance_driver, 2); ?></td>
                 <td><?php echo number_format($sum_expense_etc, 2); ?></td>
                 <td><?php echo number_format($sum_all, 2); ?></td>
             </tr>

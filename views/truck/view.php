@@ -408,9 +408,14 @@ $config = new app\models\Config_system();
         var act_price = $("#act_price").val()
         var car_id = "<?php echo $car_id ?>";
         var url = "<?php echo Url::to(['truck-act/save']); ?>";
-
+        
         if (act_price == '') {
             $("#act_price").focus();
+            return false;
+        }
+        
+        if(car_id == ''){
+            swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
             return false;
         }
 
@@ -464,6 +469,11 @@ $config = new app\models\Config_system();
             year: annuities_year,
             period_price: period_price
         };
+        
+         if(car_id == ''){
+            swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
+            return false;
+        }
 
         $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         $.post(url, data, function (result) {

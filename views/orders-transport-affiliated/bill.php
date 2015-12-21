@@ -17,6 +17,11 @@ $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
 $thaibaht = new app\models\Thaibaht();
+$company_model = new \app\models\Company();
+$company = $company_model->find()->one();
+
+$account_model = new \app\models\Account();
+$account = $account_model->find()->where(['status' => 1])->one();
 ?>
 <!--
     #ข้อมูลใบปฏิบัติงาน
@@ -30,11 +35,10 @@ $thaibaht = new app\models\Thaibaht();
 
 <div style="float: left; padding-top:50px;">
     <font style=" font-size: 12px;">
-    <b><?php echo "ห้างหุ้นส่วนจํากัด ตงตง ทรานสปอร์ต"; ?></b><br/>
-    162 หมู่ที่3  ต.พบพระ<br/>
-    อ.พบพระ จ.ตาก 63160<br/>
-    โทรศัพท์ 081-8868090 แฟกซ์ 055-508914<br/>
-    เลขประจำตัวผู้เสียภาษี : 0633557000014
+    <b><?php echo $company['companyname'] ?></b><br/>
+    <?php echo $company['address'] ?><br/>
+    <?php echo $company['contact'] ?><br/>
+    เลขประจำตัวผู้เสียภาษี <?php echo $company['taxation_number'] ?><br/>
     </font>
 </div>
 
@@ -62,9 +66,9 @@ $thaibaht = new app\models\Thaibaht();
             <?php echo $config->thaidate($model->order_date_start); ?>
         </div>
         <div style=" text-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
-            ธนาคารกรุงเทพ สาขาเทสโก้โลตัส แม่สอด<br/>
-            บัญชีเลขที่ 303-7-02-307-8<br/>
-            หจ. ตงตง ทรานสปอร์ต
+            <?php echo $account['bank_name'] ?><br/>
+            บัญชีเลขที่ <?php echo $account['account_number'] ?><br/>
+            <?php echo $account['account_name'] ?>
         </div>
     </div>
 </div>
@@ -118,12 +122,12 @@ $thaibaht = new app\models\Thaibaht();
         </tr>
         <tr>
             <td colspan="3" style=" text-align: center;">
-                ในนาม ห้างหุ้นส่วนจำกัด ตงตง ทรานสปอร์ต TONG TONG TRANSPORT LIMITED PARTNERSHIP
+                ในนาม <?php echo $company['companyname']?>
             </td>
         </tr>
         <tr>
             <td colspan="3" style=" text-align: center; font-weight: bold;">
-                รัตนากร นาจาย
+                <?php echo $company['ceo']; ?>
                 <div id="line">.</div>
                 AUTHORIZED SIGNATURE / DATE
             </td>

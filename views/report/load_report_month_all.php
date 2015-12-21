@@ -88,7 +88,7 @@ function Affiliated_truck($truck_id = null) {
                 ?>
                 <tr>
                     <th><?php echo $rs['truck_1'] . ' ' . $rs['truck_2'] ?></th>
-                    <td><?php echo get_driver($rs['car_id']) ?></td>
+                    <td style=" text-align: left;"><?php echo get_driver($rs['car_id']) ?></td>
                     <td style=" text-align: center;"><?php echo $report->get_around($year, $month, $rs['car_id']) ?></td>
                     <td><?php echo number_format($rs['distance']) ?></td>
                     <td><?php echo number_format($rs['oil']) ?></td>

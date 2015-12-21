@@ -13,23 +13,19 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#b7deed', GradientType=0 );
 }
 #bg-nav{
-    background: #373c42;//สีเทา
-    //background: #2196f5;//สีฟ้า
+    background: #373c42;
 }
 body #bg-nav-head{
-    background: #373c42;//สีเทา
+    background: #373c42;
 }
-//#bg-nav ul li a{ color: #000000; text-shadow:1px 0px #FFFFFF;}
-//#bg-nav a{ color: #000000; text-shadow:1px 0px #FFFFFF;}
+
 #bg-sidebar{
-    //background: rgba(183,222,237,1);
-    //background: #00bcd7;
+
 
 }
 
 #btn{
     text-align: center;
-    //background: none;
     background: url('../images/glass-white.png');
     border: none;
 }
@@ -56,14 +52,12 @@ body #bg-nav-head{
     background:none;
     margin-bottom: 0px;
     padding: 0px;
-    //padding-top: 10px;
 }
 
 .navicator > ul > li > a{
     padding:9px;
     border-radius:3px; 
     color: #FFF;
-    //border: #ccc solid 1px;
     background: rgba(255,175,75,1);
     background: -moz-linear-gradient(-45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%);
     background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(255,175,75,1)), color-stop(100%, rgba(255,146,10,1)));
@@ -75,15 +69,11 @@ body #bg-nav-head{
 }
 
 .navicator ul li.active{
-    //display: block;
-    //float: left;
-    //height: 50px;
+
     background: #b06100;
     text-align: center;
     padding: 11px;
     position: relative;
-    //margin: 0 0px 0 0; 
-    //font-size: 20px;
     text-decoration: none;
     color: #fff;
     border-radius: 3px 0px 0px 3px;
@@ -111,7 +101,7 @@ body #bg-nav-head{
 }
 
 .navicator > ul > li > a:hover{
-    //padding:8px 5px 5px 5px;
+
     color: #000;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fceabb+0,fccd4d+50,f8b500+51,fbdf93+100;Orange+3D+%235 */
     background: rgb(252,234,187); /* Old browsers */
@@ -144,8 +134,6 @@ body #bg-nav-head{
 }
 */
 #content-bg-gray{
-    //#e5e5e5
-
     background: rgba(232,232,232,1);
     background: -moz-radial-gradient(center, ellipse cover, rgba(232,232,232,1) 0%, rgba(232,232,232,1) 46%, rgba(208,206,206,1) 100%);
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(232,232,232,1)), color-stop(46%, rgba(232,232,232,1)), color-stop(100%, rgba(208,206,206,1)));
@@ -158,7 +146,6 @@ body #bg-nav-head{
 }
 
 #content-bg-blue{
-    //#e5e5e5
     background: rgba(147,206,222,1);
     background: -moz-radial-gradient(center, ellipse cover, rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%);
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(147,206,222,1)), color-stop(41%, rgba(117,189,209,1)), color-stop(100%, rgba(73,165,191,1)));
@@ -171,7 +158,6 @@ body #bg-nav-head{
 }
 
 #content-bg-red{
-    //#e5e5e5
     color:#ffffff;
     background: rgba(169,3,41,1);
     background: -moz-radial-gradient(center, ellipse cover, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
@@ -286,11 +272,10 @@ body #bg-nav-head{
 }
 
 body #bg-nav-head{
-    //background: none;
 }
 
 #sidebar-toggle{
-    //border-left:#FFFFFF solid 1px;
+
 }
 
 #sidebar-toggle:hover{
@@ -325,12 +310,16 @@ body #bg-nav-head{
 }
 
 .dropdown-menu{
-    max-height: 600px;
+    max-height: 500px;
     overflow: auto;
 }
 
 .dropup ul li a{
     padding: 8px 8px;
+}
+
+.actives{
+    background: url(arrows-right-icon.png) #0066ff right no-repeat;
 }
 
 #menu-task-bar{
@@ -346,3 +335,25 @@ body #bg-nav-head{
 #menu-task-bar li a:hover{
     color: #000;
 }
+
+::-webkit-scrollbar
+{
+    width: 10px;  /* for vertical scrollbars */
+    height: 10px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#bg_img_main{
+    background: url(truck-icon-glass.png) right center no-repeat fixed;
+    height: 100%;
+}
+
