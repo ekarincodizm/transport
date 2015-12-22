@@ -18,8 +18,8 @@ class AccountSearch extends Account
     public function rules()
     {
         return [
-            [['id', 'saving_type', 'bank_name', 'status'], 'integer'],
-            [['account_number', 'account_name'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['account_number', 'account_name', 'saving_type', 'bank_name', 'brance'], 'safe'],
         ];
     }
 
@@ -57,13 +57,14 @@ class AccountSearch extends Account
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'saving_type' => $this->saving_type,
-            'bank_name' => $this->bank_name,
             'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'account_number', $this->account_number])
-            ->andFilterWhere(['like', 'account_name', $this->account_name]);
+            ->andFilterWhere(['like', 'account_name', $this->account_name])
+            ->andFilterWhere(['like', 'saving_type', $this->saving_type])
+            ->andFilterWhere(['like', 'bank_name', $this->bank_name])
+            ->andFilterWhere(['like', 'brance', $this->brance]);
 
         return $dataProvider;
     }

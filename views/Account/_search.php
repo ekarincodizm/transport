@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'bank_name') ?>
 
+    <?php // echo $form->field($model, 'brance') ?>
+
     <?php // echo $form->field($model, 'status') ?>
 
     <div class="form-group">

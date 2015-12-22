@@ -1,9 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\form\ActiveForm;
-/*use yii\widgets\ActiveForm;/*
-
+use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
+use app\models\savingType;
 /* @var $this yii\web\View */
 /* @var $model app\models\Account */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,17 +16,28 @@ use kartik\form\ActiveForm;
     <?= $form->field($model, 'account_number')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'account_name')->textInput(['maxlength' => true]) ?>
+    <?php
+        echo $form->field($model, 'saving_type')
+                ->dropDownList(ArrayHelper::map(\app\models\savingType::find()
+                        ->all(),'saving_type','saving_type'),
+            ['saving_type' =>
+                'saving_type', 'required' => 'required', 'prompt' => 'เลือกประเภทบัญชี',]);
+    ?>
+    <?php
+        echo $form->field($model, 'bank_name')
+                ->dropDownList(ArrayHelper::map(\app\models\BankName::find()
+                        ->all(),'bank_name','bank_name'),
+            ['bank_name' =>
+                'bank_name', 'required' => 'required', 'prompt' => 'เลือกธนาคาร',]);
+    ?>
+    <?= $form->field($model, 'brance')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'saving_type')->dropDownList(['1'=>'ออมทรัพย์','2'=>'กระแสรายวัน']); ?>
-
-    <?= $form->field($model, 'bank_name')->dropDownList(['1'=>'ธนาคารออมสิน','2'=>'ธนาคารกรุงไทย','3'=>'ธนาคารกรุงศรีอยุธยา']); ?>
-
-    <?= $form->field($model, 'status')->dropDownList(['1'=>'Active','2'=>'Inactive']); ?>
+<?= $form->field($model, 'status')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'สร้างบัญชี' : 'แก้ไขบัญชี', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 </div>
