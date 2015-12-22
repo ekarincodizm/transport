@@ -390,11 +390,13 @@ class ReportController extends Controller {
         $result = $report->report_month_all($year, $month);
 
         $order_out = $order_model->find()->where(['YEAR(create_date)' => $year, 'SUBSTR(create_date,6,2)' => $month])->all();
+        $truck_no_map = $report->get_truck_nomap($year, $month);
         return $this->renderPartial('load_report_month_all', [
                     'year' => $year,
                     'month' => $month,
                     'result' => $result,
                     'order_out' => $order_out,
+                    'nomap' => $truck_no_map,
         ]);
     }
 

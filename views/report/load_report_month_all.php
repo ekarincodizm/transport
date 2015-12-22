@@ -87,7 +87,7 @@ function Affiliated_truck($truck_id = null) {
                 $sum_outcome = $sum_outcome + $sum_expenses_row;
                 ?>
                 <tr>
-                    <th><?php echo $rs['truck_1'] . ' ' . $rs['truck_2'] ?></th>
+                    <th><?php echo "คันที่ " . $rs['car_id'] . ' ' . $rs['truck_1'] . ' ' . $rs['truck_2'] ?></th>
                     <td style=" text-align: left;"><?php echo get_driver($rs['car_id']) ?></td>
                     <td style=" text-align: center;"><?php echo $report->get_around($year, $month, $rs['car_id']) ?></td>
                     <td><?php echo number_format($rs['distance']) ?></td>
@@ -122,14 +122,36 @@ function Affiliated_truck($truck_id = null) {
                     <td style="text-align: right;" id="total"><?php echo number_format($o['income_total'], 2) ?></td>
                 </tr>
             <?php endforeach; ?>
+
+            <?php
+            $sum_expenses_nomap = 0;
+            $sum_expenses_nomap_row = 0;
+            foreach ($nomap as $list):
+                $sum_expenses_nomap_row = ((int) $list['fix'] + (int) $list['period_price'] + (int) $list['act']);
+                $sum_expenses_nomap = ($sum_expenses_nomap + $sum_expenses_nomap_row);
+                ?>
+                <tr>
+                    <td colspan="6" style=" text-align: left;">
+                        <?php echo "ทะเบียน " . $list['truck'] ?>
+                    </td>
+                    <td style="text-align: right;" id="income">0</td>
+                    <td colspan="3"></td>
+                    <td style="text-align: right;"><?php echo number_format($list['fix'],2) ?></td>
+                    <td></td>
+                    <td style="text-align: right;"><?php echo number_format($list['period_price'],2) ?></td>
+                    <td style="text-align: right;"><?php echo number_format($list['act'],2) ?></td>
+                    <td id="outcome"><?php echo number_format($sum_expenses_nomap_row, 2) ?></td>
+                    <td style="text-align: right;" id="total"><?php echo number_format(0 - $sum_expenses_nomap_row, 2) ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="6" style=" text-align: center;">รวม</td>
                 <td><?php echo number_format(($sum_income + $sumincom_out_transport), 2); ?></td>
                 <td colspan="7"></td>
-                <td><?php echo number_format($sum_outcome, 2); ?></td>
-                <td><?php echo number_format(($sum_income + $sumincom_out_transport) - $sum_outcome, 2); ?></td>
+                <td><?php echo number_format($sum_outcome + $sum_expenses_nomap, 2); ?></td>
+                <td><?php echo number_format((($sum_income + $sumincom_out_transport) - $sum_outcome) - $sum_expenses_nomap, 2); ?></td>
             </tr>
         </tfoot>
     </table>

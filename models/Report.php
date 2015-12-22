@@ -53,7 +53,7 @@ class Report {
         return $result;
     }
 
-    function Subreport_year($year = null,$month = null) {
+    function Subreport_year($year = null, $month = null) {
         $query = "SELECT SUBSTR(order_date_start,6,2) AS MONTH,
                 SUM(a.oil_set) AS oil_set,
                                 SUM(a.oil) AS oil,
@@ -335,9 +335,9 @@ class Report {
         $result = \Yii::$app->db->createCommand($sql)->queryOne();
         return $result['price'];
     }
-    
+
     //รายรับจากการจ้างบริษัทรถร่วมมาแสดง
-     function sum_income_out_transport_month($year = null, $month = null) {
+    function sum_income_out_transport_month($year = null, $month = null) {
         $sql = "SELECT SUM(o.income_total) AS TOTAL
                     FROM orders_transport_affiliated o 
                     WHERE YEAR(o.create_date) = '$year'
@@ -346,7 +346,7 @@ class Report {
         $result = \Yii::$app->db->createCommand($sql)->queryOne();
         return $result['TOTAL'];
     }
-    
+
     //ดึงจำนวนค่าซ่อมรถทั้งหมดมาแสดง
     function sum_expenses_truck_month($year = null, $month = null) {
         $sql = "SELECT SUM(Q1.price) AS price
@@ -634,6 +634,42 @@ class Report {
                     AND SUBSTR(s.date_salary,6,2) = '$month'
                 ) Q1 ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+
+    //ดึงข้อมูลรายการรถที่ไม่ได้ต่อ แต่ มีค่าใช้จ่ายในเดือน นั้น ๆ 
+    public function get_truck_nomap($year = null, $month = null) {
+        $sql = "SELECT Q1.truck,SUM(Q1.fix) AS fix,SUM(Q1.period_price) AS period_price,SUM(Q1.act) AS act
+                FROM
+                (
+                SELECT o.truck_license AS truck,SUM(o.price) AS fix,0 AS period_price,0 AS act
+                FROM `repair` o 
+                WHERE YEAR(o.create_date) = '$year'
+                      AND SUBSTR(o.create_date,6,2) = '$month'
+                      AND (o.car_id = '' OR o.car_id IS NULL)
+
+                UNION 
+
+                
+                SELECT o.license_plate AS truck,0 AS fix,SUM(o.period_price) AS period_price,0 AS act
+                FROM annuities o 
+                WHERE YEAR(o.create_date) = '$year'
+                      AND SUBSTR(o.create_date,6,2) = '$month'
+                          AND (o.car_id = '' OR o.car_id IS NULL)
+                          
+                UNION 
+
+                
+                SELECT o.license_plate AS truck,0 AS fix,0 AS period_price,SUM(o.act_price) AS act
+                FROM truck_act o 
+                WHERE YEAR(o.create_date) = '$year'
+                      AND SUBSTR(o.create_date,6,2) = '$month'
+                       AND (o.car_id = '' OR o.car_id IS NULL)
+                ) Q1
+                WHERE Q1.truck != ''
+                GROUP BY Q1.truck ";
+
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
 

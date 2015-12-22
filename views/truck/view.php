@@ -422,11 +422,12 @@ $config = new app\models\Config_system();
             $("#act_price").focus();
             return false;
         }
-
+        /*
         if (car_id == '') {
             swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
             return false;
         }
+        */
 
         var data = {
             car_id: car_id,
@@ -478,12 +479,13 @@ $config = new app\models\Config_system();
             year: annuities_year,
             period_price: period_price
         };
-
+        
+        /*
         if (car_id == '') {
             swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
             return false;
         }
-
+        */
         $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         $.post(url, data, function (result) {
             if (result == '1') {

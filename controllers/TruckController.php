@@ -206,5 +206,12 @@ class TruckController extends Controller {
                 ->execute();
         
     }
+    
+    public function actionDelete_truck(){
+        $id = Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+                ->delete("truck","id = '$id' ")
+                ->execute();
+    }
 
 }

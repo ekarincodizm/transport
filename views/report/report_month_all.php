@@ -39,15 +39,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         <select id="month" name="month" class="form-control">
                             <?php
                             $monthnow = date("m");
-                            if(strlen($monthnow) < 2){
-                                $month = "0".$monthnow;
+                            if (strlen($monthnow) < 2) {
+                                $month = "0" . $monthnow;
                             } else {
                                 $month = $monthnow;
                             }
                             for ($i = 0; $i <= 11; $i++) {
                                 ?>
-                                <option value="<?php echo $monthVal[$i]; ?>" <?php if($month == $monthVal[$i]){ echo "selected";}?>><?php echo $monthVal[$i].'-'.$monthFull[$i]; ?></option>
-                            <?php } ?>
+                                <option value="<?php echo $monthVal[$i]; ?>" <?php if ($month == $monthVal[$i]) {
+                                echo "selected";
+                            } ?>><?php echo $monthVal[$i] . '-' . $monthFull[$i]; ?></option>
+<?php } ?>
                         </select>
                     </div>
                 </div>
@@ -56,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <button type="button" class="btn btn-info btn-block" onclick="load_report()"><i class="fa fa-eye"></i> ดูรายงาน</button>
             </div>
         </div>
-        
+
         <div id="load_report"></div>
     </div>
 
@@ -81,7 +83,7 @@ $this->registerJs('
             //car_id: car_id
         };
 
-
+        $("#load_report").html('<center><i class="fa fa-spinner fa-spin fa-sz"></i> กรุณารอสักครู่ ...</center><br/><br/>');
 
         $.post(url, data, function (result) {
             //alert(result);
@@ -89,7 +91,7 @@ $this->registerJs('
         });
     }
 
- 
+
 </script>
 
 
