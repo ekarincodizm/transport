@@ -43,8 +43,9 @@ $account = $account_model->find()->where(['status' => 1])->one();
     <p>สำเนา/Copy</p>
     <p>ใบวางบิล [Statement]</p>
     <p>ลูกค้า [Customer]</p><br/>
-    <div style=" width: 100%; border: #000000 solid 1px; padding: 5px;">
+    <div style=" width: 100%; border: #000000 solid 1px; padding: 5px; text-align: left;">
         <?php echo $account['bank_name']?><br/>
+         สาขา <?php echo $account['brance'] ?><br/> 
         บัญชีเลขที่ <?php echo $account['account_number']?><br/>
         <?php echo $account['account_name']?>
     </div>

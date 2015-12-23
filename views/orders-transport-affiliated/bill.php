@@ -67,6 +67,7 @@ $account = $account_model->find()->where(['status' => 1])->one();
         </div>
         <div style=" text-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
             <?php echo $account['bank_name'] ?><br/>
+            สาขา <?php echo $account['brance'] ?><br/> 
             บัญชีเลขที่ <?php echo $account['account_number'] ?><br/>
             <?php echo $account['account_name'] ?>
         </div>

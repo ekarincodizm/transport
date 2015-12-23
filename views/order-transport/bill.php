@@ -29,7 +29,7 @@ $account = $account_model->find()->where(['status' => 1])->one();
 -->
 <div style=" position: absolute; left: 50px; top: 30px;">
     <div style="width: 80px;">
-        <img src="<?php echo Url::to('@web/web/uploads/logo/'.$company['logo'], true) ?>"/>
+        <img src="<?php echo Url::to('@web/web/uploads/logo/' . $company['logo'], true) ?>"/>
     </div>
 </div>
 
@@ -42,10 +42,12 @@ $account = $account_model->find()->where(['status' => 1])->one();
     </font>
 </div>
 
-<div style="float:right; top: 20px; position: absolute; right: 50px; text-align: center; font-weight: bold;">
-    <p>สำเนา/Copy</p>
-    <p>ใบวางบิล [Statement]</p>
-    <p>ลูกค้า [Customer]</p>
+<div style="float:right; top: 20px; position: absolute; right: 50px; font-weight: bold;">
+    <center>
+        <p>สำเนา/Copy</p>
+        <p>ใบวางบิล [Statement]</p>
+        <p>ลูกค้า [Customer]</p>
+    </center>
 </div>
 
 <br/>
@@ -65,8 +67,9 @@ $account = $account_model->find()->where(['status' => 1])->one();
             <?php echo $model->assign_id; ?><br/>
             <?php echo $config->thaidate($model->order_date_start); ?>
         </div>
-        <div style=" text-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
+        <div style="หtext-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
             <?php echo $account['bank_name'] ?><br/>
+            สาขา <?php echo $account['brance'] ?><br/> 
             บัญชีเลขที่ <?php echo $account['account_number'] ?><br/>
             <?php echo $account['account_name'] ?>
         </div>
