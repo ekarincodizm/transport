@@ -94,18 +94,24 @@ $notify = $notification->find()->one();
     <div class="panel-heading" style="padding-top:10px;">
         <?= Html::a('<i class="fa fa-user-plus"></i> เพิ่มพนักงานขับรถ', ['create'], ['class' => 'btn btn-info btn-sm']) ?>
         <div class="pull-right">
-            <a href="<?php echo yii\helpers\Url::to(['site/index']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
+                <a href="<?php echo yii\helpers\Url::to(['site/index']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
         </div>
     </div>
     <div class="panel-body" id="panel-body">
+
+
+    <div class="row">
+        <div class="pull-right">
+            <font style="color:#ff0000; margin-bottom: 10px; margin-right: 10px;">
+            * หมายเหตุ ใบขับขี่จะแจ้งเตือนก่อนหมดอายุ <label <?php echo $notify['driver_license'] ?> วัน
+                </font>
+               
+        </div>
+</div>
         <div class="row">
-            <div class="col-xs-12">
-                <font style="color:#ff0000; margin-bottom: 10px;" class="pull-right">
-                * หมายเหตุ ใบขับขี่จะแจ้งเตือนก่อนหมดอายุ <label <?php echo $notify['driver_license'] ?> วัน
-                    </font>
-            </div>
+
             <?php foreach ($driver as $rs): ?>
-                <div class="col-xs-6 col-sm-6 col-md-4">
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-primary widget-user">
                         <!-- Add the bg color to the header using any of the bg-* classes -->
