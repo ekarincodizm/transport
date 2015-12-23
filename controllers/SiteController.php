@@ -57,9 +57,12 @@ class SiteController extends Controller {
         $request = \Yii::$app->request;
         $username = $request->post('username');
         $password = $request->post('password');
-        if ($username == 'admin' && $password == 'admin') {
+        $sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password' ";
+        $rs = \Yii::$app->db->createCommand($sql)->queryOne();
+        if (!empty($rs)) {
             \Yii::$app->session['username'] = $username;
             \Yii::$app->session['user'] = true;
+            \Yii::$app->session['status'] = $rs['status'];
             $flag = "1";
         } else {
             $flag = "0";

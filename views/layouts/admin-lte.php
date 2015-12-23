@@ -165,11 +165,19 @@ $company = $company_model->find()->one();
                                     echo "class = 'actives' ";
                                 }
                                 ?> onclick="set_menu('6')"><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
+                                <?php if(Yii::$app->session['status'] == '1'){ ?>
                                 <li <?php
+                                if (Yii::$app->session['menu'] == '7') {
+                                    echo "class = 'actives' ";
+                                }
+                                ?> onclick="set_menu('7')"><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-truck text-info"></i> <span>ประเภทรถ</span></a></li>
+                                <?php } ?>
+                                 <li <?php
                                 if (Yii::$app->session['menu'] == '8') {
                                     echo "class = 'actives' ";
                                 }
                                 ?> onclick="set_menu('8')"><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
+                                
                                 <li <?php
                                 if (Yii::$app->session['menu'] == '9') {
                                     echo "class = 'actives' ";

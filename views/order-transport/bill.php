@@ -56,7 +56,8 @@ $account = $account_model->find()->where(['status' => 1])->one();
     <div style="width: 49%; float: left; padding-left: 5px;">
         <?php $employer = $customer_model->find()->where(['cus_id' => $model->employer])->one() ?>
         <b>ผู้ว่าจ้าง :</b> <?php echo $employer['company']; ?>  <br/>
-        <b>ที่อยู่ : </b> <?php echo $employer['address']; ?>
+        <b>ที่อยู่ : </b> <?php echo $employer['address']; ?><br/>
+        <b>Tel : </b> <?php echo $employer['tel']; ?>
     </div>
     <div style="width:49%; float: right; border-left: #000000 solid 1px;">
         <div style=" text-align: left; float: left; width: 50%; border-right: #000 solid 1px; padding-left: 5px;">
@@ -67,9 +68,9 @@ $account = $account_model->find()->where(['status' => 1])->one();
             <?php echo $model->assign_id; ?><br/>
             <?php echo $config->thaidate($model->order_date_start); ?>
         </div>
-        <div style="หtext-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
-            <?php echo $account['bank_name'] ?><br/>
-            สาขา <?php echo $account['brance'] ?><br/> 
+        <div style="text-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
+            <?php echo $account['bank_name'] ?>
+            สาขา <?php echo $account['brance'] ?><br/>
             บัญชีเลขที่ <?php echo $account['account_number'] ?><br/>
             <?php echo $account['account_name'] ?>
         </div>

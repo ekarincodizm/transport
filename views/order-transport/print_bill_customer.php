@@ -1,9 +1,10 @@
 <style type="text/css">
     body{color: #666666; font-size: 12px;}
-    table tr td{ border-left: #000000 solid 1px; border-bottom: #000000 solid 1px; padding: 5px;}
-    table tr th{ border-left: #000000 solid 1px; border-bottom: #000000 solid 1px; border-top: #000000 solid 1px; padding: 5px; text-align: left; font-weight: normal;}
-    table{ border-right: #000000 solid 1px;}
+    table tr td{ border-left: #000 solid 1px; border-bottom: #000 solid 1px; padding: 5px;}
+    table tr th{ border-left: #000 solid 1px; border-bottom: #000 solid 1px; border-top: #000 solid 1px; padding: 5px; text-align: left; font-weight: normal;}
+    table{ border-right: #000 solid 1px;}
     table tr th p{ margin-bottom: 10px;}
+    #line{ color: #FFF; font-size: 5px;}
 </style>
 <?php
 
@@ -15,9 +16,11 @@ $driver = new app\models\Driver();
 $customer_model = new \app\models\Customer();
 $changwat_model = new app\models\Changwat();
 $producttype_model = new app\models\ProductType();
-$company_model = new app\models\Company();
-$account_model = new \app\models\Account();
+$thaibaht = new app\models\Thaibaht();
+$company_model = new \app\models\Company();
 $company = $company_model->find()->one();
+
+$account_model = new \app\models\Account();
 $account = $account_model->find()->where(['status' => 1])->one();
 ?>
 <!--
@@ -26,7 +29,7 @@ $account = $account_model->find()->where(['status' => 1])->one();
 -->
 <div style=" position: absolute; left: 50px; top: 30px;">
     <div style="width: 80px;">
-        <img src="<?php echo Url::to('@web/web/uploads/logo/'.$company['logo'], true) ?>"/>
+        <img src="<?php echo Url::to('@web/web/uploads/logo/' . $company['logo'], true) ?>"/>
     </div>
 </div>
 
@@ -39,121 +42,161 @@ $account = $account_model->find()->where(['status' => 1])->one();
     </font>
 </div>
 
-<div style="float:right; top: 20px; position: absolute; right: 50px; text-align: center; font-weight: bold;">
-    <p>สำเนา/Copy</p>
-    <p>ใบวางบิล [Statement]</p>
-    <p>ลูกค้า [Customer]</p><br/>
-    <div style=" width: 100%; border: #000000 solid 1px; padding: 5px; text-align: left;">
-        <?php echo $account['bank_name']?><br/>
-         สาขา <?php echo $account['brance'] ?><br/> 
-        บัญชีเลขที่ <?php echo $account['account_number']?><br/>
-        <?php echo $account['account_name']?>
-    </div>
+<div style="float:right; top: 20px; position: absolute; right: 50px; font-weight: bold;">
+    <center>
+        <p>สำเนา/Copy</p>
+        <p>ใบวางบิล [Statement]</p>
+        <p>ลูกค้า [Customer]</p>
+    </center>
 </div>
 
 <br/>
 
-
-ลูกค้า : <?php echo $employer['company'] ?><br/>
-ที่อยู่ : <?php echo $employer['address'] ?><br/>
-โทร : <?php echo $employer['tel'] ?><br/>
-
-<?php foreach ($assigns as $assign): ?>
-    <div style="float: right; text-align: right;">
-        เลทที่ใบสั่งงาน <?php echo $assign['assign_id']; ?>
+<div class="well" style=" border: #000 solid 1px; padding: 0px; border-bottom: none; position: relative;">
+    <div style="width: 49%; float: left; padding-left: 5px;">
+        <b>ลูกค้า :</b> <?php echo $employer['company']; ?>  <br/>
+        <b>ที่อยู่ : </b> <?php echo $employer['address']; ?><br/>
+        <b>Tel : </b> <?php echo $employer['tel']; ?>
     </div>
-
-    <div class="well" style=" border: #000000 solid 1px; padding: 5px; border-bottom: none;">
-        <b>วันที่ขน :</b>  <?php echo $config->thaidate($assign['transport_date']); ?> <br/>
-        <b>เส้นทาง : </b>
-        <?php echo $changwat_model->find()->where(['changwat_id' => $assign['changwat_start']])->one()->changwat_name; ?>
-        -
-        <?php echo $changwat_model->find()->where(['changwat_id' => $assign['changwat_end']])->one()->changwat_name; ?>
-        <b>ต้นทาง : </b>
-        <?php
-        $cus_s = $customer_model->find()->where(['cus_id' => $assign['cus_start']])->one();
-        echo $cus_s->company;
-        ?>
-
-        <b>ปลายทาง : </b>
-        <?php
-        $cus_e = $customer_model->find()->where(['cus_id' => $assign['cus_end']])->one();
-        echo $cus_e->company;
-        ?> 
-
+    <div style="width:49%; float: right; border-left: #000000 solid 1px;">
+        <div style=" text-align: left; float: left; width: 50%; border-right: #000 solid 1px; padding-left: 5px;">
+            <b>เลขที่ Invoice No.:</b><br/>
+            <b>วันที่ Invoice Date :</b>
+        </div>
+        <div style=" text-align: center; float: left; width: 46%;">
+            <?php
+            $year = substr(date('Y'), 2, 2);
+            $month = date("m");
+            $day = date("d");
+            $time = date("s");
+            echo date("Y-m-d H:i:s");
+            ?><br/>
+            <?php echo $config->thaidate(date("Y-m-d")); ?>
+        </div>
+        <div style="text-align: left; width: 100%; border-top: #000 solid 1px; padding: 5px;">
+            <?php echo $account['bank_name'] ?>
+            สาขา <?php echo $account['brance'] ?><br/> 
+            บัญชีเลขที่ <?php echo $account['account_number'] ?><br/>
+            <?php echo $account['account_name'] ?>
+        </div>
     </div>
+</div>
 
-    <table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
+<table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
+    <thead>
         <tr>
             <th>#</th>
+            <th style="text-align:center;">เที่ยววันที่</th>
             <th style="text-align:center;">รายการ</th>
             <th style="text-align:center;">น้ำหนัก(ตัน)</th>
             <th style="text-align:center;">ราคา</th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign['product_type']])->one()->product_type; ?></td>
-            <td style="text-align: center;"><?php echo $assign['weigh']; ?></td>
-            <td style="text-align: right;"> <?php echo number_format($assign['income'], 2); ?></td>
-        </tr>
-        <tr style="font-weight: bold;">
-            <td colspan="3" style="text-align:center;"><b>รวม</b></td>
-            <td style="text-align: right;"><b><?php echo number_format($assign['income'], 2); ?></b></td>
-        </tr>
-
-    </table>
-    <br/>
-<?php endforeach; ?>
-
-
-
-<!-- จ้างรถวิ่ง -->
-<?php foreach ($assigns2 as $assign2): ?>
-    <div style="float: right; text-align: right;">
-        เลทที่ใบสั่งงาน <?php echo $assign2['order_id']; ?>
-    </div>
-
-    <div class="well" style=" border: #000000 solid 1px; padding: 5px; border-bottom: none;">
-        <b>วันที่ขน :</b>  <?php echo $config->thaidate($assign2['transport_date']); ?> <br/>
-        <b>เส้นทาง : </b>
-        <?php echo $changwat_model->find()->where(['changwat_id' => $assign2['changwat_start']])->one()->changwat_name; ?>
-        -
-        <?php echo $changwat_model->find()->where(['changwat_id' => $assign2['changwat_end']])->one()->changwat_name; ?>
-        <b>ต้นทาง : </b>
+    </thead>
+    <tbody>
         <?php
-        $cus_s = $customer_model->find()->where(['cus_id' => $assign2['cus_start']])->one();
-        echo $cus_s->company;
-        ?>
+        $total = 0;
+        $i = 0;
+        foreach ($assigns as $assign): $i++;
+            $total = $total + $assign['income'];
+            ?>
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo $config->thaidate($assign['transport_date']); ?></td>
+                <td>
+                    ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign['product_type']])->one()->product_type; ?>
+                    ใบสั่งงาน <?php echo $assign['assign_id']; ?>
+                    <?php echo $changwat_model->find()->where(['changwat_id' => $assign['changwat_start']])->one()->changwat_name; ?>
+                    -
+                    <?php echo $changwat_model->find()->where(['changwat_id' => $assign['changwat_end']])->one()->changwat_name; ?>
+                    <br/>
+                    <b>ต้นทาง : </b>
+                    <?php
+                    $cus_s = $customer_model->find()->where(['cus_id' => $assign['cus_start']])->one();
+                    echo $cus_s->company;
+                    ?>
 
-        <b>ปลายทาง : </b>
+                    <b>ปลายทาง : </b>
+                    <?php
+                    $cus_e = $customer_model->find()->where(['cus_id' => $assign['cus_end']])->one();
+                    echo $cus_e->company;
+                    ?> 
+                </td>
+                <td style="text-align: center;"><?php echo $assign['weigh']; ?></td>
+                <td style="text-align: right;"> <?php echo number_format($assign['income'], 2); ?></td>
+            </tr>
+        <?php endforeach; ?>
+
+        <!-- จ้างรถวิ่ง -->
         <?php
-        $cus_e = $customer_model->find()->where(['cus_id' => $assign2['cus_end']])->one();
-        echo $cus_e->company;
-        ?> 
+        $out_assign = 0;
+        $a = $i;
+        foreach ($assigns2 as $assign2): $a++;
+            $out_assign = $out_assign + $assign2['income'];
+            ?>
 
-    </div>
+            <tr>
+                <td><?php echo $a; ?></td>
+                <td><?php echo $config->thaidate($assign2['transport_date']); ?></td>
+                <td>
+                    ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign2['product_type']])->one()->product_type; ?>
+                    <b>ใบสั่งงาน</b>  <?php echo $assign2['order_id']; ?> 
+                    <?php echo $changwat_model->find()->where(['changwat_id' => $assign2['changwat_start']])->one()->changwat_name; ?>
+                    -
+                    <?php echo $changwat_model->find()->where(['changwat_id' => $assign2['changwat_end']])->one()->changwat_name; ?>
+                    <br/>
+                    <b>ต้นทาง : </b>
+                    <?php
+                    $cus_s = $customer_model->find()->where(['cus_id' => $assign2['cus_start']])->one();
+                    echo $cus_s->company;
+                    ?>
 
-    <table class="table table-bordered" style="width: 100%;" cellpadding="1" cellspacing="0">
+                    <b>ปลายทาง : </b>
+                    <?php
+                    $cus_e = $customer_model->find()->where(['cus_id' => $assign2['cus_end']])->one();
+                    echo $cus_e->company;
+                    ?> 
+                </td>
+                <td style="text-align: center;"><?php echo $assign2['weigh']; ?></td>
+                <td style="text-align: right;"> <?php echo number_format($assign2['income'], 2); ?></td>
+            </tr>
+        <?php endforeach; ?>
+
+    </tbody>
+    <tfoot>
         <tr>
-            <th>#</th>
-            <th style="text-align:center;">รายการ</th>
-            <th style="text-align:center;">น้ำหนัก(ตัน)</th>
-            <th style="text-align:center;">ราคา</th>
+            <td style=" text-align: center; font-weight: bold;" colspan="4">
+                รวมทั้งสิ้น
+            </td>
+            <td style=" text-align: right; font-weight: bold; color:red;" valign='bottom'>
+                <?php echo number_format(($total + $out_assign), 2); ?>
+            </td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>ค่าขนส่ง <?php echo $producttype_model->find()->where(['id' => $assign2['product_type']])->one()->product_type; ?></td>
-            <td style="text-align: center;"><?php echo $assign2['weigh']; ?></td>
-            <td style="text-align: right;"> <?php echo number_format($assign2['income'], 2); ?></td>
+            <td colspan="5" style=" text-align: right; font-weight: bold; color:red;">
+                <b>( <?php echo $thaibaht->convert(($total + $out_assign)); ?> )</b>
+            </td>
         </tr>
-        <tr style="font-weight: bold;">
-            <td colspan="3" style="text-align:center;"><b>รวม</b></td>
-            <td style="text-align: right;"><b><?php echo number_format($assign2['income'], 2); ?></b></td>
+        <tr>
+            <td colspan="5" style=" text-align: center; font-weight: bold;">จึงเรียนมาเพื่อทราบ</td>
         </tr>
+        <tr>
+            <td colspan="5" style=" text-align: center;">
+                ในนาม <?php echo $company['companyname'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style=" text-align: center; font-weight: bold;">
+                <?php echo $company['ceo'] ?>
+                <div id="line">.</div>
+                AUTHORIZED SIGNATURE / DATE
+            </td>
+        </tr>
+    </tfoot>
 
-    </table>
-    <br/>
-<?php endforeach; ?>
+</table>
+<br/>
+
+
 <!--
     ###################### END #########################
 -->

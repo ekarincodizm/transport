@@ -37,6 +37,17 @@ $this->params['breadcrumbs'][] = $this->title;
         // 'date_supply',
         //'type_id',
         [
+            'attribute' => 'price',
+            //'width' => '200px',
+            'format' => 'raw',
+            'header' => 'ราคา',
+            'hAlign' => 'center',
+             'mergeHeader' => true,
+            'value' => function ($model) {
+                return number_format($model->price);
+            },
+        ],
+        [
             'attribute' => 'type_id',
             'width' => '200px',
             'value' => function ($model) {
