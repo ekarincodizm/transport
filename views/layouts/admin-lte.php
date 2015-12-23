@@ -166,10 +166,10 @@ $company = $company_model->find()->one();
                                 }
                                 ?> onclick="set_menu('6')"><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
                                 <li <?php
-                                    if (Yii::$app->session['menu'] == '8') {
-                                        echo "class = 'actives' ";
-                                    }
-                                    ?> onclick="set_menu('8')"><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
+                                if (Yii::$app->session['menu'] == '8') {
+                                    echo "class = 'actives' ";
+                                }
+                                ?> onclick="set_menu('8')"><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
                                 <li <?php
                                 if (Yii::$app->session['menu'] == '9') {
                                     echo "class = 'actives' ";
@@ -214,8 +214,11 @@ $company = $company_model->find()->one();
                                 <li style=" border-top: #000 solid 1px;">
 
                                 </li>
+                                <li class="pull-left" style=" padding: 5px;">
+                                    <i class="fa fa-user text-green"></i> สวัสดีคุณ : <?php echo \Yii::$app->session['username']; ?>
+                                </li>
                                 <li class="pull-right" style=" padding: 5px;">
-                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-power-off"></i> ออกจากระบบ</button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="logout()"><i class="fa fa-power-off"></i> ออกจากระบบ</button>
                                 </li>
                             </ul>
                         </div>
@@ -286,6 +289,48 @@ $company = $company_model->find()->one();
 </html>
 <?php $this->endPage() ?>
 
+
+<!-- 
+    ############## Dialog Login ##############
+-->
+<div class="modal fade" id="dialog_login" data-backdrop="static">
+    <div class="modal-dialog modal-info modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style=" display: none;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-lock text-yellow"></i> เข้าสู่ระบบ</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <img src="<?php echo Url::to('@web/web/uploads/logo/' . $logo) ?>" width="80"/>
+                </center>
+                <br/>
+                * กรุณา ระบุชื่อผู้ใช้ และรหัสผ่าน <br/>
+                * เพื่อความปลอดภัยในการเข้าใช้ข้อมูล<br/><br/>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-user"></i> ชื่อผู้ใช้งาน</div>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-key"></i> รหัสผ่าน</div>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group" style=" text-align:  right;">
+                    <button type="button" class="btn btn-info" onclick="login()"><i class="fa fa-unlock text-green"></i> เข้าสู่ระบบ</button>
+                    <button type="button" class="btn btn-info" onclick="reset_login()"><i class="fa fa-remove text-red"></i> ยกเลิก</button>
+                    <div id="login_flag"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
 
     function set_menu(id) {
@@ -332,6 +377,53 @@ $company = $company_model->find()->one();
             $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
         });
     });
+
+
+    //Login
+    //************************* เช็ค Login ***********************//
+    check_flag_login();
+    function check_flag_login() {
+        var user = "<?php echo Yii::$app->session['user'] ?>";
+        if (user == "") {
+            $("#dialog_login").modal();
+        }
+    }
+
+    function login() {
+        var url = "<?php echo Url::to(['site/login']) ?>";
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        if (username == "" || password == "") {
+            swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ...!", "warning");
+            return false;
+        }
+
+        var data = {username: username, password: password};
+        $("#loin_flag").html("<center><i class='fa fa-spinner  fa-spin'></i></center>");
+
+        $.post(url, data, function (result) {
+            if (result == '0') {
+                swal("แจ้งเตือน!", "ไม่มีข้อมูลผู้ใช้...!", "warning");
+            } else {
+                window.location.reload();
+            }
+        });
+    }
+
+    function reset_login() {
+        $("#username").val("");
+        $("#password").val("");
+    }
+
+    function logout() {
+        var url = "<?php echo Url::to(['site/logout']) ?>";
+        var data = {a: 1};
+
+        $.post(url, data, function (success) {
+            window.location.reload();
+        });
+    }
 </script>
 
 
