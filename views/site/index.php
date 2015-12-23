@@ -16,16 +16,17 @@
 
 use yii\helpers\Url;
 use app\models\CompanySearch;
+
 $co = CompanySearch::find()->one();
 $this->title = $co->companyname;
 $config = new \app\models\Config_system();
-
 ?>
 
 <div class="row" id="text-color">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div style="position: absolute; top: 5px; right: 5px;">
             <div class="dropdown">
+
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-cog"></i>
                 </button>
@@ -52,13 +53,13 @@ $config = new \app\models\Config_system();
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-           
-                <div class="thumbnail box-menu-first btn btn-success">
-                    <img src="<?php echo Url::to('@web/web/images/logo-tt.png') ?>"/>
-                    <div class="caption" style=" text-align: center;">
-                        <h4><?php echo $this->title; ?></h4>
-                    </div>
+
+            <div class="thumbnail box-menu-first btn btn-success">
+                <img src="<?php echo Url::to('@web/web/images/logo-tt.png') ?>"/>
+                <div class="caption" style=" text-align: center;">
+                    <h4><?php echo $this->title; ?></h4>
                 </div>
+            </div>
 
         </div>
     </div>
@@ -113,7 +114,7 @@ $config = new \app\models\Config_system();
                 </div>
             </a>
         </div>
-        
+
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
             <a href="javascript:popup_customer()"
                data-toggle="tooltip" data-placement="top"
@@ -126,16 +127,16 @@ $config = new \app\models\Config_system();
                 </div>
             </a>
         </div>
-        
+
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <div class="thumbnail box-menu" id="btn">
-                    <div class="caption">
-                            <div id="txt" style="font-size:30px; font-weight: bold;"></div>
-                            <h3><?php echo $config->thaidateFull(date("Y-m-d"))?></h3>
-                    </div>
+            <div class="thumbnail box-menu" id="btn">
+                <div class="caption">
+                    <div id="txt" style="font-size:30px; font-weight: bold;"></div>
+                    <h3><?php echo $config->thaidateFull(date("Y-m-d")) ?></h3>
                 </div>
+            </div>
         </div>
-        
+
     </div><!-- End Right -->
 </div>
 
