@@ -124,26 +124,31 @@ function Affiliated_truck($truck_id = null) {
             <?php endforeach; ?>
 
             <?php
-            $sum_expenses_nomap = 0;
+             $sum_expenses_nomap = 0;
             $sum_expenses_nomap_row = 0;
+            /*
             foreach ($nomap as $list):
                 $sum_expenses_nomap_row = ((int) $list['fix'] + (int) $list['period_price'] + (int) $list['act']);
                 $sum_expenses_nomap = ($sum_expenses_nomap + $sum_expenses_nomap_row);
+             * 
+             */
                 ?>
+                <!--
                 <tr>
                     <td colspan="6" style=" text-align: left;">
-                        <?php echo "ทะเบียน " . $list['truck'] ?>
+                        <?//php echo "ทะเบียน " . $list['truck'] ?>
                     </td>
                     <td style="text-align: right;" id="income">0</td>
                     <td colspan="3"></td>
-                    <td style="text-align: right;"><?php echo number_format($list['fix'],2) ?></td>
+                    <td style="text-align: right;"><//?php echo number_format($list['fix'],2) ?></td>
                     <td></td>
-                    <td style="text-align: right;"><?php echo number_format($list['period_price'],2) ?></td>
-                    <td style="text-align: right;"><?php echo number_format($list['act'],2) ?></td>
-                    <td id="outcome"><?php echo number_format($sum_expenses_nomap_row, 2) ?></td>
-                    <td style="text-align: right;" id="total"><?php echo number_format(0 - $sum_expenses_nomap_row, 2) ?></td>
+                    <td style="text-align: right;"><?//php echo number_format($list['period_price'],2) ?></td>
+                    <td style="text-align: right;"><?//php echo number_format($list['act'],2) ?></td>
+                    <td id="outcome"><?//php echo number_format($sum_expenses_nomap_row, 2) ?></td>
+                    <td style="text-align: right;" id="total"><?//php echo number_format(0 - $sum_expenses_nomap_row, 2) ?></td>
                 </tr>
-            <?php endforeach; ?>
+                -->
+            <?php /*endforeach; */?>
         </tbody>
         <tfoot>
             <tr>

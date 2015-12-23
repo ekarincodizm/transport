@@ -192,7 +192,7 @@ class ReportController extends Controller {
         return $this->renderPartial('load_report_period', [
                     'result' => $result,
                     'year' => $year,
-                     //'chart' => $chart,
+                        //'chart' => $chart,
         ]);
     }
 
@@ -389,14 +389,15 @@ class ReportController extends Controller {
         $report = new Report();
         $result = $report->report_month_all($year, $month);
 
+        //รายได้จากการจ้างบริษัทรถร่วมวิ่ง
         $order_out = $order_model->find()->where(['YEAR(create_date)' => $year, 'SUBSTR(create_date,6,2)' => $month])->all();
-        $truck_no_map = $report->get_truck_nomap($year, $month);
+        //$truck_no_map = $report->get_truck_nomap($year, $month);//ค่าใช้จ่ายของรถในเดือนนี้ที่ยังไม่ได้ต่อรถ
         return $this->renderPartial('load_report_month_all', [
                     'year' => $year,
                     'month' => $month,
                     'result' => $result,
                     'order_out' => $order_out,
-                    'nomap' => $truck_no_map,
+                        //'nomap' => $truck_no_map,
         ]);
     }
 
