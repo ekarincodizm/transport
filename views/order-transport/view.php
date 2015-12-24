@@ -554,7 +554,16 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon">เลขไมล์เที่ยวนี้ *ทะเบียน(<?php echo $car_view->truck_1; ?>)</div>
+                                            <div class="input-group-addon">
+                                                เลขไมล์เที่ยวนี้ *ทะเบียน(<?php echo $car_view->truck_1; ?>) 
+                                                <a
+                                                    class="popover-btn"
+                                                    data-toggle="popover" 
+                                                    data-placement="bottom" 
+                                                    data-trigger="hover"
+                                                    data-content="กรอกตัวเลขหลังเลข 0 เช่น 0020304 กรอกเป็น 20304">
+                                                    <i class="fa fa-question-circle text-orange"></i></a>
+                                            </div>
                                             <input type="text" id="now_mile" name="now_mile" class="form-control" value="<?php echo $model->now_mile; ?>" placeholder="... ตัวเลขเท่านั้น"
                                                    onkeypress="return chkNumber()" onkeyup="distance_calculus()"/>
                                             <div class="input-group-addon">บาท</div>
@@ -830,17 +839,17 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
     function delete_assign(id) {
         //var r = confirm("คุณแน่ใจหรือไม่ ...?");
         swal({title: "คุณแน่ใจหรือไม่ ...?", text: "คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่!", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "ใช่, ต้องการลบ!", closeOnConfirm: false},
-        function () {
-            var url = "<?php echo Url::to(['order-transport/delete_assign']) ?>";
-            var data = {id: id};
+                function () {
+                    var url = "<?php echo Url::to(['order-transport/delete_assign']) ?>";
+                    var data = {id: id};
 
-            $.post(url, data, function (success) {
-                swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success");
-                window.location.reload();
-                return false;
-            });
+                    $.post(url, data, function (success) {
+                        swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success");
+                        window.location.reload();
+                        return false;
+                    });
 
-        });
+                });
         /*
          if (r == true) {
          var url = "<?//php echo Url::to(['order-transport/delete_assign']) ?>";
@@ -864,4 +873,10 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
         });
     }
 </script>
+
+<?php
+$this->registerJs('
+       $(".popover-btn").popover() 
+            ');
+?>
 

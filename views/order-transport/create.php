@@ -5,6 +5,7 @@
 </style>
 
 <script type="text/javascript">
+
     function chkNumber(ele) {
         var vchar = String.fromCharCode(event.keyCode);
         if ((vchar < '0' || vchar > '9') && (vchar != '.'))
@@ -81,7 +82,7 @@ $order_model = new \app\models\OrdersTransport();
                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <div class="input-group-addon"><i class="fa fa-building-o"></i> ผู้ว่าจ้าง</div>
+                                    <div class="input-group-addon"><i class="fa fa-building-o"></i> ผู้ว่าจ้าง </div>
                                     <select id="employer" class="form-control">
                                         <option value="">== เลือกผู้ว่าจ้าง ==</option>
                                         <?php
@@ -91,6 +92,15 @@ $order_model = new \app\models\OrdersTransport();
                                             <option value="<?php echo $employers->cus_id; ?>"><?php echo $employers->cus_id . '-' . $employers->company; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <div class="input-group-addon btn">
+                                        <a href="<?php echo Url::to(['customer/create']) ?>"
+                                           class="popover-btn"
+                                           data-toggle="popover" 
+                                           data-placement="bottom" 
+                                           data-trigger="hover"
+                                           data-content="ถ้าไม่มีรายชื่อบริษัทที่ต้องการให้คุณกด เพื่อเพิ่มบริษัท">
+                                            <i class="fa fa-question-circle text-orange"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -160,6 +170,15 @@ $order_model = new \app\models\OrdersTransport();
                                             <option value="<?php echo $cars['car_id']; ?>"><?php echo "คันที่ " . $cars['car_id'] . " (" . $cars['truck_1'] . ') - (' . $cars['truck_2'] . ")"; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <div class="input-group-addon btn">
+                                        <a href="<?php echo Url::to(['map-truck/create']) ?>"
+                                           class="popover-btn"
+                                           data-toggle="popover" 
+                                           data-placement="bottom" 
+                                           data-trigger="hover"
+                                           data-content="ถ้าไม่มีรถในรายการให้คุณกด เพื่อกลับไปเพิ่มข้อมูรถก่อน ...">
+                                            <i class="fa fa-question-circle text-orange"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -179,6 +198,16 @@ $order_model = new \app\models\OrdersTransport();
                                             <option value="<?php echo $driv1['driver_id']; ?>"><?php echo $driv1['name'] . '-' . $driv1['lname']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <div class="input-group-addon">
+                                        <a href="<?php echo Url::to(['driver/create']) ?>"
+                                           class="popover-btn"
+                                           data-toggle="popover" 
+                                           data-placement="bottom" 
+                                           data-trigger="hover"
+                                           data-content="ถ้าต้องการเพิ่มพนักงานขับรถ ให้คุณ กด ปุ่มนี้ ...">
+                                            <i class="fa fa-question-circle text-orange"></i></a>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +223,15 @@ $order_model = new \app\models\OrdersTransport();
                                             <option value="<?php echo $driv2['driver_id']; ?>"><?php echo $driv2['name'] . '-' . $driv2['lname']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <div class="input-group-addon">
+                                        <a href="<?php echo Url::to(['driver/create']) ?>"
+                                           class="popover-btn"
+                                           data-toggle="popover" 
+                                           data-placement="bottom" 
+                                           data-trigger="hover"
+                                           data-content="ถ้าต้องการเพิ่มพนักงานขับรถ ให้คุณ กด ปุ่มนี้ ...">
+                                            <i class="fa fa-question-circle text-orange"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +239,16 @@ $order_model = new \app\models\OrdersTransport();
                         <div class="col-sm-12 col-md-12 col-lg-3">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <div class="input-group-addon"><i class="fa fa-tint"></i> น้ำมันที่กำหนด</div>
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-tint"></i> น้ำมันที่กำหนด 
+                                        <a 
+                                            class="popover-btn"
+                                            data-toggle="popover" 
+                                            data-placement="bottom" 
+                                            data-trigger="hover"
+                                            data-content="น้ำมันที่กำหนดคือ น้ำมันที่เติมก่อนวิ่งส่งของ">
+                                            <i class="fa fa-question-circle text-orange"></i></a>
+                                    </div>
                                     <input type="text" id="oil_set" name="oil_set" class="form-control" value="<?php echo $model->oil_set ?>" placeholder="ตัวเลขเท่านั้น..." onkeypress="return chkNumber();"/>
                                     <div class="input-group-addon">ลิตร</div>
                                     <!--
@@ -267,7 +314,13 @@ $order_model = new \app\models\OrdersTransport();
                                 ?>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                ลูกค้าต้นทาง
+                                ลูกค้าต้นทาง <a href="<?php echo Url::to(['customer/create']) ?>"
+                                       class="popover-btn"
+                                       data-toggle="popover" 
+                                       data-placement="bottom" 
+                                       data-trigger="hover"
+                                       data-content="ถ้าไม่มีรายชื่อลูกค้าที่ต้องการ ให้คุณกด เพื่อเพิ่มลูกค้า">
+                                        <i class="fa fa-question-circle text-orange"></i></a>
                                 <select id="cus_start" class="form-control">
                                     <option value="">== เลือกลูกค้า ==</option>
                                     <?php
@@ -279,7 +332,13 @@ $order_model = new \app\models\OrdersTransport();
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                ลูกค้าปลายทาง
+                                ลูกค้าปลายทาง <a href="<?php echo Url::to(['customer/create']) ?>"
+                                       class="popover-btn"
+                                       data-toggle="popover" 
+                                       data-placement="bottom" 
+                                       data-trigger="hover"
+                                       data-content="ถ้าไม่มีรายชื่อลูกค้าที่ต้องการ ให้คุณกด เพื่อเพิ่มลูกค้า">
+                                        <i class="fa fa-question-circle text-orange"></i></a>
                                 <select id="cus_end" class="form-control">
                                     <option value="">== เลือกลูกค้า ==</option>
                                     <?php
@@ -316,7 +375,13 @@ $order_model = new \app\models\OrdersTransport();
                                 </select>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
-                                ประเภทสินค้า
+                                ประเภทสินค้า <a href="<?php echo Url::to(['product-type/create']) ?>"
+                                       class="popover-btn"
+                                       data-toggle="popover" 
+                                       data-placement="bottom" 
+                                       data-trigger="hover"
+                                       data-content="ถ้าไม่มีประเภทสินค้าที่คุณต้องการ กดเพิ่อเพิ่มประเภทสิค้า">
+                                        <i class="fa fa-question-circle text-orange"></i></a>
                                 <select id="product_type" class="form-control">
                                     <option value=""> == ประเภทสินค้า ==</option>
                                     <?php
@@ -396,6 +461,8 @@ $order_model = new \app\models\OrdersTransport();
 <input type="hidden" id="Url_save_before_release" value="<?php echo Url::to(['save_before_release']) ?>"/>
 <input type="hidden" id="Url_save_assign" value="<?php echo Url::to(['save_assign']) ?>"/>
 
-
-
-
+<?php
+$this->registerJs('
+       $(".popover-btn").popover() 
+            ');
+?>

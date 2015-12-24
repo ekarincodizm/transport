@@ -254,9 +254,9 @@ $company = $company_model->find()->one();
                                 $count_noti = ((int) $noti_act + (int) $noti_driv + (int) $noti_period);
                                 ?>
                                 <?php if ($count_noti > 0) { ?>
-                                    <i class="fa fa-bell-o faa-ring animated faa-slow"></i>  
+                                    <i class="fa fa-bell faa-ring animated faa-slow"></i>  
                                 <?php } else { ?>
-                                    <i class="fa fa-bell-o"></i>  
+                                    <i class="fa fa-bell"></i>  
                                 <?php } ?>
 
                                 แจ้งเตือน (<?php echo $count_noti ?>)

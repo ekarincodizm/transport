@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box box-danger">
     <div class="box-body">
-        <h4>บริษัท <?php echo $model->company; ?></h4>
+        <h4 style=" color: #006600;">บริษัท <?php echo $model->company; ?></h4>
         <p><?php echo $model->detail;?></p>
     </div>
 </div>
