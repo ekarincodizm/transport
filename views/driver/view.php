@@ -23,7 +23,7 @@ $config = new app\models\Config_system();
 $SalaryMasterModel = new \app\models\SalaryMaster();
 $MapDrive = new \app\models\MapDriver();
 $MapTruck = new app\models\MapTruck();
-$car = $MapDrive->find()->where(['driver' => $model->driver_id,'active' => '1'])->one();
+$car = $MapDrive->find()->where(['driver' => $model->driver_id, 'active' => '1'])->one();
 $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
 ?>
 
@@ -90,11 +90,39 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                                     ?>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>ขับประจำคันที่</b> 
-                                    <a class="pull-right">
-                                        <?php echo $car['car_id']; ?>
-                                        <?php echo "(".$car_map['truck_1'].' '.$car_map['truck_2'].")"?>
-                                    </a>
+                                    <b>ขับประจำคันที่</b> <a class="pull-right">
+                                        <?php if (!empty($car['car_id'])) { ?>
+                                            <?php echo $car['car_id']; ?></a><br/>
+                                    <center>
+                                        <a>ทะเบียน <?php echo "(" . $car_map['truck_1'] . ' ' . $car_map['truck_2'] . ")" ?></a>
+                                    </center>
+                                <?php } else { ?>
+                                    <a style="color:red;" class="pull-right">ไม่มีรถขับประจำ</a>
+                                <?php } ?>
+                                </li>
+                                <li class="list-group-item" style=" padding-bottom: 20px;">
+                                    สถานะ <!-- Single button -->
+                                    <div class="btn-group" style=" float: right;">
+                                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <?php
+                                            if ($model->status == 1) {
+                                                echo "ลาออก";
+                                            } else if ($model->status == 2) {
+                                                echo "โดนไล่ออก";
+                                            } else if ($model->status == 3) {
+                                                echo "เสียชีวิต";
+                                            } else {
+                                                echo "เป็นพนักงานบริษัท";
+                                            }
+                                            ?> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="javascript:set_status(1)">ลาออก</a></li>
+                                            <li><a href="javascript:set_status(2)">โดนไล่ออก</a></li>
+                                            <li><a href="javascript:set_status(3)">เสียชีวิต</a></li>
+                                            <li><a href="javascript:set_status(0)">เป็นพนักงานบริษัท</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -119,16 +147,21 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                                     <div class="panel-heading">
                                         <?php echo $this->title; ?>
                                         <div style="text-align: right; float: right;">
+
                                             <?= Html::a('<i class="fa fa-pencil"></i> แก้ไข', ['update', 'id' => $model->id], ['class' => '']) ?>
-                                            <?=
-                                            Html::a('<i class="fa fa-trash"></i> ลบ', ['delete', 'id' => $model->id], [
-                                                'class' => '',
-                                                'data' => [
-                                                    'confirm' => 'Are you sure you want to delete this item?',
-                                                    'method' => 'post',
-                                                ],
-                                            ])
+                                            <?php
+                                            $check = $MapDrive->find()->where(['driver' => $model->driver_id])->count();
+                                            if ($check == 0) {
+                                                echo Html::a('<i class="fa fa-trash"></i> ลบ', ['delete', 'id' => $model->id], [
+                                                    'class' => '',
+                                                    'data' => [
+                                                        'confirm' => 'Are you sure you want to delete this item?',
+                                                        'method' => 'post',
+                                                    ],
+                                                ]);
+                                            }
                                             ?>
+
                                         </div>
                                     </div>
                                     <div class="panel-body">
@@ -626,8 +659,8 @@ $this->registerJs(
         var employee = $("#employee").val();
         var month = $("#month").val();
         var year = $("#year").val();
-        var car_id = "<?php echo $car['car_id']?>";
-        if(salary == ''){
+        var car_id = "<?php echo $car['car_id'] ?>";
+        if (salary == '') {
             swal("แจ้งเตือน!", "ยังไม่ได้กำหนดเงินเดือนพนักงาน ...!", "warning");
             return false;
         }
@@ -769,6 +802,20 @@ $this->registerJs(
         $.post(url, data, function (result) {
             //swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
             $("#result_income_expenses").html(result);
+        });
+    }
+
+    function set_status(status) {
+        var url = "<?php echo Url::to(['driver/set_status']) ?>";
+        var driver_id = "<?php echo $model->driver_id ?>";
+        var data = {
+            driver_id: driver_id,
+            status: status
+        };
+        $.post(url, data, function (result) {
+            swal("สำเร็จ", "ระบบบันทึกข้อมูลของคุณแล้ว", "success");
+            window.location.reload();
+            //$("#result_income_expenses").html(result);
         });
     }
 </script>
