@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="truck-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);      ?>
 
     <p>
         <?= Html::a('<i class="fa fa-plus"></i> เพิ่มรถบรรทุก', ['create'], ['class' => 'btn btn-default']) ?>
@@ -41,8 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'width' => '200px',
             'format' => 'raw',
             'header' => 'ราคา',
-            'hAlign' => 'center',
-             'mergeHeader' => true,
+            'hAlign' => 'right',
+            'mergeHeader' => true,
             'value' => function ($model) {
                 return number_format($model->price);
             },
@@ -86,6 +86,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                             '<span class="glyphicon glyphicon-eye-open"></span>', $url);
                         },
                         'update' => function ($url, $model) {
+                            //$sql = "SELECT COUNT(*) AS TOTAL FROM map_truck WHERE (truck_1 = '$model->license_plate' OR truck_2 = '$model->license_plate'  )";
+                            //$check = Yii::$app->db->createCommand($sql)->queryOne();
                             if ($model->status == '1') {
                                 $url = "javascript:alert('ไม่สามารถแก้ไขข้อมูลนี้ได้ ... !')";
                             }
@@ -93,10 +95,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                             '<span class="glyphicon glyphicon-pencil"></span>', $url);
                         },
                         'delete' => function ($url, $model) {
-                            if ($model->status == '1') {
+                            $sql = "SELECT COUNT(*) AS TOTAL FROM map_truck WHERE (truck_1 = '$model->license_plate' OR truck_2 = '$model->license_plate'  )";
+                            $check = Yii::$app->db->createCommand($sql)->queryOne();
+                            if ($model->status == '1' || $check['TOTAL'] > 0) {
                                 $url = "javascript:alert('ไม่สามารถลบข้อมูลนี้ได้ ... !')";
                             } else {
                                 $url = "javascript:confirm_delete('$model->id')";
+                                //$url = "";
                             }
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url);
                         },

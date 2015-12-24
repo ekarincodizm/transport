@@ -59,12 +59,12 @@ class Annuities extends \yii\db\ActiveRecord
                 FROM
                 (
                 SELECT a.license_plate,
-                MAX(CONCAT(`year`,`month`,t.date_supply)) AS last_day,
-                MAX(CONCAT(`year`,`month`)) AS last_month,
-                t.date_supply,
-                t.`status`
+                    MAX(CONCAT(`year`,`month`,t.date_supply)) AS last_day,
+                    MAX(CONCAT(`year`,`month`)) AS last_month,
+                    t.date_supply,
+                    t.flag_period
                 FROM annuities a INNER JOIN truck t 
-                ON a.license_plate = t.license_plate
+                    ON a.license_plate = t.license_plate
                 GROUP BY a.license_plate
                 ) Q1 
 
@@ -72,7 +72,7 @@ class Annuities extends \yii\db\ActiveRecord
                 AND CONCAT(YEAR(NOW()),MONTH(NOW())) != Q1.last_month
 
                 AND DATEDIFF(CONCAT(YEAR(NOW()),MONTH(NOW()),Q1.date_supply),DATE(NOW())) < (SELECT truck_period FROM notifications)
-                AND Q1.`status` = '0'";
+                AND Q1.flag_period = '0'";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         return $rs['TOTAL'];
     }
@@ -88,7 +88,7 @@ class Annuities extends \yii\db\ActiveRecord
             MAX(CONCAT(`year`,'-',`month`,'-',t.date_supply)) AS last_period,
             MAX(CONCAT(`year`,`month`)) AS last_month,
             t.date_supply,
-            t.`status`
+            t.flag_period
             FROM annuities a INNER JOIN truck t 
             ON a.license_plate = t.license_plate
             GROUP BY a.license_plate
@@ -98,7 +98,7 @@ class Annuities extends \yii\db\ActiveRecord
             AND CONCAT(YEAR(NOW()),MONTH(NOW())) != Q1.last_month
 
             AND DATEDIFF(CONCAT(YEAR(NOW()),MONTH(NOW()),Q1.date_supply),DATE(NOW())) < (SELECT truck_period FROM notifications)
-            AND Q1.`status` = '0' ";
+            AND Q1.flag_period = '0' ";
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         return $rs;
     }

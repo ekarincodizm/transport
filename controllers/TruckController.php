@@ -51,7 +51,7 @@ class TruckController extends Controller {
         $sql = "SELECT m.car_id FROM map_truck m WHERE (truck_1 = '$model->license_plate' OR truck_2 = '$model->license_plate') AND status = '0'";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         $car_id = $rs['car_id'];
-        
+
         return $this->render('view', [
                     'car_id' => $car_id,
                     'model' => $model,
@@ -112,11 +112,7 @@ class TruckController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        //$this->findModel($id)->delete();
-        $columns = array("delete_flag" => '1');
-        Yii::$app->db->createCommand()
-                ->update("truck", $columns, "id = '$id'")
-                ->execute();
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 
@@ -158,7 +154,7 @@ class TruckController extends Controller {
     }
 
     public function actionGet_truck() {
-        $result = Truck::find()->where(['delete_flag' => '0'])->orderBy(['id' => 'DESC'])->all();
+        $result = Truck::find()->where(['delete_flag' => '0','status' => '0'])->orderBy(['id' => 'DESC'])->all();
 
         return $this->renderPartial('list_truck', [
                     "truck" => $result,
@@ -186,31 +182,39 @@ class TruckController extends Controller {
                     'model' => $this->findModel($id),
         ]);
     }
-    
-    public function actionSet_flag(){
+
+    public function actionSet_flag() {
         $id = \Yii::$app->request->post('id');
         $car_id = \Yii::$app->request->post('car_id');
         $columns = array("status" => '1');
         \Yii::$app->db->createCommand()
-                ->update("truck", $columns,"id = '$id' ")
+                ->update("truck", $columns, "id = '$id' ")
                 ->execute();
-        
+
         $columns_map = array("status" => '1');
         \Yii::$app->db->createCommand()
-                ->update("map_truck", $columns_map,"car_id = '$car_id' ")
+                ->update("map_truck", $columns_map, "car_id = '$car_id' ")
                 ->execute();
-        
+
         $columns_map_driver = array("active" => '0');
         \Yii::$app->db->createCommand()
-                ->update("map_driver", $columns_map_driver,"car_id = '$car_id' ")
+                ->update("map_driver", $columns_map_driver, "car_id = '$car_id' ")
                 ->execute();
-        
     }
-    
-    public function actionDelete_truck(){
+
+    public function actionDelete_truck() {
         $id = Yii::$app->request->post('id');
         Yii::$app->db->createCommand()
-                ->delete("truck","id = '$id' ")
+                ->delete("truck", "id = '$id' ")
+                ->execute();
+    }
+
+    public function actionSet_period() {
+        $id = Yii::$app->request->post('id');
+
+        $columns = array("flag_period" => '1');
+        Yii::$app->db->createCommand()
+                ->update("truck", $columns, "id = '$id' ")
                 ->execute();
     }
 

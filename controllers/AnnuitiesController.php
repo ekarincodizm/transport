@@ -14,7 +14,9 @@ use yii\db\Query;
  * AnnuitiesController implements the CRUD actions for Annuities model.
  */
 class AnnuitiesController extends Controller {
+
     public $layout = "admin-lte";
+
     public function behaviors() {
         return [
             'verbs' => [
@@ -116,10 +118,13 @@ class AnnuitiesController extends Controller {
 
     public function actionLoad_annuities() {
         $license_plate = Yii::$app->request->post('license_plate');
+        $flag_period = Yii::$app->request->post('flag_period');
+
         $sql = "SELECT * FROM annuities WHERE license_plate = '$license_plate' ORDER BY year,month ASC";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->renderPartial('load_annuities', [
                     "result" => $result,
+                    "flag_period" => $flag_period,
         ]);
     }
 
@@ -130,7 +135,7 @@ class AnnuitiesController extends Controller {
         $day = Yii::$app->request->post('day');
         $period_price = Yii::$app->request->post('period_price');
         $car_id = Yii::$app->request->post('car_id');
-        
+
         $sql = "SELECT * FROM annuities WHERE license_plate = '$license_plate' AND month = '$month' AND year = '$year' ";
         $result = Yii::$app->db->createCommand($sql)->queryOne();
 
@@ -153,13 +158,13 @@ class AnnuitiesController extends Controller {
                     ->execute();
         }
     }
-    
-    public function actionList_over(){
+
+    public function actionList_over() {
         $Model = new Annuities();
         $result = $Model->list_over();
-        
-        return $this->render('list_over',[
-            "notification" => $result,
+
+        return $this->render('list_over', [
+                    "notification" => $result,
         ]);
     }
 

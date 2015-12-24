@@ -9,6 +9,14 @@ $this->title = 'แก้ไข: ' . ' ' . $model->license_plate;
 $this->params['breadcrumbs'][] = ['label' => 'รถบรรทุก', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->license_plate, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
+
+$sql = "SELECT * FROM map_truck WHERE (truck_1 = '$model->license_plate' OR truck_2 = '$model->license_plate') ";
+$resut = Yii::$app->db->createCommand($sql)->queryOne();
+if (!empty($resut)) {
+    $flag = "1";
+} else {
+    $flag = "";
+}
 ?>
 <div class="truck-update">
 
@@ -21,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?=
             $this->render('_form', [
                 'model' => $model,
+                'flag' => $flag,
             ])
             ?>
         </div>

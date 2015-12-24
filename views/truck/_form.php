@@ -11,6 +11,12 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Truck */
 /* @var $form yii\widgets\ActiveForm */
+
+if ($flag == '1') {
+    $readonly = true;
+} else {
+    $readonly = false;
+}
 ?>
 
 <div class="truck-form">
@@ -35,7 +41,7 @@ use kartik\date\DatePicker;
              */
     ]);
     ?>
-    <?= $form->field($model, 'license_plate')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'license_plate')->textInput(['maxlength' => true, 'readonly' => $readonly]) ?>
 
     <?= $form->field($model, 'brand')->textInput(['maxlength' => true]) ?>
 
@@ -75,7 +81,7 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'date_supply')->textInput(['placeholder' => 'กรอกตัวเลข 2 หลัก เช่น(01)']) ?>
 
-    <?php // $form->field($model, 'type_id')->textInput()   ?>
+    <?php // $form->field($model, 'type_id')->textInput()    ?>
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">

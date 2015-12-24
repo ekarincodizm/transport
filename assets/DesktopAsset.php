@@ -22,6 +22,7 @@ class DesktopAsset extends AssetBundle {
         'web/themes/Desktop/css/system.css',
         'web/themes/Desktop/bootstrap/css/bootstrap.css',
         'web/themes/transport/font-awesome/css/font-awesome.css',
+        'web/themes/transport/font-awesome/css/font-awesome-animation.css',
         'web/themes/Desktop/dist/css/AdminLTE.min.css',
         'web/themes/Desktop/dist/css/skins/_all-skins.css',
         'web/themes/Desktop/plugins/daterangepicker/daterangepicker-bs3.css',

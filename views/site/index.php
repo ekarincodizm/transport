@@ -28,7 +28,7 @@ $config = new \app\models\Config_system();
             <div class="dropdown">
 
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-cog"></i>
+                    <i class="fa fa-cog faa-spin animated-hover"></i>
                 </button>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     <li><a href="Javascript:set_bg('gray')">Gray <div class="btn pull-right" id="content-bg-gray"></div></a></li>

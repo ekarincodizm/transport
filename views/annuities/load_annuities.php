@@ -12,7 +12,6 @@ $config = new app\models\Config_system();
 $notify = new \app\models\Notifications();
 $month_full = $config->MonthFullKey();
 ?>
-
 <div class="box box-danger">
     <div class="box-header with-border" style=" color: #ff3300;">
         <i class="fa fa-info"></i> ระบบจะแจ้งเตือนก่อน <?php echo $notify->find()->one()['truck_period'] ?> วัน ในเดือนปัจจุบัน
@@ -27,7 +26,9 @@ $month_full = $config->MonthFullKey();
                     <th>ประจำปี</th>
                     <th>ค่างวด</th>
                     <th>วันที่บันทึก</th>
-                    <th style="text-align: center;">เลือก</th>
+                    <?php if ($flag_period == 0) { ?>
+                        <th style="text-align: center;">เลือก</th>
+                    <?php } ?>
                 </tr>
             </thead>
             <tbody>
@@ -43,10 +44,12 @@ $month_full = $config->MonthFullKey();
                         <td><?php echo ($rs['year'] + 543) ?></td>
                         <td><?php echo number_format($rs['period_price']) ?></td>
                         <td><?php echo $config->thaidate($rs['create_date']) ?></td>
-                        <td style=" text-align: center;">
-                            <a href="javascript:delete_annuities('<?php echo $rs['id'] ?>')">
-                                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></a>
-                        </td>
+                        <?php if ($flag_period == 0) { ?>
+                            <td style=" text-align: center;">
+                                <a href="javascript:delete_annuities('<?php echo $rs['id'] ?>')">
+                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></a>
+                            </td>
+                        <?php } ?>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -70,17 +73,17 @@ $month_full = $config->MonthFullKey();
 
     function delete_annuities(id) {
         swal({title: "คุณแน่ใจหรือไม่ ...?", text: "คุณต้องการลบข้อมูลรายการนี้ใช่หรือไม่!", type: "warning", showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "ใช่, ต้องการลบ!", closeOnConfirm: false},
-        function () {
-            var url = "<?php echo Url::to(['annuities/delete']) ?>";
-            var data = {id: id};
+                function () {
+                    var url = "<?php echo Url::to(['annuities/delete']) ?>";
+                    var data = {id: id};
 
-            $.post(url, data, function (success) {
-                swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success");
-                get_annuities();
-                return false;
-            });
+                    $.post(url, data, function (success) {
+                        swal("Deleted!", "ลบข้อมูลของคุณแล้ว...", "success");
+                        get_annuities();
+                        return false;
+                    });
 
-        });
+                });
     }
 </script>
 

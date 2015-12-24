@@ -36,35 +36,35 @@ $config = new app\models\Config_system();
                 <!--
                 <li><a href="#history" data-toggle="tab" onclick="get_history('<?//php echo $model->id ?>')"><i class="fa fa-truck text-green"></i> ประวัติการวิ่งรถ</a></li>
                 -->
-                
+
                 <li><a href="#repair" data-toggle="tab" onclick="get_repair()"><i class="fa fa-cogs text-gray"></i> ข้อมูลซ่อมบำรุง</a></li>
                 <li><a href="#truck_act" data-toggle="tab" onclick="get_act()"><i class="fa fa-briefcase text-yellow"></i> การต่อทะเบียน / พรบ.</a></li>
-         
+
                 <li><a href="#annuities" data-toggle="tab" onclick="get_annuities()"><i class="fa fa-opencart text-orange"></i> ค่างวด</a></li>
                 <li><a href="#price" data-toggle="tab" onclick="get_price()"><i class="fa fa-calendar text-red"></i> ค่าใช้จ่ายรวม(เดือน)</a></li>
-                <?php if($model->status == '0'){ ?>
-                <li><a href="javascript:set_flag()"><i class="fa fa-ban text-red"></i> จำหน่าย</a></li>
+                <?php if ($model->status == '0') { ?>
+                    <li><a href="javascript:set_flag()"><i class="fa fa-ban text-red"></i> จำหน่าย</a></li>
                 <?php } else { ?>
-                <li><a style=" color: #ff3300;"><i class="fa fa-remove"></i>สถานะ ถูกจำหน่าย</a></li>
+                    <li><a style=" color: #ff3300;"><i class="fa fa-remove"></i>สถานะ ถูกจำหน่าย</a></li>
                 <?php } ?>
             </ul>
             <div class="tab-content">
                 <div class="active tab-pane" id="detail">
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <?php if($model->status == '0'){ ?>
-                            <p class="pull-right">
-                                <?= Html::a('<i class="fa fa-pencil"></i> แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                                <?=
-                                Html::a('<i class="fa fa-trash"></i> ลบ', ['delete', 'id' => $model->id], [
-                                    'class' => 'btn btn-danger',
-                                    'data' => [
-                                        'confirm' => 'Are you sure you want to delete this item?',
-                                        'method' => 'post',
-                                    ],
-                                ])
-                                ?>
-                            <?php } ?>
+                            <?php if ($model->status == '0') { ?>
+                                <p class="pull-right">
+                                    <?= Html::a('<i class="fa fa-pencil"></i> แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                                    <?=
+                                    Html::a('<i class="fa fa-trash"></i> ลบ', ['delete', 'id' => $model->id], [
+                                        'class' => 'btn btn-danger',
+                                        'data' => [
+                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'method' => 'post',
+                                        ],
+                                    ])
+                                    ?>
+                                <?php } ?>
                             </p>
                         </div>
                         <div class="box-body">
@@ -282,10 +282,20 @@ $config = new app\models\Config_system();
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                <button type="button" id="search_repair" class="btn btn-primary btn-block" onclick="save_annuities()"><i class="fa fa-search"></i> บันทึก</button>
+                                <?php if ($model->flag_period == 0) { ?>
+                                    <button type="button" id="search_repair" class="btn btn-primary btn-block" onclick="save_annuities()"><i class="fa fa-search"></i> บันทึก</button>
+                                <?php } else { ?>
+                                    <center>ส่งค่างวดครบกำหนดแล้ว</center>
+                                <?php } ?>
                             </div> 
                         </div>
-
+                        <?php if ($model->flag_period == 0) { ?>
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <button type="button" class="btn btn-default btn-sm" onclick="set_period()"><i class="fa fa-download"></i> กดเพื่อยืนยันว่ารถคันนี้ส่งค่างวดครบทุกงวดแล้ว</button>
+                                </div>
+                            </div>
+                        <?php } ?>
                         <!-- Result --> 
                         <div id="load_annuities"></div>
 
@@ -423,11 +433,11 @@ $config = new app\models\Config_system();
             return false;
         }
         /*
-        if (car_id == '') {
-            swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
-            return false;
-        }
-        */
+         if (car_id == '') {
+         swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
+         return false;
+         }
+         */
 
         var data = {
             car_id: car_id,
@@ -450,11 +460,13 @@ $config = new app\models\Config_system();
         var license_plate = "<?php echo $model->license_plate ?>";
         var annuities_month = $("#annuities_month").val();
         var annuities_year = $("#annuities_year").val();
+        var flag_period = "<?php echo $model->flag_period ?>";
         var url = "<?php echo Url::to(['annuities/load_annuities']); ?>";
         var data = {
             license_plate: license_plate,
             month: annuities_month,
-            year: annuities_year
+            year: annuities_year,
+            flag_period: flag_period
         };
 
         $.post(url, data, function (result) {
@@ -479,13 +491,13 @@ $config = new app\models\Config_system();
             year: annuities_year,
             period_price: period_price
         };
-        
+
         /*
-        if (car_id == '') {
-            swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
-            return false;
-        }
-        */
+         if (car_id == '') {
+         swal("แจ้งเตือน!", "รถทะเบียนนี้ยังไม่ได้จับคู่...!", "warning");
+         return false;
+         }
+         */
         $("#load_annuities").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         $.post(url, data, function (result) {
             if (result == '1') {
@@ -535,7 +547,20 @@ $config = new app\models\Config_system();
                         swal("Success!", "ทำรายการสำเร็จ.", "success");
                         window.location.reload();
                     });
-                    
+
                 });
+    }
+
+    function set_period() {
+        var url = "<?php echo Url::to(['truck/set_period']) ?>";
+        var id = "<?php echo $model->id ?>";
+        var data = {
+            id: id
+        };
+        $.post(url, data, function (result) {
+            swal("Success!", "ทำรายการสำเร็จ.", "success");
+            window.location.reload();
+        });
+
     }
 </script>

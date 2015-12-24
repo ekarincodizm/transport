@@ -130,7 +130,8 @@ $company = $company_model->find()->one();
 
                         <div class="dropup">
                             <button class="btn btn-info btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-windows"></i> เมนู
+                                <i class="fa fa-windows faa-pulse animated-hover"> เมนู</i> 
+
                             </button>
                             <ul class="dropdown-menu pull-left" aria-labelledby="dropdownMenu2" style="width: 350px;" id="menu-task-bar">
                                 <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
@@ -165,19 +166,19 @@ $company = $company_model->find()->one();
                                     echo "class = 'actives' ";
                                 }
                                 ?> onclick="set_menu('6')"><a href="<?php echo Url::to(['affiliated/index']); ?>"><i class="fa fa-building-o text-yellow"></i> <span>บริษัทรถร่วม</span></a></li>
-                                <?php if(Yii::$app->session['status'] == '1'){ ?>
+                                    <?php if (Yii::$app->session['status'] == '1') { ?>
+                                    <li <?php
+                                    if (Yii::$app->session['menu'] == '7') {
+                                        echo "class = 'actives' ";
+                                    }
+                                    ?> onclick="set_menu('7')"><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-truck text-info"></i> <span>ประเภทรถ</span></a></li>
+                                    <?php } ?>
                                 <li <?php
-                                if (Yii::$app->session['menu'] == '7') {
-                                    echo "class = 'actives' ";
-                                }
-                                ?> onclick="set_menu('7')"><a href="<?php echo Url::to(['typecar/index']); ?>"><i class="fa fa-truck text-info"></i> <span>ประเภทรถ</span></a></li>
-                                <?php } ?>
-                                 <li <?php
                                 if (Yii::$app->session['menu'] == '8') {
                                     echo "class = 'actives' ";
                                 }
                                 ?> onclick="set_menu('8')"><a href="<?php echo Url::to(['product-type/index']); ?>"><i class="fa fa-shopping-cart text-danger"></i> <span>ประเภทสินค้า</span></a></li>
-                                
+
                                 <li <?php
                                 if (Yii::$app->session['menu'] == '9') {
                                     echo "class = 'actives' ";
@@ -245,28 +246,40 @@ $company = $company_model->find()->one();
                     <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
                         <div class="dropup">
                             <button class="btn btn-warning btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell-o"></i>
-                                แจ้งเตือน
+
+                                <?php
+                                $noti_act = $truck_act->notification_act();
+                                $noti_driv = $driver_model->Get_license_expire();
+                                $noti_period = $annuities->count_over();
+                                $count_noti = ((int) $noti_act + (int) $noti_driv + (int) $noti_period);
+                                ?>
+                                <?php if ($count_noti > 0) { ?>
+                                    <i class="fa fa-bell-o faa-ring animated faa-slow"></i>  
+                                <?php } else { ?>
+                                    <i class="fa fa-bell-o"></i>  
+                                <?php } ?>
+
+                                แจ้งเตือน (<?php echo $count_noti ?>)
                             </button>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
                                 <li>
                                     <a href="<?php echo Url::to(['truck-act/notification']) ?>">
                                         <i class="fa fa-bell-o text-red"></i> พรบ/ภาษี
                                         <span class="label label-warning pull-right">
-                                            <?php echo $truck_act->notification_act(); ?>
+                                            <?php echo $noti_act; ?>
                                         </span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Url::to(['driver/driver_license_expire']) ?>">
                                         <i class="fa fa-credit-card text-blue"></i> ใบขับขี่
-                                        <span class="label label-danger pull-right"><?php echo $driver_model->Get_license_expire(); ?></span>
+                                        <span class="label label-danger pull-right"><?php echo $noti_driv; ?></span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Url::to(['annuities/list_over']) ?>">
                                         <i class="fa fa-truck text-green"></i> ค่างวด
-                                        <span class="label label-danger pull-right"><?php echo $annuities->count_over(); ?></span>
+                                        <span class="label label-danger pull-right"><?php echo $noti_period; ?></span>
                                     </a>
                                 </li>
                             </ul>

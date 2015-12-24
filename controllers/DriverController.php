@@ -290,7 +290,7 @@ class DriverController extends Controller {
     }
 
     public function actionGet_driver() {
-        $driver = Driver::find()->where(['delete_flag' => '0'])->all();
+        $driver = Driver::find()->where(['delete_flag' => '0','status' => '0'])->all();
         return $this->renderPartial('list_driver', [
                     'driver' => $driver,
         ]);
@@ -316,6 +316,21 @@ class DriverController extends Controller {
         return $this->renderPartial('conclude_incom_expenses', [
                     "result" => $result,
         ]);
+    }
+
+    public function actionSet_status() {
+        $driver_id = Yii::$app->request->post('driver_id');
+        $status = Yii::$app->request->post('status');
+
+        $columns_map = array("active" => '0');
+        Yii::$app->db->createCommand()
+                ->update("map_driver", $columns_map, "driver = '$driver_id'")
+                ->execute();
+
+        $columns = array("status" => $status);
+        Yii::$app->db->createCommand()
+                ->update("driver", $columns, "driver_id = '$driver_id'")
+                ->execute();
     }
 
 }
