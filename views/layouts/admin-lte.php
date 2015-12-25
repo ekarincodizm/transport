@@ -134,6 +134,9 @@ $company = $company_model->find()->one();
 
                             </button>
                             <ul class="dropdown-menu pull-left" aria-labelledby="dropdownMenu2" style="width: 350px;" id="menu-task-bar">
+                                <li class="pull-right" style=" margin: 0px; padding: 0px;">
+                                    <a href="javascript:link_assembler();"style=" color: #666666; font-size: 12px;  margin: 0px; padding: 0px;">The Assembler Themes</a>
+                                </li>
                                 <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
                                 <li <?php
                                 if (Yii::$app->session['menu'] == '1') {
@@ -444,6 +447,11 @@ $company = $company_model->find()->one();
         $.post(url, data, function (success) {
             window.location.reload();
         });
+    }
+
+
+    function link_assembler() {
+        window.location='http://www.theassembler.net';
     }
 </script>
 
