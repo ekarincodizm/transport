@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]);      ?>
 
     <p>
-        <?= Html::a('<i class="fa fa-plus"></i> เพิ่มรถบรรทุก', ['create'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> เพิ่มรถบรรทุก', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php
@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'responsive' => true,
                 'pjax' => true, // pjax is set to always true for this demo
                 'panel' => [
-                    'type' => GridView::TYPE_DEFAULT,
+                    'type' => GridView::TYPE_PRIMARY,
                     'heading' => "<i class='fa fa-truck'></i> " . $this->title,
                 ],
             ]);

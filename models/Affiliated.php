@@ -67,4 +67,12 @@ class Affiliated extends \yii\db\ActiveRecord
     {
         return $this->hasMany(AffiliatedTruck::className(), ['company_id' => 'company_id']);
     }
+    
+    public function Get_history($company_id = null){
+        $sql = "SELECT COUNT(*) AS TOTAL
+                    FROM orders_transport_affiliated o 
+                    WHERE o.company_id = '$company_id' " ;
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        return $rs['TOTAL'];
+    }
 }

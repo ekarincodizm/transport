@@ -19,22 +19,33 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Affiliated Truck', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'company_id',
             'license_plate',
             'brand',
             'model',
             // 'color',
-            // 'type_id',
-
+            'type_id',
+            [
+                'class' => '\kartik\grid\DataColumn',
+                'label' => 'ประเภท',
+                'hAlign' => 'center',
+                'width' => '10%',
+                'format' => 'raw',
+                'mergeHeader' => true,
+                'value' => function ($model) {
+                   return $model->type_id;
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);
+    ?>
 
 </div>

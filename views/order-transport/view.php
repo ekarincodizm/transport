@@ -485,7 +485,13 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                 -->
 
                 <div class="panel panel-primary">
-                    <div class="panel-heading">ค่าเชื้อเพลิง/ระยะทาง</div>
+                    <div class="panel-heading">
+                        ค่าเชื้อเพลิง/ระยะทาง
+                        <a href="javascript:explain_after_transport()" class="pull-right">
+                            <i class="fa fa-question-circle fa-2x text-orange"></i>
+                        </a>
+
+                    </div>
                     <div class="panel-body">
                         <div class="well well-sm">
                             <div class="row">
@@ -628,6 +634,11 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 ค่าใช้จ่ายอื่น ๆ
+
+                                <a href="javascript:explain_after_transport_expenses_all()" class="pull-right">
+                                    <i class="fa fa-question-circle fa-2x text-orange"></i>
+                                </a>
+
                                 <div class="pull-right">
                                     <i class="fa fa-refresh fa-spin" id="l-ding" style="display:none;"></i>
                                 </div>
@@ -676,6 +687,9 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <i class="fa fa-cogs"></i> ค่าใช้จ่ายเกี่ยวกับรถ
+                                <a href="javascript:explain_after_transport_expenses_truck()" class="pull-right">
+                                    <i class="fa fa-question-circle fa-2x text-orange"></i>
+                                </a>
                                 <div class="pull-right">
                                     <i class="fa fa-refresh fa-spin" id="e-ding" style="display:none;"></i>
                                 </div>
@@ -822,6 +836,68 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+
+<!-- #################### POPUPO AFTER TRANSPORT -->
+
+
+<div class="modal fade" id="explain_after_transport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">คำอธิบาย</h4>
+            </div>
+            <div class="modal-body" style=" color:red;">
+                *ข้อมูลในส่วนนี้บันทึกหลังจากที่ทำการขนส่งกลับมายังบริษัทแล้ว<br/>
+                โดยการนำใบบิลค่าน้ำมัน หรือเลขไมล์ระยะทางการวิ่งรถมาบันทึก
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="explain_after_transport_expenses_all">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">คำอธิบาย</h4>
+            </div>
+            <div class="modal-body" style=" color:red;">
+                *ข้อมูลในส่วนนี้บันทึกหลังจากที่ทำการขนส่งกลับมายังบริษัทแล้ว<br/>
+                เช่น ค่าทางด่วน ค่าปรับ ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="explain_after_transport_expenses_truck">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">คำอธิบาย</h4>
+            </div>
+            <div class="modal-body" style=" color:red;">
+                *ข้อมูลในส่วนนี้บันทึกหลังจากที่ทำการขนส่งกลับมายังบริษัทแล้ว<br/>
+                ข้อมูลในส่วนนี้จะเป็นการบันทึกค่าใช้จ่ายของรถ ตามทะเบียน ในรายการขนส่งนั้น ๆ <br/>
+                เช่น ยางแตก ยางรั่ว ... โดยรายการที่บันทึกต้องระบุ ทะเบียนให้ชัดเจน
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 <!-- SET TEXT BOX VALUE HIDDEN -->
 <input type="hidden" id="assign_id" value="<?php echo $model->assign_id; ?>"/>
 <input type="hidden" id="Url_save_before_release" value="<?php echo Url::to(['save_before_release']) ?>"/>
@@ -872,11 +948,23 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
             return false;
         });
     }
+
+    function explain_after_transport() {
+        $("#explain_after_transport").modal();
+    }
+
+    function explain_after_transport_expenses_all() {
+        $("#explain_after_transport_expenses_all").modal();
+    }
+
+    function explain_after_transport_expenses_truck() {
+        $("#explain_after_transport_expenses_truck").modal();
+    }
 </script>
 
 <?php
 $this->registerJs('
-       $(".popover-btn").popover() 
+       $(".popover-btn").popover(); 
             ');
 ?>
 

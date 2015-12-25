@@ -154,7 +154,7 @@ class TruckController extends Controller {
     }
 
     public function actionGet_truck() {
-        $result = Truck::find()->where(['delete_flag' => '0','status' => '0'])->orderBy(['id' => 'DESC'])->all();
+        $result = Truck::find()->where(['delete_flag' => '0', 'status' => '0'])->orderBy(['id' => 'DESC'])->all();
 
         return $this->renderPartial('list_truck', [
                     "truck" => $result,

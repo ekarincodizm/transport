@@ -61,6 +61,7 @@ class AffiliatedTruckController extends Controller {
      */
     public function actionCreate($company_id = null, $id = null) {
         $model = new AffiliatedTruck();
+        $config = new \app\models\Config_system();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['affiliated/view', 'id' => $id]);

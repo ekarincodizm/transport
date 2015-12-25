@@ -50,7 +50,7 @@ class AffiliatedController extends Controller {
     public function actionView($id) {
         $model = $this->findModel($id);
         $AffiliatedTruck = new AffiliatedTruck();
-        $truck = $AffiliatedTruck->find()->where(['company_id' => $model->company_id])->all();
+        $truck = $AffiliatedTruck->find()->where(['company_id' => $model->company_id])->orderBy('type_id')->all();
         return $this->render('view', [
                     'model' => $model,
                     'truck' => $truck,

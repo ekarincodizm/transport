@@ -132,3 +132,8 @@ use app\models\Customer;
         <?php ActiveForm::end(); ?>
 
     </div>
+    <?php
+    $this->registerJs('
+       $(".popover-btn").popover() 
+            ');
+    ?>

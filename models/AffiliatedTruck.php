@@ -36,7 +36,7 @@ class AffiliatedTruck extends \yii\db\ActiveRecord
             [['company_id','license_plate','brand','color','model'],'required'],
             [['type_id'], 'integer'],
             [['company_id'], 'string', 'max' => 10],
-            [['license_plate'], 'string', 'max' => 20],
+            [['license_plate'], 'string', 'max' => 100],
             [['brand', 'model'], 'string', 'max' => 255],
             [['color'], 'string', 'max' => 100]
         ];

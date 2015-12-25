@@ -183,7 +183,8 @@ function save_assign() {
 
     $.post(url, data, function (success) {
         swal("Success", "สร้างใบงานเสร็จแล้ว ..!", "success");
-        window.location.reload();
+        //window.location.reload();
+        window.location = "index.php?r=order-transport";
     });
 
 }
@@ -365,9 +366,9 @@ function save_fuel() {
         $("#avg_oil").val(datas.avg_oil);
         $("#compensate").val(datas.compensate);
     }, "json");
-    
+
     swal("Success...", "บันทึกข้อมูลในส่วนนี้แล้ว", "success");
-    
+
     //$("#process_fuel_success").fadeIn(300).delay(1000).fadeOut(400);
 }
 

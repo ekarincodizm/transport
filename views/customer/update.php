@@ -10,9 +10,9 @@ $this->params['breadcrumbs'][] = ['label' => 'ลูกค้า', 'url' => ['in
 $this->params['breadcrumbs'][] = ['label' => $model->company, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
-<div class="panel panel-default">
+<div class="panel panel-primary">
 
-    <div class="panel-heading"><?= Html::encode($this->title) ?></div>
+    <div class="panel-heading"><i class="fa fa-building"></i><i class="fa fa-pencil"></i> <?= Html::encode($this->title) ?></div>
     <div class="panel-body">
         <?=
         $this->render('_form', [

@@ -94,6 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <th>ยี่ห้อ</th>
                                         <th>รุ่น</th>
                                         <th>สี</th>
+                                        <th>ประเภท</th>
                                         <th style=" text-align: center;"></th>
                                     </tr>
                                 </thead>
@@ -108,6 +109,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <td><?php echo $trucks['brand']; ?></td>
                                             <td><?php echo $trucks['model']; ?></td>
                                             <td><?php echo $trucks['color']; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($trucks['type_id'] == '1') {
+                                                    echo '<font style="color:green;">หัวลาก</font>';
+                                                } else {
+                                                    echo '<font style="color:orange;">พ่วง</font>';
+                                                }
+                                                ?>
+                                            </td>
                                             <td style=" text-align: center;">
                                                 <a href="<?php echo Url::to(['affiliated-truck/view', 'company_id' => $trucks->company_id, '_id' => $model->id, 'id' => $trucks['id']]) ?>"><i class="fa fa-eye"></i></a>
                                                 <a href="<?php echo Url::to(['affiliated-truck/update', 'company_id' => $model->company_id, '_id' => $model->id, 'id' => $trucks['id']]) ?>"><i class="fa fa-pencil"></i></a>
@@ -122,7 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 ?>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+<?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

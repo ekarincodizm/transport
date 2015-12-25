@@ -49,27 +49,40 @@ if ($flag == '1') {
 
     <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group field-driver-driver_license_id required">
-        <label class="control-label col-sm-2" for="driver-date_buy">วันที่ซื้อ</label>
-        <div class='col-sm-10'>
             <?php
-            echo DatePicker::widget([
-                'model' => $model,
-                'attribute' => 'date_buy',
+            /*
+              echo DatePicker::widget([
+              'model' => $model,
+              'attribute' => 'date_buy',
+              'language' => 'th',
+              'value' => date("Y-m-d"),
+              'removeButton' => false,
+              'readonly' => true,
+              'pluginOptions' => [
+              'autoclose' => true,
+              'format' => 'yyyy-mm-dd'
+              ]
+              ]);
+             * 
+             */
+            ?>
+
+            <?php
+            echo $form->field($model, 'date_buy')->widget(\kartik\widgets\DatePicker::classname(), [
                 'language' => 'th',
-                'value' => date("Y-m-d"),
                 'removeButton' => false,
-                'readonly' => true,
+                'options' => [
+                    'value' => date("Y-m-d"),
+                    'readonly' => true,
+                //'disabled' => 'disabled',
+                ],
                 'pluginOptions' => [
                     'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
                 ]
             ]);
             ?>
-        </div>
-        <div class='col-sm-offset-2 col-sm-10'></div>
-        <div class='col-sm-offset-2 col-sm-10'><div class="help-block"></div></div>
-    </div>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
