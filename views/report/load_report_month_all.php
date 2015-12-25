@@ -37,8 +37,9 @@ function Affiliated_truck($truck_id = null) {
     return $result['license_plate'];
 }
 ?>
-<b>รายรับ รายจ่าย รายการขนส่งประจำเดือน <?php echo $monthfull[$month] . " " . ($year + 543); ?></b>
-
+<b>รายรับ รายจ่าย รายการขนส่งประจำเดือน <?php echo $monthfull[$month] . " " . ($year + 543); ?></b><br/>
+* ค่าใช้จ่ายคิดตามคันรถ หรือหมายเลขรถ ถ้าค่าใช้จ่ายที่เกิดจากตามทะเบียนรถ ส่วนใดส่วนหนึ่งไม่ว่าส่วนหัวหรือส่วนท้าย ที่ยังไม่ได้ต่อ จะไม่นำมาคิดในรายงานนี้แต่จะไปคิดในรายงานค่าใช้จ่ายรวม<br/>
+เช่น รถทะเบียน ก ประเภทพ่วง จอดทิ้งไว้แต่ ต้องเสียค่างวดทุกเดือน ค่าใช้จ่ายนี้ก็จะไปคิดในรายงานค่าใช้จ่ายรวมไม่นำมาคิดในรายงานนี้
 <div class="table table-responsive">
     <table class="table table-striped table-hover table-bordered" id="report_year">
         <thead>
