@@ -73,9 +73,10 @@ class ReportController extends Controller {
             $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
             $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
             $salary = $report->sum_salary_month($year, $rs['MONTH']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
+            $engone_oil = $report->sum_engine_oil_month($year, $rs['MONTH']); //ค่างเปลี่ยนน้ำมันเครื่อง
             $annuities = $report->sum_annuities_month($year, $rs['MONTH']); //ค่างวดรถ
             $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
-            $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
+            $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int)$engone_oil + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
 
             $allowance_driver = ((int) $sub['allowance_driver1'] + (int) $sub['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
             $sum_total_row = (($sub['income'] + $income_out_transport) - $sum_expenses_row);

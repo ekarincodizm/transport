@@ -205,6 +205,18 @@ class MapTruck extends \yii\db\ActiveRecord {
                         AND SUBSTR(o.order_date_start,6,2) = '$month'
                     ORDER BY o.id DESC
                 )
+                
+                    UNION 
+
+                    (
+                     SELECT o.id,o.create_date AS create_date,CONCAT('เปลี่ยนน้ำมันเครื่อง (ทะเบียน' ,o.license_plate,')') AS detail,o.price AS price,'0' AS order_id,'0' AS type
+                                        FROM  engine_oil o INNER JOIN map_truck t ON o.car_id = t.car_id
+                                        WHERE t.car_id = '$car_id'
+                                            AND o.price != ''
+                                            AND LEFT(o.create_date,4) = '$year'
+                                            AND SUBSTR(o.create_date,6,2) = '$month'
+                                        ORDER BY o.id DESC
+                    )
 
                     ORDER BY create_date ASC ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();

@@ -418,7 +418,18 @@ class Report {
         $result = \Yii::$app->db->createCommand($sql)->queryOne();
         return $result['price'];
     }
-
+   
+    //ค่าเปลี่ยนน้ำมันเครื่อง
+    function sum_engine_oil_month($year = null, $month = null) {
+        $sql = "SELECT SUM(o.price) AS TOTAL
+	FROM  engine_oil o INNER JOIN map_truck t ON o.car_id = t.car_id
+                    WHERE o.price != ''
+                        AND LEFT(o.create_date,4) = '$year'
+                        AND SUBSTR(o.create_date,6,2) = '$month'";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['TOTAL'];
+    }
+     
     //ดึงข้อมูลรายงานรายรับ รายจ่าย ทั้งหมดของรถแต่ละคัน
     function report_month_all($year = null, $month = null) {
         $sql = "SELECT a.car_id,t.truck_1,t.truck_2,d.driver,dv.`name`,dv.lname,
@@ -635,6 +646,19 @@ class Report {
                 ) Q1 ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
+    }
+    
+     //ค่าเปลี่ยนน้ำมันเครื่อง
+    function sum_engine_oil($year = null, $month = null,$car_id = null) {
+        $sql = "SELECT SUM(o.price) AS TOTAL
+	FROM  engine_oil o INNER JOIN map_truck t ON o.car_id = t.car_id
+                    WHERE t.car_id = '$car_id'
+                        AND o.price != ''
+                        AND LEFT(o.create_date,4) = '$year'
+                        AND SUBSTR(o.create_date,6,2) = '$month'
+                    ORDER BY o.id DESC ";
+        $result = \Yii::$app->db->createCommand($sql)->queryOne();
+        return $result['TOTAL'];
     }
 
     //ดึงข้อมูลรายการรถที่ไม่ได้ต่อ แต่ มีค่าใช้จ่ายในเดือน นั้น ๆ 

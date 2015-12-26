@@ -46,10 +46,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                             for ($i = 0; $i <= 11; $i++) {
                                 ?>
-                                <option value="<?php echo $monthVal[$i]; ?>" <?php if ($month == $monthVal[$i]) {
-                                echo "selected";
-                            } ?>><?php echo $monthVal[$i] . '-' . $monthFull[$i]; ?></option>
-<?php } ?>
+                                <option value="<?php echo $monthVal[$i]; ?>" <?php
+                                if ($month == $monthVal[$i]) {
+                                    echo "selected";
+                                }
+                                ?>><?php echo $monthVal[$i] . '-' . $monthFull[$i]; ?></option>
+                                    <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -58,7 +60,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 <button type="button" class="btn btn-info btn-block" onclick="load_report()"><i class="fa fa-eye"></i> ดูรายงาน</button>
             </div>
         </div>
-
+        <!-- 
+        #คำอธิบาย
+        -->
+        <div class="box box-danger collapsed-box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-info-circle"></i> </h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse">คำอธิบาย <i class="fa fa-plus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body" style=" font-size: 12px;">
+                * ค่าใช้จ่ายคิดตามคันรถ หรือหมายเลขรถ ถ้าค่าใช้จ่ายที่เกิดจากตามทะเบียนรถ ส่วนใดส่วนหนึ่งไม่ว่าส่วนหัวหรือส่วนท้าย ที่ยังไม่ได้ต่อ จะไม่นำมาคิดในรายงานนี้แต่จะไปคิดในรายงานค่าใช้จ่ายรวม<br/>
+                เช่น รถทะเบียน ก ประเภทพ่วง จอดทิ้งไว้แต่ ต้องเสียค่างวดทุกเดือน ค่าใช้จ่ายนี้ก็จะไปคิดในรายงานค่าใช้จ่ายรวมไม่นำมาคิดในรายงานนี้ <br/><br/>
+                ไอค่อน <i class="fa fa-list text-green"></i> คือ ปุ่มคลิกดูรายละเอียดในรายการนั้น ๆ
+            </div><!-- /.box-body -->
+        </div>
         <div id="load_report"></div>
     </div>
 

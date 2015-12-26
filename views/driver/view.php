@@ -134,12 +134,12 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                 <div class="col-md-9">
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#activity" data-toggle="tab"><i class="fa fa-user"></i> ข้อมูลทั่วไป</a></li>
-                            <li><a href="#timeline" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id ?>')"><i class="fa fa-truck"></i> ประวัติการวิ่งรถ</a></li>
-                            <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> บัญชีเงินเดือน</a></li>
-                            <li><a href="#income" data-toggle="tab" onclick="load_income();"><i class="fa fa-download"></i> รายรับ</a></li>
-                            <li><a href="#expenses" data-toggle="tab" onclick="load_expenses_driver();"><i class="fa fa-upload"></i> รายจ่าย</a></li>
-                            <li><a href="#income_expenses" data-toggle="tab" onclick="load_income_expenses();"><i class="fa fa-file-text-o"></i> สรุป(รับ - จ่าย)</a></li>
+                            <li class="active"><a href="#activity" data-toggle="tab"><i class="fa fa-user"></i> <span class="btn_tab">ข้อมูลทั่วไป</span></a></li>
+                            <li><a href="#timeline" data-toggle="tab" onclick="get_history('<?php echo $model->driver_id ?>')"><i class="fa fa-truck"></i> <span class="btn_tab">ประวัติการวิ่งรถ</span></a></li>
+                            <li><a href="#salary" data-toggle="tab" onclick="load_salary('<?php echo $model->driver_id ?>');"><i class="fa fa-dollar"></i> <span class="btn_tab">บัญชีเงินเดือน</span></a></li>
+                            <li><a href="#income" data-toggle="tab" onclick="load_income();"><i class="fa fa-download"></i> <span class="btn_tab">รายรับ</span></a></li>
+                            <li><a href="#expenses" data-toggle="tab" onclick="load_expenses_driver();"><i class="fa fa-upload"></i> <span class="btn_tab">รายจ่าย</span></a></li>
+                            <li><a href="#income_expenses" data-toggle="tab" onclick="load_income_expenses();"><i class="fa fa-file-text-o"></i> <span class="btn_tab">สรุป(รับ - จ่าย)</span></a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="activity">
@@ -201,6 +201,7 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                             </div>
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="timeline">
+                                <p class="pull-left">ประวัติการวิ่งรถ</p>
                                 <div id="history"></div>
                             </div>
                             <!-- /.tab-pane -->
@@ -271,6 +272,8 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                                             </div>
                                         </div>
                                     </div>
+                                    <br/>
+                                    บัญชีเงินเดือน
                                     <div class="box-body table-responsive" id="result-salary">
 
                                     </div>
@@ -359,7 +362,7 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                                         <button id="" class="btn btn-success btn-block" onclick="save_income();"><i class="fa fa-save"></i> บันทึก</button>
                                     </div>
                                 </div>
-
+                                รายรับ
                                 <div id="load_income" class="table-responsive"></div>
 
                             </div>
@@ -441,7 +444,7 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                                         <button class="btn btn-info btn-block" onclick="save_expenses_driver();"><i class="fa fa-save"></i> บันทึก</button>
                                     </div>
                                 </div>
-
+                                  รายจ่าย
                                 <div id="result_expenses" class="table-responsive"></div>
 
                             </div>
@@ -495,7 +498,7 @@ $car_map = $MapTruck->find()->where(['car_id' => $car['car_id']])->one();
                                     </div>
 
                                 </div>
-
+                                สรุปรายรับ - รายจ่าย
                                 <div id="result_income_expenses" class="table-responsive"></div>
 
                             </div>
@@ -819,3 +822,24 @@ $this->registerJs(
         });
     }
 </script>
+
+<?php
+$this->registerJs('
+        var width = $(window).width();
+        if (width < 1024) {
+            $(".btn_tab").hide();
+        } else {
+            $(".btn_tab").show();
+        }
+
+        //Resile 
+        $(window).resize(function () {
+            var widths = $(window).width();
+            if (widths <= 1024) {
+                $(".btn_tab").hide();
+            } else {
+                $(".btn_tab").show();
+            }
+        });
+             ');
+?>

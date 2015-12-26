@@ -451,7 +451,7 @@ $company = $company_model->find()->one();
 
 
     function link_assembler() {
-        window.location='http://www.theassembler.net';
+        window.location = 'http://www.theassembler.net';
     }
 </script>
 
