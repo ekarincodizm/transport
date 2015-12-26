@@ -35,7 +35,7 @@ $monthfull = $config->MonthFullKey();
                 <th rowspan="2" valign="middle">น้ำมัน<br/>(ลิตร)</th>
                 <th rowspan="2" valign="middle">แก๊ส<br/>(ก.ก.)</th>
                 <th rowspan="2" id="income" style=" text-align: center; color: #FFF;">รายรับ</th>
-                <th colspan="7" style=" text-align: center;" valign="middle">รายจ่าย</th>
+                <th colspan="8" style=" text-align: center;" valign="middle">รายจ่าย</th>
                 <th id="outcome" rowspan="2" style=" text-align: center; font-weight: bold;" valign="middle">รวมรายจ่าย</th>
                 <th id="total" rowspan="2" style=" text-align: center; color: #FFF;" valign="middle">คงเหลือ</th>
             </tr>
@@ -45,6 +45,7 @@ $monthfull = $config->MonthFullKey();
                 <th>คชจ.การเดินทาง</th>
                 <th>คชจ.ซ่อมรถ</th>
                 <th>คชจ.พนักงาน</th>
+                <th>เปลี่ยนน้ำมันเครื่อง</th>
                 <th>ค่างวดรถ</th>
                 <th>ภาษี/พรบ.</th>
             </tr>
@@ -66,9 +67,10 @@ $monthfull = $config->MonthFullKey();
                 $outgoing = $report->sum_get_outgoing_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับการวิ่งทะเบียนนี
                 $expenses_truck = $report->sum_expenses_truck_month($year, $rs['MONTH']); //ค่าใช้จ่ายเกี่ยวกับรถ 
                 $salary = $report->sum_salary_month($year, $rs['MONTH']); //เงินเดือนพนักงานและรายได้คนขับคันนี้
+                $engine_oil= $report->sum_engine_oil_month($year, $rs['MONTH']); //เปลี่ยนน้ำมันเครื่อง
                 $annuities = $report->sum_annuities_month($year, $rs['MONTH']); //ค่างวดรถ
                 $truck_act = $report->sum_truck_act_month($year, $rs['MONTH']); //ค่าต่อทะเบียน พรบ.
-                $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
+                $sum_expenses_row = ((int) $outgoing + (int) $expenses_truck + (int) $salary + (int)$engine_oil + (int) $annuities + (int) $truck_act); //รวมค่าใช้จ่าย
 
                 $allowance_driver = ((int) $sub['allowance_driver1'] + (int) $sub['allowance_driver2']); //รวมเบี้ยเลี้ยง 2 คน
                 $sum_total_row = ($sub['income'] - $sum_expenses_row);
@@ -88,6 +90,7 @@ $monthfull = $config->MonthFullKey();
                     <td><?php echo number_format($outgoing, 2) ?></td>
                     <td><?php echo number_format($expenses_truck, 2) ?></td>
                     <td><?php echo number_format($salary, 2) ?></td>
+                     <td><?php echo number_format($engine_oil, 2) ?></td>
                     <td><?php echo number_format($annuities, 2) ?></td>
                     <td><?php echo number_format($truck_act, 2) ?></td>
                     <td id="outcome"><?php echo number_format($sum_expenses_row, 2) ?></td>
@@ -99,7 +102,7 @@ $monthfull = $config->MonthFullKey();
             <tr>
                 <td colspan="5" style=" text-align: center;">รวม</td>
                 <td><?php echo number_format($sum_income, 2); ?></td>
-                <td colspan="7"></td>
+                <td colspan="8"></td>
                 <td><?php echo number_format($sum_outcome, 2); ?></td>
                 <td><?php echo number_format($sum_income - $sum_outcome, 2); ?></td>
             </tr>
