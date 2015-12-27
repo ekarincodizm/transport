@@ -52,4 +52,23 @@ class EngineOil extends \yii\db\ActiveRecord
             'create_date' => 'วันที่บันทึก',
         ];
     }
+    
+    public function notify_engine(){
+        $sql = "SELECT COUNT(*) AS TOTAL
+                    FROM truck tk
+
+                    INNER JOIN 
+                    (
+                    SELECT t.license_plate,MAX(t.create_date) AS date_service
+                    FROM engine_oil t 
+                    GROUP BY t.license_plate
+                    ) Q1 
+
+                    ON tk.license_plate = Q1.license_plate
+
+                    WHERE DATEDIFF(Q1.date_service,DATE(NOW())) < (SELECT engine_oil FROM notifications) ";
+        
+       $result = Yii::$app->db->createCommand($sql)->queryOne();
+       return $result['TOTAL'];
+    }
 }
