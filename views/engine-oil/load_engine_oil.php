@@ -14,8 +14,8 @@ $config = new app\models\Config_system();
     <thead>
         <tr>
             <th>#</th>
-            <th>วันที่เปลี่ยนน้ำมัน</th>
-            <th>วันที่ครบกำหนด</th>
+            <th>ระยะทางที่เข้ารับบริการ(กม.)</th>
+            <th>ระยะทางรอบต่อไป(กม.)</th>
             <th>วันที่ทำรายการ</th>
             <th style=" text-align: center;">ราคา</th>
             <th style="text-align: center;">เลือก</th>
@@ -30,10 +30,10 @@ $config = new app\models\Config_system();
             <tr>
                 <td><?php echo $i; ?></td>
                 <td>
-                    <?php echo $config->thaidate($rs['date_start']) ?>
+                    <?php echo $rs['now_mile'] ?>
                 </td>
                 <td>
-                    <?php echo $config->thaidate($rs['date_end']) ?>
+                    <?php echo $rs['next_mile'] ?>
                 </td>
                 <td>
                     <?php echo $config->thaidate($rs['create_date']) ?>

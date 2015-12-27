@@ -31,8 +31,8 @@ class EngineOil extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_start', 'date_end', 'create_date'], 'safe'],
-            [['car_id', 'price'], 'integer'],
+            [['create_date'], 'safe'],
+            [['car_id', 'price','now_mile','next_mile'], 'integer'],
             [['license_plate'], 'string', 'max' => 20]
         ];
     }
@@ -44,8 +44,8 @@ class EngineOil extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date_start' => 'วันที่เปลี่ยน',
-            'date_end' => 'วันที่ครบกำหนด',
+            'now_mile' => 'เลขไมล์ ณ วันที่มาเปลี่ยน',
+            'next_mile' => 'เลขไมล์ครั้งต่อไป',
             'license_plate' => 'ทะเบียนรถ',
             'car_id' => 'รถคันที่',
             'price' => 'ราคา',

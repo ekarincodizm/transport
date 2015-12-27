@@ -183,42 +183,12 @@ $config = new app\models\Config_system();
                 <div class="tab-pane" id="engine_oil">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3">
-                            <?php
-                            // usage without model
-                            echo '<label>วันที่เปลี่ยน</label>';
-                            echo DatePicker::widget([
-                                'name' => 'engine_oil_start',
-                                'id' => 'engine_oil_start',
-                                'value' => date('Y-m-d'),
-                                'language' => 'th',
-                                'removeButton' => false,
-                                //'readonly' => true,
-                                'options' => ['placeholder' => 'Select issue date ...'],
-                                'pluginOptions' => [
-                                    'format' => 'yyyy-mm-dd',
-                                    'todayHighlight' => true
-                                ]
-                            ]);
-                            ?>
+                            <label>เลขไมล์ที่เข้ารับบริการ</label>
+                            <input type="text" class="form-control" id="now_mile" name="now_mile" placeholder="ตัวเลขเท่านั้น" onkeypress="return chkNumber()"/>
                         </div>
                         <div class="col-sm-12 col-md-3 col-lg-3">
-                            <?php
-                            // usage without model
-                            echo '<label>วันที่ครบกำหนด</label>';
-                            echo DatePicker::widget([
-                                'name' => 'engine_oil_end',
-                                'id' => 'engine_oil_end',
-                                'value' => date('Y-m-d'),
-                                'language' => 'th',
-                                'removeButton' => false,
-                                //'readonly' => true,
-                                'options' => ['placeholder' => 'Select issue date ...'],
-                                'pluginOptions' => [
-                                    'format' => 'yyyy-mm-dd',
-                                    'todayHighlight' => true
-                                ]
-                            ]);
-                            ?>
+                            <label>เลขไมล์รอบต่อไป</label>
+                            <input type="text" class="form-control" id="next_mile" name="next_mile" placeholder="ตัวเลขเท่านั้น" onkeypress="return chkNumber()"/>
                         </div>
                         <div class="col-sm-12 col-md-3 col-lg-3">
                             <label>จำนวนเงิน</label>
@@ -636,13 +606,13 @@ $config = new app\models\Config_system();
     function get_engine() {
         $("#load_engine").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         var license_plate = "<?php echo $model->license_plate ?>";
-        var engine_oil_start = $("#engine_oil_start").val();
-        var engine_oil_end = $("#engine_oil_end").val();
+        var now_mile = $("#now_mile").val();
+        var next_mile = $("#next_mile").val();
         var url = "<?php echo Url::to(['engine-oil/load_engine']); ?>";
         var data = {
             license_plate: license_plate,
-            date_start: engine_oil_start,
-            date_end: engine_oil_end
+            now_mile: now_mile,
+            next_mile: next_mile
         };
 
         $.post(url, data, function (result) {
@@ -653,11 +623,21 @@ $config = new app\models\Config_system();
     //ข้อมูลการเปลี่ยนน้ำมันเครื่อง
     function save_engine() {
         var license_plate = "<?php echo $model->license_plate ?>";
-        var engine_oil_start = $("#engine_oil_start").val();
-        var engine_oil_end = $("#engine_oil_end").val();
+        var now_mile = $("#now_mile").val();
+        var next_mile = $("#next_mile").val();
         var engine_price = $("#engine_price").val()
         var car_id = "<?php echo $car_id ?>";
         var url = "<?php echo Url::to(['engine-oil/save']); ?>";
+
+        if (now_mile == '') {
+            $("#now_mile").focus();
+            return false;
+        }
+
+        if (next_mile == '') {
+            $("#next_mile").focus();
+            return false;
+        }
 
         if (engine_price == '') {
             $("#engine_price").focus();
@@ -673,13 +653,15 @@ $config = new app\models\Config_system();
         var data = {
             car_id: car_id,
             license_plate: license_plate,
-            date_start: engine_oil_start,
-            date_end: engine_oil_end,
+            now_mile: now_mile,
+            next_mile: next_mile,
             price: engine_price
         };
         $("#load_engine").html("<br/><center><i class='fa fa-spinner fa-spin fa-2x text-red'><i></center>");
         $.post(url, data, function (result) {
             $("#engine_price").val("");
+            $("#now_mile").val("");
+            $("#next_mile").val("");
             get_engine();
         });
     }

@@ -18,8 +18,8 @@ class EngineOilSearch extends EngineOil
     public function rules()
     {
         return [
-            [['id', 'car_id', 'price'], 'integer'],
-            [['date_start', 'date_end', 'license_plate', 'create_date'], 'safe'],
+            [['id', 'car_id','now_mile','next_mile', 'price'], 'integer'],
+            [[ 'license_plate', 'create_date'], 'safe'],
         ];
     }
 
@@ -57,8 +57,8 @@ class EngineOilSearch extends EngineOil
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'date_start' => $this->date_start,
-            'date_end' => $this->date_end,
+            'now_mile' => $this->now_mile,
+            'next_mile' => $this->next_mile,
             'car_id' => $this->car_id,
             'price' => $this->price,
             'create_date' => $this->create_date,
