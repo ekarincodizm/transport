@@ -20,7 +20,7 @@ $this->title = "ตงตงทรานสปอร์ต";
 $driver_model = new \app\models\Driver();
 $truck_act = new \app\models\TruckAct();
 $annuities = new app\models\Annuities();
-
+$engin_model = new app\models\EngineOil();
 $company_model = new \app\models\Company();
 $company = $company_model->find()->one();
 ?>
@@ -254,7 +254,8 @@ $company = $company_model->find()->one();
                                 $noti_act = $truck_act->notification_act();
                                 $noti_driv = $driver_model->Get_license_expire();
                                 $noti_period = $annuities->count_over();
-                                $count_noti = ((int) $noti_act + (int) $noti_driv + (int) $noti_period);
+                                $engine_noti = $engin_model->notify_engine();
+                                $count_noti = ((int) $noti_act + (int) $noti_driv + (int) $noti_period + (int)$engine_noti);
                                 ?>
                                 <?php if ($count_noti > 0) { ?>
                                     <i class="fa fa-bell faa-ring animated faa-slow"></i>  
@@ -265,6 +266,14 @@ $company = $company_model->find()->one();
                                 แจ้งเตือน (<?php echo $count_noti ?>)
                             </button>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
+                                <li>
+                                    <a href="<?php echo Url::to(['truck-act/notification']) ?>">
+                                        <i class="fa fa-tint text-red"></i> เปลี่ยนถ่ายน้ำมันเครื่อง
+                                        <span class="label label-warning pull-right">
+                                            <?php echo $engine_noti; ?>
+                                        </span>
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="<?php echo Url::to(['truck-act/notification']) ?>">
                                         <i class="fa fa-bell-o text-red"></i> พรบ/ภาษี
