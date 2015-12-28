@@ -304,6 +304,12 @@ class OrderTransportController extends Controller {
         \Yii::$app->db->createCommand()
                 ->update("assign", $columns, "assign_id = '$assign_id' ")
                 ->execute();
+
+        $license_plate = $request->post('license_plate');
+        $columns_truck = array('mile_now' => $request->post('now_mile'));
+        \Yii::$app->db->createCommand()
+                ->update("truck", $columns_truck, "license_plate = '$license_plate' ")
+                ->execute();
     }
 
     public function actionSave_message() {
@@ -393,7 +399,7 @@ class OrderTransportController extends Controller {
     public function actionGet_bill_customer($cus_id = null) {
         //$searchModel = new AssignSearch();
 
-        $query = Assign::find()->where(['employer' => $cus_id,'flag' => '0']);
+        $query = Assign::find()->where(['employer' => $cus_id, 'flag' => '0']);
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -405,7 +411,7 @@ class OrderTransportController extends Controller {
         $employer = \app\models\OrdersTransportAffiliated::find()
                 ->select('orders_transport_affiliated.*')
                 ->join('INNER JOIN', 'assign_affiliated', 'assign_affiliated.order_id = orders_transport_affiliated.order_id')
-                ->where(['orders_transport_affiliated.employer' => $cus_id,'flag' => '0']);
+                ->where(['orders_transport_affiliated.employer' => $cus_id, 'flag' => '0']);
 
         $provider2 = new ActiveDataProvider([
             'query' => $employer,
@@ -440,13 +446,13 @@ class OrderTransportController extends Controller {
         }
         $sql = "SELECT * FROM assign WHERE id IN ($cus)";
         $assign = Yii::$app->db->createCommand($sql)->queryAll();
-        
-        if($Id2 == ''){
+
+        if ($Id2 == '') {
             $cus2 = "0";
         } else {
             $cus2 = $Id2;
         }
-        
+
         $sql2 = "SELECT o.*,a.income,a.transport_date,a.changwat_start,a.changwat_end,a.cus_start,a.cus_end,a.product_type,a.weigh "
                 . "FROM orders_transport_affiliated o INNER JOIN assign_affiliated a ON o.order_id = a.order_id WHERE o.id IN ($cus2)";
         $assign2 = Yii::$app->db->createCommand($sql2)->queryAll();

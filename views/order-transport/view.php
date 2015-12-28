@@ -561,6 +561,7 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon">
+                                                <input type="hidden" id="license_plate_1" value="<?php echo $car_view->truck_1; ?>"/>
                                                 เลขไมล์เที่ยวนี้ *ทะเบียน(<?php echo $car_view->truck_1; ?>) 
                                                 <a
                                                     class="popover-btn"

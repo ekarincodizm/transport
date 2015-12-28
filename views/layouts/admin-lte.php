@@ -255,7 +255,7 @@ $company = $company_model->find()->one();
                                 $noti_driv = $driver_model->Get_license_expire();
                                 $noti_period = $annuities->count_over();
                                 $engine_noti = $engin_model->notify_engine();
-                                $count_noti = ((int) $noti_act + (int) $noti_driv + (int) $noti_period + (int)$engine_noti);
+                                $count_noti = ((int) $noti_act + (int) $noti_driv + (int) $noti_period + (int) $engine_noti);
                                 ?>
                                 <?php if ($count_noti > 0) { ?>
                                     <i class="fa fa-bell faa-ring animated faa-slow"></i>  
@@ -267,7 +267,7 @@ $company = $company_model->find()->one();
                             </button>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
                                 <li>
-                                    <a href="<?php echo Url::to(['truck-act/notification']) ?>">
+                                    <a href="<?php echo Url::to(['engine-oil/notify']) ?>">
                                         <i class="fa fa-tint text-red"></i> เปลี่ยนถ่ายน้ำมันเครื่อง
                                         <span class="label label-warning pull-right">
                                             <?php echo $engine_noti; ?>

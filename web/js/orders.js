@@ -321,6 +321,7 @@ function update_assign() {
 function save_fuel() {
     var url = $("#Url_save_fuel").val();
     var assign_id = $("#assign_id").val();
+    var license_plate = $("#license_plate_1").val();
     var oil = $("#oil").val();
     var oil_unit = $("#oil_unit").val();
     var oil_price = $("#oil_price").val();
@@ -340,6 +341,7 @@ function save_fuel() {
     }
     var data = {
         assign_id: assign_id,
+        license_plate: license_plate,
         oil: oil,
         oil_unit: oil_unit,
         oil_price: oil_price,

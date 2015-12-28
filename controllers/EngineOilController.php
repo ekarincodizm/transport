@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class EngineOilController extends Controller {
 
+    public $layout = "admin-lte";
+
     public function behaviors() {
         return [
             'verbs' => [
@@ -135,6 +137,15 @@ class EngineOilController extends Controller {
 
         return $this->renderPartial('load_engine_oil', [
                     "engine" => $engine,
+        ]);
+    }
+
+    public function actionNotify() {
+        $notify = new EngineOil();
+        $result = $notify->get_notify();
+
+        return $this->render('notify', [
+                    'result' => $result,
         ]);
     }
 
