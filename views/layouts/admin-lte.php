@@ -247,9 +247,12 @@ $company = $company_model->find()->one();
                             </h4>
                         </section>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2" style=" text-align: right;">
                         <div class="dropup">
-                            <button class="btn btn-warning btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn dropdown-toggle" type="button" 
+                                    id="dropdownMenu2" data-toggle="dropdown" 
+                                    aria-haspopup="true" aria-expanded="false"
+                                    style=" text-align: right; background: none; color: #ffffff;">
 
                                 <?php
                                 $noti_act = $truck_act->notification_act();
@@ -264,7 +267,7 @@ $company = $company_model->find()->one();
                                     <i class="fa fa-bell"></i>  
                                 <?php } ?>
 
-                                แจ้งเตือน (<?php echo $count_noti ?>)
+                                    แจ้งเตือน <label class="label label-danger"><?php echo $count_noti ?></label>
                             </button>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
                                 <li>
@@ -353,6 +356,7 @@ $company = $company_model->find()->one();
                         <input type="password" class="form-control" id="password">
                     </div>
                 </div>
+                 
             </div>
             <div class="modal-footer">
                 <div class="form-group" style=" text-align:  right;">
@@ -391,6 +395,13 @@ $company = $company_model->find()->one();
                     <div class="input-group">
                         <div class="input-group-addon"><i class="fa fa-key"></i> รหัสผ่าน</div>
                         <input type="password" class="form-control" id="edit_password">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-key"></i> ยืนยันรหัสผ่าน</div>
+                        <input type="password" class="form-control" id="re_password">
                     </div>
                 </div>
             </div>
@@ -511,8 +522,19 @@ $company = $company_model->find()->one();
         var url = "<?php echo Url::to(['site/edit_login']) ?>";
         var username = $("#edit_username").val();
         var password = $("#edit_password").val();
+        var re_password = $("#re_password").val();
         var data = {username: username, password: password};
-
+        
+        if(username == '' || password == ''){
+            swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ...!", "warning");
+            return false;
+        }
+        
+        if(password != re_password){
+            swal("แจ้งเตือน!", "รหัสผ่านไม่ตรง...!", "warning");
+            return false;
+        }
+        
         $.post(url, data, function (success) {
             logout();
         });
