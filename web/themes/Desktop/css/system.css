@@ -325,7 +325,8 @@ body #bg-nav-head{
 #menu-task-bar{
     background: #3b3b3b;
     color: #FFF;
-    border: #000 solid 1px;
+    border: #000 solid 0px;
+    border-radius: 0px;
 }
 
 #menu-task-bar li a{
@@ -355,5 +356,9 @@ body #bg-nav-head{
 #bg_img_main{
     background: url(truck-icon-glass.png) right center no-repeat fixed;
     height: 100%;
+}
+
+#dialog_login{
+    background: url(truck-icon-glass.png) #cccccc center bottom fixed no-repeat;
 }
 

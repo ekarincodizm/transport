@@ -212,7 +212,7 @@ $company = $company_model->find()->one();
                                 if (Yii::$app->session['menu'] == '14') {
                                     echo "class = 'actives' ";
                                 }
-                                ?> onclick="set_menu('14')"><a href="<?php echo Url::to(['report/report_month_all']) ?>"><i class="fa fa-truck text-success"></i> <span>รับรับ - รายจ่ายค่าขนส่งประจำเดือน(ตามหมายเลขรถ)</span></a></li>
+                                ?> onclick="set_menu('14')"><a href="<?php echo Url::to(['report/report_month_all']) ?>"><i class="fa fa-truck text-success"></i> <span>รับรับ - รายจ่ายค่าขนส่งประจำเดือน(ตามเลขรถ)</span></a></li>
                                 <li <?php
                                 if (Yii::$app->session['menu'] == '15') {
                                     echo "class = 'actives' ";
@@ -227,11 +227,26 @@ $company = $company_model->find()->one();
 
                                 </li>
                                 <li class="pull-left" style=" padding: 5px;">
-                                    <i class="fa fa-user text-green"></i> สวัสดีคุณ : <?php echo \Yii::$app->session['username']; ?>
-                                    <i class="fa fa-edit text-yellow" onclick="edit_login()"></i>
+
                                 </li>
-                                <li class="pull-right" style=" padding: 5px;">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="logout()"><i class="fa fa-power-off"></i> ออกจากระบบ</button>
+                                <li  style=" padding: 0px;">
+                                    <div class="row col-lg-12" style=" margin: 0px; padding: 0px;">
+                                        <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">
+                                            <button type="button" class="btn btn-default disabled btn-sm btn-block">
+                                            <i class="fa fa-user text-green"></i> <?php echo \Yii::$app->session['username']; ?>
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">
+                                            <button type="button" class="btn btn-info btn-sm btn-block" onclick="edit_login()" title="แก้ไข" data-toggle="tooltip" data-placement="top">
+                                            <i class="fa fa-edit"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4">
+                                            <button type="button" class="btn btn-danger btn-sm btn-block" onclick="logout()" title="ออกจากระบบ" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-power-off"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -249,10 +264,10 @@ $company = $company_model->find()->one();
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2" style=" text-align: right;">
                         <div class="dropup">
-                            <button class="btn dropdown-toggle" type="button" 
+                            <button class="btn btn-default dropdown-toggle" type="button" 
                                     id="dropdownMenu2" data-toggle="dropdown" 
                                     aria-haspopup="true" aria-expanded="false"
-                                    style=" text-align: right; background: none; color: #ffffff;">
+                                    style=" text-align: right;">
 
                                 <?php
                                 $noti_act = $truck_act->notification_act();
@@ -267,7 +282,7 @@ $company = $company_model->find()->one();
                                     <i class="fa fa-bell"></i>  
                                 <?php } ?>
 
-                                    แจ้งเตือน <label class="label label-danger"><?php echo $count_noti ?></label>
+                                แจ้งเตือน <label class="label label-danger"><?php echo $count_noti ?></label>
                             </button>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
                                 <li>
@@ -331,7 +346,7 @@ $company = $company_model->find()->one();
     ############## Dialog Login ##############
 -->
 <div class="modal fade" id="dialog_login" data-backdrop="static">
-    <div class="modal-dialog modal-info modal-sm">
+    <div class="modal-dialog modal-defalut modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style=" display: none;"><span aria-hidden="true">&times;</span></button>
@@ -356,12 +371,12 @@ $company = $company_model->find()->one();
                         <input type="password" class="form-control" id="password">
                     </div>
                 </div>
-                 
+
             </div>
             <div class="modal-footer">
                 <div class="form-group" style=" text-align:  right;">
-                    <button type="button" class="btn btn-info" onclick="login()"><i class="fa fa-unlock text-green"></i> เข้าสู่ระบบ</button>
-                    <button type="button" class="btn btn-info" onclick="reset_login()"><i class="fa fa-remove text-red"></i> ยกเลิก</button>
+                    <button type="button" class="btn btn-default" onclick="login()"><i class="fa fa-unlock text-green"></i> เข้าสู่ระบบ</button>
+                    <button type="button" class="btn btn-default" onclick="reset_login()"><i class="fa fa-remove text-red"></i> ยกเลิก</button>
                     <div id="login_flag"></div>
                 </div>
             </div>
@@ -397,7 +412,7 @@ $company = $company_model->find()->one();
                         <input type="password" class="form-control" id="edit_password">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon"><i class="fa fa-key"></i> ยืนยันรหัสผ่าน</div>
@@ -524,17 +539,17 @@ $company = $company_model->find()->one();
         var password = $("#edit_password").val();
         var re_password = $("#re_password").val();
         var data = {username: username, password: password};
-        
-        if(username == '' || password == ''){
+
+        if (username == '' || password == '') {
             swal("แจ้งเตือน!", "กรอกข้อมูลไม่ครบ...!", "warning");
             return false;
         }
-        
-        if(password != re_password){
+
+        if (password != re_password) {
             swal("แจ้งเตือน!", "รหัสผ่านไม่ตรง...!", "warning");
             return false;
         }
-        
+
         $.post(url, data, function (success) {
             logout();
         });
