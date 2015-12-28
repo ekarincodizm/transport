@@ -63,6 +63,7 @@ class SiteController extends Controller {
             \Yii::$app->session['username'] = $username;
             \Yii::$app->session['user'] = true;
             \Yii::$app->session['status'] = $rs['status'];
+            \Yii::$app->session['user_id'] = $rs['id'];
             $flag = "1";
         } else {
             $flag = "0";
@@ -111,6 +112,18 @@ class SiteController extends Controller {
     public function actionSet_menu() {
         $id = Yii::$app->request->post('id');
         Yii::$app->session['menu'] = $id;
+    }
+
+    public function actionEdit_login() {
+        $id = \Yii::$app->session['user_id'];
+        $request = \Yii::$app->request;
+        $username = $request->post('username');
+        $password = $request->post('password');
+
+        $columns = array("username" => $username, "password" => $password);
+        Yii::$app->db->createCommand()
+                ->update("user", $columns, "id = '$id' ")
+                ->execute();
     }
 
 }

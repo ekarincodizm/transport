@@ -174,6 +174,18 @@ class Truck extends \yii\db\ActiveRecord {
                             AND SUBSTR(o.order_date_start,6,2) = '$month'
                         ORDER BY o.id DESC
                     )
+                    
+                UNION 
+
+                    (
+                        SELECT o.id,o.create_date,'เปลี่ยนน้ำมันเครื่อง ' AS detail,o.price,'0'  AS order_id,'0' AS type
+                        FROM engine_oil o 
+                        WHERE o.license_plate = '$lincense_plate' 
+                            AND o.price != ''
+                            AND LEFT(o.create_date,4) = '$year'
+                            AND SUBSTR(o.create_date,6,2) = '$month'
+                        ORDER BY o.id DESC
+                    )
 
                     ORDER BY create_date ASC ";
         $result = \Yii::$app->db->createCommand($sql)->queryAll();

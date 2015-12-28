@@ -18,7 +18,7 @@ class NotificationsSearch extends Notifications
     public function rules()
     {
         return [
-            [['id', 'driver_license', 'truck_act', 'truck_period'], 'integer'],
+            [['id', 'driver_license', 'truck_act', 'truck_period','engine_oil'], 'integer'],
         ];
     }
 

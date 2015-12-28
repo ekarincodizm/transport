@@ -228,6 +228,7 @@ $company = $company_model->find()->one();
                                 </li>
                                 <li class="pull-left" style=" padding: 5px;">
                                     <i class="fa fa-user text-green"></i> สวัสดีคุณ : <?php echo \Yii::$app->session['username']; ?>
+                                    <i class="fa fa-edit text-yellow" onclick="edit_login()"></i>
                                 </li>
                                 <li class="pull-right" style=" padding: 5px;">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="logout()"><i class="fa fa-power-off"></i> ออกจากระบบ</button>
@@ -364,6 +365,45 @@ $company = $company_model->find()->one();
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+
+
+<!-- Edit Username Password -->
+<div class="modal fade" id="dialog_edit_login">
+    <div class="modal-dialog modal-defalut modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><br/>
+                <h4 class="modal-title"><i class="fa fa-lock text-yellow"></i> แก้ไขข้อมูล Username,Password</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <img src="<?php echo Url::to('@web/web/uploads/logo/' . $logo) ?>" width="80"/>
+                </center>
+                <br/>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-user"></i> ชื่อผู้ใช้งาน</div>
+                        <input type="text" class="form-control" id="edit_username" value="<?php echo Yii::$app->session['username'] ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-key"></i> รหัสผ่าน</div>
+                        <input type="password" class="form-control" id="edit_password">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group" style=" text-align:  right;">
+                    <button type="button" class="btn btn-info" onclick="save_edit_login()"><i class="fa fa-unlock text-green"></i> แก้ไขข้อมูล</button>
+                    <div id="login_flag"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
 
     function set_menu(id) {
@@ -461,6 +501,21 @@ $company = $company_model->find()->one();
 
     function link_assembler() {
         window.location = 'http://www.theassembler.net';
+    }
+
+    function edit_login() {
+        $("#dialog_edit_login").modal();
+    }
+
+    function save_edit_login() {
+        var url = "<?php echo Url::to(['site/edit_login']) ?>";
+        var username = $("#edit_username").val();
+        var password = $("#edit_password").val();
+        var data = {username: username, password: password};
+
+        $.post(url, data, function (success) {
+            logout();
+        });
     }
 </script>
 

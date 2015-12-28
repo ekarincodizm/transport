@@ -28,8 +28,8 @@ class Notifications extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['driver_license','truck_act','truck_period'],'required'],
-            [['driver_license', 'truck_act', 'truck_period'], 'integer']
+            [['driver_license','truck_act','truck_period','engine_oil'],'required'],
+            [['driver_license', 'truck_act', 'truck_period','engine_oil'], 'integer']
         ];
     }
 
@@ -43,6 +43,7 @@ class Notifications extends \yii\db\ActiveRecord
             'driver_license' => 'แจ้งเตือนใบขับขี่(วัน)',
             'truck_act' => 'แจ้งเตือน พรบ./ภาษี(วัน)',
             'truck_period' => 'แจ้งเตือนค่างวด(วัน)',
+            'engine_oil' => 'แจ้งเตือนเปลี่ยนน้ำมันเครื่อง(กม.)',
         ];
     }
 }
