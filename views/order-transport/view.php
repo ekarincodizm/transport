@@ -553,7 +553,7 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                                             <div class="input-group-addon">เลขไมล์เดิม ทะเบียน(<?php echo $car_view->truck_1; ?>)</div>
                                             <?php $old_mile = $order_model->get_old_mile($model->id, $car_view->truck_1); ?>
                                             <input type="text" id="old_mile" name="old_mile" class="form-control" readonly="readonly" value="<?php echo $old_mile; ?>"/>
-                                            <div class="input-group-addon">บาท</div>
+                                            <div class="input-group-addon">ก.ม.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -573,7 +573,7 @@ $car_view = $car_model->findOne(['car_id' => $model->car_id]);
                                             </div>
                                             <input type="text" id="now_mile" name="now_mile" class="form-control" value="<?php echo $model->now_mile; ?>" placeholder="... ตัวเลขเท่านั้น"
                                                    onkeypress="return chkNumber()" onkeyup="distance_calculus()"/>
-                                            <div class="input-group-addon">บาท</div>
+                                            <div class="input-group-addon">ก.ม.</div>
                                         </div>
                                     </div>
                                 </div>
